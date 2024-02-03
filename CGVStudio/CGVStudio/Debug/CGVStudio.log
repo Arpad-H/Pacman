@@ -1,1 +1,3 @@
-﻿  CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\Pacman\CGVStudio\Debug\CGVStudio.exe
+﻿  Pacman.cpp
+C:\Users\quint\Documents\Studium\Pacman\src\Pacman.cpp(6,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\Pacman\CGVStudio\Debug\CGVStudio.exe

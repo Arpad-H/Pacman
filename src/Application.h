@@ -18,6 +18,8 @@
 #include "indexbuffer.h"
 #include "basemodel.h"
 #include "GameObject.h"
+#include "Pacman.h"
+#include "Level.h"
 #include <chrono>
 #include <algorithm>
 
@@ -32,14 +34,18 @@ public:
     void updateGameObjects(float deltaTime);
     void draw();
     void end();
+    void setupLevel();
 protected:
+    Pacman* pacman;
     Camera Cam;
     ModelList Models;
     GameObject* temp;
     GameObjectList GameObjects;
     GLFWwindow* pWindow;
-    ;
-   
+    Level level;
+    float levelDimX = 32;
+    float levelDimY = 32;
+    float levelSegments =32;
     float time;
     std::chrono::high_resolution_clock::time_point lastFrameTime;
 

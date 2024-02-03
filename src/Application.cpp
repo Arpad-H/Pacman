@@ -23,6 +23,7 @@
 #include "model.h"
 #include "ghost.h"
 #include "scene.h"
+#include "pacman.h"
 #include <chrono>
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -42,16 +43,24 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     PhongShader* pPhongShader;
     
     // create LineGrid model with constant color shader
-    pModel = new LinePlaneModel(10, 10, 10, 10);
+   /* pModel = new LinePlaneModel(10, 10, 10, 10);
     pConstShader = new ConstantShader();
 	pConstShader->color( Color(1,1,1));
     pModel->shader(pConstShader, true);
-    Models.push_back( pModel );
-
+    Models.push_back( pModel );*/
+    level = Level();
+    level.loadLevel(levelDimX,levelDimY,levelSegments);
+    
     //create ghosts
     temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1));
     GameObjects.push_back(temp);
     Models.push_back(temp);
+
+    //spawn the pacman
+    pacman= new Pacman(ASSET_DIRECTORY "Pacman.dae",true,Vector(1,1,1));
+    GameObjects.push_back(pacman);
+    Models.push_back(pacman);
+
 }
 void Application::start()
 {
@@ -80,11 +89,13 @@ void Application::update()
     int stateLeft = glfwGetKey(pWindow, GLFW_KEY_A);
     int stateRight = -glfwGetKey(pWindow, GLFW_KEY_D);
     int forwardBackward = stateBackward + stateForward;
+    int leftRigth = stateLeft + stateRight;
    
+
     double xpos, ypos;
     glfwGetCursorPos(pWindow, &xpos, &ypos);
    
-    
+    pacman->steer(forwardBackward, leftRigth);
     updateGameObjects(deltaTime);
     Cam.update();
 }
@@ -92,6 +103,7 @@ void Application::updateGameObjects(float deltaTime) {
     for (GameObjectList::iterator it = GameObjects.begin(); it != GameObjects.end(); ++it) {
         (*it)->update(deltaTime);
     }
+    level.update(deltaTime);
 }
 void Application::draw()
 {
@@ -103,6 +115,7 @@ void Application::draw()
     {
         (*it)->draw(Cam);
     }
+    level.draw(Cam);
     
     // 3. check once per frame for opengl errors
     GLenum Error = glGetError();
@@ -114,4 +127,8 @@ void Application::end()
         delete *it;
     
     Models.clear();
+}
+
+void Application::setupLevel()
+{
 }

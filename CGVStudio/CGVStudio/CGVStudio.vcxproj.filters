@@ -97,6 +97,9 @@
     <ClCompile Include="..\..\src\Level.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Pacman.cpp">
+      <Filter>Quelldateien\utils\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -170,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Level.h">
       <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Pacman.h">
+      <Filter>Quelldateien\utils\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
