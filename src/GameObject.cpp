@@ -10,8 +10,8 @@ static float toRad(float deg) { return deg * M_PI / 180.0f; }
 
 GameObject::GameObject()
 {
-   pModel = new Model();
-  
+    pModel = new Model();
+
 }
 
 GameObject::~GameObject()
@@ -24,7 +24,6 @@ bool GameObject::loadModels(const char* ModelFilePath,bool FitSize, Vector initS
     PhongShader* pPhongShader = new PhongShader();
     pModel->load(ModelFilePath, FitSize,initScale);
     pModel->shader(pPhongShader, true);
-
     return true;
 }
 
@@ -36,5 +35,4 @@ void GameObject::update(float dtime)
 void GameObject::draw(const BaseCamera& Cam)
 {
     pModel->draw(Cam);
-   
 }

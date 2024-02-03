@@ -6,29 +6,22 @@
 static float toRad(float deg) { return deg * M_PI / 180.0f; }
 Ghost::Ghost(const char* ModelFilePath, bool FitSize, Vector initScale)
 {
-	pModel = new Model();
 	loadModels(ModelFilePath,FitSize,initScale);
-	
+	initTransform = pModel->transform();
 }
 
 Ghost::~Ghost()
 {
-	delete pModel;
 }
 
 void Ghost::update(float dtime) 
 {
-     float rotationPeriod = 6.0f; // 6 seconds
-    float rotationSpeed = 360.0f / rotationPeriod; // Degrees per second
-    float rotationAngle = fmod(dtime * rotationSpeed, 360.0f);
-    Matrix mTTop, mOrientation;
-   
-    Matrix mTBot, offset, rot;
-   
-    rot.rotationY(toRad(rotationAngle));
-    mTBot = rot;
-  
-    pModel->transform(transform()*mTBot); 
+     Matrix rot;
+	 rot.translation(3,0,0);
+	 rot.rotationY(0.5);
+	 Matrix m = pModel->transform();
+	 pModel->transform(initTransform*rot);
+
 }
 
 void Ghost::draw(const BaseCamera& Cam)

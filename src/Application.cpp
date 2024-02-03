@@ -47,12 +47,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 	pConstShader->color( Color(1,1,1));
     pModel->shader(pConstShader, true);
     Models.push_back( pModel );
-    
-   
 
     //create ghosts
-   // temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1));
-    temp = new Ghost(ASSET_DIRECTORY "tank_Top.dae",true,Vector(1,1,1));
+    temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1));
     GameObjects.push_back(temp);
     Models.push_back(temp);
 }

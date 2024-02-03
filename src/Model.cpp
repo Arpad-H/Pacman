@@ -40,7 +40,7 @@ void Model::deleteNodes(Node* pNode)
 
 bool Model::load(const char* ModelFile, bool FitSize, Vector initScale)
 {
-    //if (FitSize == true) std::cout << "true" << std::endl;
+    if (FitSize == true) std::cout << "true" << std::endl;
     const aiScene* pScene = aiImportFile(ModelFile, aiProcessPreset_TargetRealtime_Fast | aiProcess_TransformUVCoords);
 
     if (pScene == NULL || pScene->mNumMeshes <= 0)
@@ -146,11 +146,12 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize, Vector initScale)
 
         //Skaliere einheitlich so, dass das Modell in eine Bounding Box 5x5x5 passt
         if (FitSize == true) {
+            //std::cout << "fit size"<<initScale.X<<initScale.Y<<initScale.Z << std::endl;
             // Dimmensionen der Bounding Box
             float boundingBoxWidth = BoundingBox.Max.X - BoundingBox.Min.X;
             float boundingBoxHeight = BoundingBox.Max.Y - BoundingBox.Min.Y;
             float boundingBoxDepth = BoundingBox.Max.Z - BoundingBox.Min.Z;
-
+            //std::cout << "boundingBoxWidth" << boundingBoxWidth << std::endl;
             //SkalierungsFaktor auf jeder Achse berechnen
             float scaleX = initScale.X / boundingBoxWidth;
             float scaleY = initScale.Y / boundingBoxHeight;
@@ -159,7 +160,7 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize, Vector initScale)
             // Um eine einheitliche skalierung zu gewährleisten nehme den kleinsten von den Werten. 
             // so wird die längste seite genau in die box passen
             float minScale = std::min(std::min(scaleX, scaleY), scaleZ);
-
+           // std::cout << "minScale" << minScale << std::endl;
             Matrix m;
             m.scale(minScale);
             this->transform(m);

@@ -15,8 +15,8 @@ public:
     bool loadModels(const char* ModelFilePath,bool Fitsize = 1, Vector initScale = Vector(1,1,1));
     virtual void update(float dtime);
     virtual void draw(const BaseCamera& Cam);
-protected:
     Model* pModel;
+    Matrix initTransform;
 };
 
 #endif /* GameObject_hpp */

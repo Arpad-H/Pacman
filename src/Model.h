@@ -24,10 +24,10 @@ class Model : public BaseModel
 {
 public:
     Model();
-    Model(const char* ModelFile, bool FitSize=true, Vector initScale = Vector(1,1,1));
+    Model(const char* ModelFile, bool FitSize, Vector initScale);
     virtual ~Model();
 
-    bool load(const char* ModelFile, bool FitSize = true, Vector initScale=Vector(1,1,1));
+    bool load(const char* ModelFile, bool FitSize, Vector initScale);
     virtual void draw(const BaseCamera& Cam);
     const AABB& boundingBox() const { return BoundingBox; }
     

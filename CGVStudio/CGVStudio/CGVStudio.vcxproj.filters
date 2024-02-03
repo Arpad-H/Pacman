@@ -94,6 +94,9 @@
     <ClCompile Include="..\..\src\Ghost.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Level.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -163,6 +166,9 @@
       <Filter>Quelldateien\utils\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Ghost.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Level.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>

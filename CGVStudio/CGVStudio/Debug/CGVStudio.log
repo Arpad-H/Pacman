@@ -1,3 +1,1 @@
-﻿  Ghost.cpp
-C:\Users\quint\Documents\Studium\Pacman\src\Ghost.cpp(6,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\Pacman\CGVStudio\Debug\CGVStudio.exe
+﻿  CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\Pacman\CGVStudio\Debug\CGVStudio.exe

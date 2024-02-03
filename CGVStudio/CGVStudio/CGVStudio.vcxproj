@@ -94,6 +94,7 @@
     <ClCompile Include="..\..\src\ConstantShader.cpp" />
     <ClCompile Include="..\..\src\Ghost.cpp" />
     <ClCompile Include="..\..\src\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\src\Level.cpp" />
     <ClCompile Include="..\..\src\LineBoxModel.cpp" />
     <ClCompile Include="..\..\src\LinePlaneModel.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="..\..\src\ConstantShader.h" />
     <ClInclude Include="..\..\src\Ghost.h" />
     <ClInclude Include="..\..\src\IndexBuffer.h" />
+    <ClInclude Include="..\..\src\Level.h" />
     <ClInclude Include="..\..\src\LineBoxModel.h" />
     <ClInclude Include="..\..\src\LinePlaneModel.h" />
     <ClInclude Include="..\..\src\Matrix.h" />
