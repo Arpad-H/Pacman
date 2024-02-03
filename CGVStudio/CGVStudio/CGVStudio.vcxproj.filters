@@ -17,8 +17,8 @@
     <Filter Include="Quelldateien\utils\yourclasses">
       <UniqueIdentifier>{c817caf9-5b5a-4c75-ba93-0eb97e38e4d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Quelldateien\utils\Lights">
-      <UniqueIdentifier>{0e2a75e8-af03-4a54-82b6-2dd27e130b0f}</UniqueIdentifier>
+    <Filter Include="Quelldateien\utils\GameObjects">
+      <UniqueIdentifier>{e1727eb6-78de-48fb-9d3a-a9df0edaa0c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,17 +85,14 @@
     <ClCompile Include="..\..\src\Aabb.cpp">
       <Filter>Quelldateien\utils\models</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Lights.cpp">
-      <Filter>Quelldateien\utils\Lights</Filter>
+    <ClCompile Include="..\..\src\Scene.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ShaderLightMapper.cpp">
-      <Filter>Quelldateien\utils\Lights</Filter>
+    <ClCompile Include="..\..\src\GameObject.cpp">
+      <Filter>Quelldateien\utils\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Framebuffer.cpp">
-      <Filter>Quelldateien\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ShadowMapGenerator.cpp">
-      <Filter>Quelldateien\utils\Lights</Filter>
+    <ClCompile Include="..\..\src\Ghost.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,17 +156,14 @@
     <ClInclude Include="..\..\src\Aabb.h">
       <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Lights.h">
-      <Filter>Quelldateien\utils\Lights</Filter>
+    <ClInclude Include="..\..\src\Scene.h">
+      <Filter>Quelldateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ShaderLightMapper.h">
-      <Filter>Quelldateien\utils\Lights</Filter>
+    <ClInclude Include="..\..\src\GameObject.h">
+      <Filter>Quelldateien\utils\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Framebuffer.h">
-      <Filter>Quelldateien\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ShadowMapGenerator.h">
-      <Filter>Quelldateien\utils\Lights</Filter>
+    <ClInclude Include="..\..\src\Ghost.h">
+      <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

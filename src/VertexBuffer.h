@@ -52,15 +52,15 @@ public:
     void activate();
     void deactivate();
     
-    unsigned int vertexCount() const { return VertexCount; }
+    unsigned int vertexCount() { return VertexCount; }
     
-    const std::vector<Vector>& vertices() const { return Vertices; }
-    const std::vector<Vector>& normals() const { return Vertices; }
-    const std::vector<Color>& colors() const { return Colors; }
-    const std::vector<Vector>& texcoord0() const { return Texcoord0; }
-    const std::vector<Vector>& texcoord1() const { return Texcoord1; }
-    const std::vector<Vector>& texcoord2() const { return Texcoord2; }
-    const std::vector<Vector>& texcoord3() const { return Texcoord3; }
+    const std::vector<Vector>& vertices() { return Vertices; }
+    const std::vector<Vector>& normals() { return Vertices; }
+    const std::vector<Color>& colors() { return Colors; }
+    const std::vector<Vector>& texcoord0() { return Texcoord0; }
+    const std::vector<Vector>& texcoord1() { return Texcoord1; }
+    const std::vector<Vector>& texcoord2() { return Texcoord2; }
+    const std::vector<Vector>& texcoord3() { return Texcoord3; }
 
 private:
 

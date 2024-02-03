@@ -8,53 +8,14 @@
 
 #include "LineBoxModel.h"
 
-LineBoxModel::LineBoxModel(float Width, float Height, float Depth)
+LineBoxModel::LineBoxModel( float Width, float Height, float Depth )
 {
-    VB.begin();
-
-    VB.addVertex(Width / 2, Height, -Depth / 2);
-    VB.addVertex(-Width / 2, Height, -Depth / 2);
-    VB.addVertex(-Width / 2, Height, -Depth / 2);
-    VB.addVertex(-Width / 2, Height, Depth / 2);
-    VB.addVertex(-Width / 2, Height, Depth / 2);
-    VB.addVertex(Width / 2, Height, Depth / 2);
-    VB.addVertex(Width / 2, Height, Depth / 2);
-    VB.addVertex(Width / 2, Height, -Depth / 2);
-
-
-    VB.addVertex(Width / 2, 0, -Depth / 2);
-    VB.addVertex(-Width / 2, 0, -Depth / 2);
-    VB.addVertex(-Width / 2, 0, -Depth / 2);
-    VB.addVertex(-Width / 2, 0, Depth / 2);
-    VB.addVertex(-Width / 2, 0, Depth / 2);
-    VB.addVertex(Width / 2, 0, Depth / 2);
-    VB.addVertex(Width / 2, 0, Depth / 2);
-    VB.addVertex(Width / 2, 0, -Depth / 2);
-
-    //connecting lines
-    VB.addVertex(Width / 2, Height, -Depth / 2);
-    VB.addVertex(Width / 2, 0, -Depth / 2);
-
-    VB.addVertex(-Width / 2, Height, -Depth / 2);
-    VB.addVertex(-Width / 2, 0, -Depth / 2);
-
-    VB.addVertex(Width / 2, Height, Depth / 2);
-    VB.addVertex(Width / 2, 0, Depth / 2);
-
-    VB.addVertex(-Width / 2, Height, Depth / 2);
-    VB.addVertex(-Width / 2, 0, Depth / 2);
-
-
-    VB.end();
+	// TODO: Add your code (Exercise 1)   
 }
 
 void LineBoxModel::draw(const BaseCamera& Cam)
 {
     BaseModel::draw(Cam);
-
-    VB.activate();
-
-    glDrawArrays(GL_LINES, 0, VB.vertexCount());
-
-    VB.deactivate();
+  
+	// TODO: Add your code (Exercise 1)
 }

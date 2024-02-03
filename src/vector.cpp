@@ -94,6 +94,10 @@ Vector Vector::reflection(const Vector& normal) const {
     return *this - v;
 }
 
+void Vector::toString() const{
+    std::cout << "x: " <<this->X << " y: " << this->Y << " z: " << this->Z << std::endl;
+}
+
 bool Vector::triangleIntersection(const Vector& d, const Vector& a, const Vector& b, const Vector& c, float& s) const {
 
 

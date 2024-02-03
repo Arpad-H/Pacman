@@ -16,7 +16,6 @@
 #include "FreeImage.h"
 
 Texture* Texture::pDefaultTex = NULL;
-Texture* Texture::pDefaultNormalTex = NULL;
 Texture::SharedTexMap Texture::SharedTextures;
 
 Texture* Texture::defaultTex()
@@ -31,23 +30,6 @@ Texture* Texture::defaultTex()
     delete [] data;
     
     return pDefaultTex;
-}
-
-Texture* Texture::defaultNormalTex()
-{
-	if (pDefaultNormalTex)
-		return pDefaultNormalTex;
-
-	unsigned char data[4 * 4 * 4] = {
-		127,127,255,255, 127,127,255,255, 127,127,255,255, 127,127,255,255,
-		127,127,255,255, 127,127,255,255, 127,127,255,255, 127,127,255,255,
-		127,127,255,255, 127,127,255,255, 127,127,255,255, 127,127,255,255,
-		127,127,255,255, 127,127,255,255, 127,127,255,255, 127,127,255,255,
-	};
-
-	pDefaultNormalTex = new Texture(4, 4, data);
-
-	return pDefaultNormalTex;
 }
 
 const Texture* Texture::LoadShared(const char* Filename)
@@ -99,64 +81,28 @@ void Texture::ReleaseShared( const Texture* pTex )
 
 
 
-Texture::Texture() : m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
+Texture::Texture() : m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0)
 {
     
 }
 
-
-
-Texture::Texture(unsigned int width, unsigned int height, unsigned char* data): m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
+Texture::Texture(unsigned int width, unsigned int height, unsigned char* data): m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0)
 {
     bool Result = create(width, height, data);
     if(!Result)
         throw std::exception();
-	Width = width;
-	Height = height;
+    
 }
-
-Texture::Texture(unsigned int width, unsigned int height, GLint InternalFormat, GLint Format, GLint ComponentSize, GLint MinFilter, GLint MagFilter, GLint AddressMode, bool GenMipMaps)
-	: m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
-{
-	bool Result = create(width, height, InternalFormat, Format, ComponentSize, MinFilter, MagFilter, AddressMode, GenMipMaps);
-	if (!Result)
-		throw std::exception();
-	Width = width;
-	Height = height;
-}
-
-Texture::Texture(const char* Filename ): m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
+Texture::Texture(const char* Filename ): m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0)
 {
     bool Result = load(Filename);
     if(!Result)
         throw std::exception();
-
-	Width = getRGBImage()->width();
-	Height = getRGBImage()->height();
 }
 
-Texture::Texture(const RGBImage& img) : m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
-{
-    bool Result = create(img);
-    if(!Result)
-        throw std::exception();
-
-	Width = getRGBImage()->width();
-	Height = getRGBImage()->height();
-}
 
 Texture::~Texture()
 {
-    release();
-}
-
-void Texture::release()
-{
-    if(isValid())
-    {
-        glDeleteTextures(1, &m_TextureID);
-        m_TextureID = -1;
-    }
     if(m_pImage)
         delete m_pImage;
     m_pImage = NULL;
@@ -167,23 +113,8 @@ bool Texture::isValid() const
     return m_TextureID > 0;
 }
 
-unsigned int Texture::width() const
-{
-	return Width;
-}
-unsigned int Texture::height() const
-{
-	return Height;
-}
-
-GLuint Texture::ID() const
-{
-	return m_TextureID;
-}
-
 bool Texture::load( const char* Filename)
 {
-    release();
     FREE_IMAGE_FORMAT ImageFormat = FreeImage_GetFileType(Filename, 0);
     if(ImageFormat == FIF_UNKNOWN)
         ImageFormat = FreeImage_GetFIFFromFilename(Filename);
@@ -251,8 +182,6 @@ bool Texture::load( const char* Filename)
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
     glBindTexture(GL_TEXTURE_2D, 0);
-	Width = m_pImage->width();
-	Height = m_pImage->height();
     
     delete [] data;
     return true;
@@ -260,12 +189,10 @@ bool Texture::load( const char* Filename)
 
 bool Texture::create( unsigned int width, unsigned int height, unsigned char* data)
 {
-    release();
+    if( m_pImage )
+        delete m_pImage;
     
-	if (data)
-		m_pImage = createImage(data, width, height);
-	else
-		m_pImage = NULL;
+    m_pImage = createImage(data, width, height);
     
     glGenTextures(1, &m_TextureID);
     
@@ -277,68 +204,9 @@ bool Texture::create( unsigned int width, unsigned int height, unsigned char* da
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
     glBindTexture(GL_TEXTURE_2D, 0);
-	Width = width;
-	Height = height;
     
     return true;
 }
-
-bool Texture::create(unsigned int width, unsigned int height, GLint InternalFormat, GLint Format, GLint ComponentSize, GLint MinFilter, GLint MagFilter, GLint AddressMode, bool GenMipMaps)
-{
-	release();
-
-	glGenTextures(1, &m_TextureID);
-
-	glBindTexture(GL_TEXTURE_2D, m_TextureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, width, height, 0, Format, ComponentSize, NULL);
-	if(GenMipMaps)
-		glGenerateMipmap(GL_TEXTURE_2D);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagFilter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MinFilter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, AddressMode);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, AddressMode);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	Width = width;
-	Height = height;
-
-	if (glGetError() != 0)
-		return false;
-
-	return true;
-}
-
-bool Texture::create(const RGBImage& img)
-{
-    if( img.width()<= 0 || img.height() <=0)
-        return false;
-    
-    release();
-    
-    const unsigned int w = img.width();
-    const unsigned int h = img.height();
-    unsigned char* data = new unsigned char[w*h*4];
-    
-    unsigned int k=0;
-    for( unsigned int i=0; i<h; i++)
-        for (unsigned int j = 0; j<w; j++)
-        {
-            Color c = img.getPixelColor(j, i);
-            data[k++] = RGBImage::convertColorChannel(c.R);
-            data[k++] = RGBImage::convertColorChannel(c.G);
-            data[k++] = RGBImage::convertColorChannel(c.B);
-            data[k++] = RGBImage::convertColorChannel(1.0f);
-        }
-    
-    bool success = create(w, h, data);
-    delete [] data;
-
-	Width = w;
-	Height = h;
-    
-    return success;
-}
-
 
 RGBImage* Texture::createImage( unsigned char* Data, unsigned int width, unsigned int height )
 {

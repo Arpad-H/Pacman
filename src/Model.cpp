@@ -7,16 +7,16 @@
 //
 
 #include "Model.h"
-#include "PhongShader.h"
+#include "phongshader.h"
 #include <list>
 
 Model::Model() : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 {
 
 }
-Model::Model(const char* ModelFile, bool FitSize) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
+Model::Model(const char* ModelFile, bool FitSize, Vector initScale) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 {
-    bool ret = load(ModelFile, FitSize);
+    bool ret = load(ModelFile,FitSize, initScale);
     if (!ret)
         throw std::exception();
 }
@@ -38,8 +38,9 @@ void Model::deleteNodes(Node* pNode)
         delete[] pNode->Meshes;
 }
 
-bool Model::load(const char* ModelFile, bool FitSize)
+bool Model::load(const char* ModelFile, bool FitSize, Vector initScale)
 {
+    //if (FitSize == true) std::cout << "true" << std::endl;
     const aiScene* pScene = aiImportFile(ModelFile, aiProcessPreset_TargetRealtime_Fast | aiProcess_TransformUVCoords);
 
     if (pScene == NULL || pScene->mNumMeshes <= 0)
@@ -48,19 +49,17 @@ bool Model::load(const char* ModelFile, bool FitSize)
     Filepath = ModelFile;
     Path = Filepath;
     size_t pos = Filepath.rfind('/');
-    if (pos == std::string::npos)
-        pos = Filepath.rfind('\\');
-    if (pos != std::string::npos)
-        Path.resize(pos + 1);
+    if (pos == std::string::npos)  pos = Filepath.rfind('\\');
+    if (pos != std::string::npos)   Path.resize(pos + 1);
 
-    loadMeshes(pScene, FitSize);
+    loadMeshes(pScene, FitSize,initScale);
     loadMaterials(pScene);
     loadNodes(pScene);
 
     return true;
 }
 
-void Model::loadMeshes(const aiScene* pScene, bool FitSize)
+void Model::loadMeshes(const aiScene* pScene, bool FitSize, Vector initScale)
 {
     calcBoundingBox(pScene, BoundingBox);
     MeshCount = pScene->mNumMeshes;
@@ -91,23 +90,30 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
             //Unser Vertex Buffer kann bis zu 4 sets an Texturkoordinaten haben. Falls diese im model Vorhanden sind werden sie vollständigkeitshalber auch geladen.
             // Texcoord0 reicht aber um die Texturen für den Phong shader zu laden
             if (aiMesh->HasTextureCoords(0)) {
+               // std::cout << "texture setzen" << std::endl;
                 aiVector3D tcoor = aiMesh->mTextureCoords[0][j];
                 // -tcoor.y weil die Texturcoordinate nicht oben links den Ursprung hat sondern in manchen anderen Conventionen ist der Ursprung unten Links
                 //Daher muss die y coordinate negiert werden
                 mesh.VB.addTexcoord0(tcoor.x, -tcoor.y);
             }
-          /*  if (aiMesh->HasTangentsAndBitangents()) {
-                aiVector3D tangent = aiMesh->mTangents[j];
-                aiVector3D bitangent = aiMesh->mBitangents[j];
-                mesh.VB.addTexcoord1(tangent.x, tangent.y, tangent.z);
-                mesh.VB.addTexcoord2(bitangent.x, bitangent.y, bitangent.z);
+            if (aiMesh->HasTextureCoords(1)) {
+                aiVector3D tcoor = aiMesh->mTextureCoords[1][j];
+                // -tcoor.y weil die Texturcoordinate nicht oben links den Ursprung hat sondern in manchen anderen Conventionen ist der Ursprung unten Links
+                //Daher muss die y coordinate negiert werden
+                mesh.VB.addTexcoord1(tcoor.x, -tcoor.y);
             }
-          /*  if (aiMesh->HasTextureCoords(3)) {
+            if (aiMesh->HasTextureCoords(2)) {
+                aiVector3D tcoor = aiMesh->mTextureCoords[2][j];
+                // -tcoor.y weil die Texturcoordinate nicht oben links den Ursprung hat sondern in manchen anderen Conventionen ist der Ursprung unten Links
+                //Daher muss die y coordinate negiert werden
+                mesh.VB.addTexcoord2(tcoor.x, -tcoor.y);
+            }
+            if (aiMesh->HasTextureCoords(3)) {
                 aiVector3D tcoor = aiMesh->mTextureCoords[3][j];
                 // -tcoor.y weil die Texturcoordinate nicht oben links den Ursprung hat sondern in manchen anderen Conventionen ist der Ursprung unten Links
                 //Daher muss die y coordinate negiert werden
                 mesh.VB.addTexcoord3(tcoor.x, -tcoor.y);
-            }*/
+            }
             //Vertexe müssen als letztes dem Buffer hinzugefügt werden
             if (aiMesh->HasPositions()) {
                 aiVector3D vector = aiMesh->mVertices[j];
@@ -129,7 +135,6 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
             //Very Basic Ear clipping Algorithm
             //Fails with more complex Polygons, especially ones with holes
             for (size_t k = 0; k < indicesOfFace - 2; k++) {
-
                 mesh.IB.addIndex(face.mIndices[0]);
                 mesh.IB.addIndex(face.mIndices[k + 1]);
                 mesh.IB.addIndex(face.mIndices[k + 2]);
@@ -140,16 +145,16 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
         pMeshes[i] = mesh;
 
         //Skaliere einheitlich so, dass das Modell in eine Bounding Box 5x5x5 passt
-        if (FitSize) {
+        if (FitSize == true) {
             // Dimmensionen der Bounding Box
             float boundingBoxWidth = BoundingBox.Max.X - BoundingBox.Min.X;
             float boundingBoxHeight = BoundingBox.Max.Y - BoundingBox.Min.Y;
             float boundingBoxDepth = BoundingBox.Max.Z - BoundingBox.Min.Z;
 
             //SkalierungsFaktor auf jeder Achse berechnen
-            float scaleX = 5 / boundingBoxWidth;
-            float scaleY = 5 / boundingBoxHeight;
-            float scaleZ = 5 / boundingBoxDepth;
+            float scaleX = initScale.X / boundingBoxWidth;
+            float scaleY = initScale.Y / boundingBoxHeight;
+            float scaleZ = initScale.Z / boundingBoxDepth;
 
             // Um eine einheitliche skalierung zu gewährleisten nehme den kleinsten von den Werten. 
             // so wird die längste seite genau in die box passen
@@ -183,30 +188,13 @@ void Model::loadMaterials(const aiScene* pScene)
             mtrl->Get(AI_MATKEY_COLOR_AMBIENT, color);
             material.AmbColor = Color(color.r, color.g, color.b);
 
-            
-            aiString diffPath;
-            mtrl->GetTexture(aiTextureType_DIFFUSE, 0, &diffPath);
-            std::string p = Path + diffPath.data;
 
-            // Lade die Textur und setze sie im Material
-            material.DiffTex = Texture::LoadShared(p.c_str());
+            aiString temp;
+            mtrl->GetTexture(aiTextureType_DIFFUSE, 0, &temp);
+            std::string p = Path + temp.data;
+            material.DiffTex = Texture().LoadShared(p.c_str());
 
-            /*
-            std::string diffFilename = p;
-            std::string normalFilename = Path.GetFileNameWithoutExtension(diffFilename) + "_n" + Path.GetExtension(diffFilename);*/
-
-            std::string diffFilename = p;
-            std::string normalFilename = diffFilename.substr(0, diffFilename.find_last_of('.')) + "_n" + diffFilename.substr(diffFilename.find_last_of('.'));
-
-            if (FILE* testFile = fopen(normalFilename.c_str(), "r")) {
-                material.NormalTex = Texture::LoadShared(normalFilename.c_str());
-                fclose(testFile);
-            }
-			else {
-				material.NormalTex = NULL;
-			}
             pMaterials[i] = material;
-            
         }
     }
 }
@@ -276,7 +264,7 @@ void Model::applyMaterial(unsigned int index)
 
     PhongShader* pPhong = dynamic_cast<PhongShader*>(shader());
     if (!pPhong) {
-        
+        std::cout << "Model::applyMaterial(): WARNING Invalid shader-type. Please apply PhongShader for rendering models.\n";
         return;
     }
 
@@ -286,7 +274,6 @@ void Model::applyMaterial(unsigned int index)
     pPhong->specularExp(pMat->SpecExp);
     pPhong->specularColor(pMat->SpecColor);
     pPhong->diffuseTexture(pMat->DiffTex);
-    pPhong->normalTexture(pMat->NormalTex);
 }
 
 void Model::draw(const BaseCamera& Cam)

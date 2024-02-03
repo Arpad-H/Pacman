@@ -7,13 +7,8 @@
 //
 
 #include "PhongShader.h"
-#include <string>
 
-#ifdef WIN32
-#define ASSET_DIRECTORY "../../assets/"
-#else
-#define ASSET_DIRECTORY "../assets/"
-#endif
+
 
 const char *VertexShaderCode =
 "#version 400\n"
@@ -65,7 +60,7 @@ const char *FragmentShaderCode =
 "    FragColor = vec4((DiffuseComponent + AmbientColor)*DiffTex.rgb + SpecularComponent ,DiffTex.a);"
 "}";
 
-PhongShader::PhongShader(bool LoadStaticShaderCode) :
+PhongShader::PhongShader() :
  DiffuseColor(0.8f,0.8f,0.8f),
  SpecularColor(0.5f,0.5f,0.5f),
  AmbientColor(0.2f,0.2f,0.2f),
@@ -73,17 +68,10 @@ PhongShader::PhongShader(bool LoadStaticShaderCode) :
  LightPos(20.0f,20.0f,20.0f),
  LightColor(1,1,1),
  DiffuseTexture(Texture::defaultTex()),
- NormalTexture(Texture::defaultNormalTex()),
  UpdateState(0xFFFFFFFF)
 {
-    if(!LoadStaticShaderCode)
-        return;
-    //ShaderProgram = createShaderProgram(VertexShaderCode, FragmentShaderCode);
-	bool loaded = load(ASSET_DIRECTORY"vsphong.glsl", ASSET_DIRECTORY"fsphong.glsl");
-	if (!loaded)
-		throw std::exception();
+    ShaderProgram = createShaderProgram(VertexShaderCode, FragmentShaderCode);
     assignLocations();
-	
 }
 void PhongShader::assignLocations()
 {
@@ -92,24 +80,11 @@ void PhongShader::assignLocations()
     SpecularColorLoc = glGetUniformLocation(ShaderProgram, "SpecularColor");
     SpecularExpLoc = glGetUniformLocation(ShaderProgram, "SpecularExp");
     DiffuseTexLoc = glGetUniformLocation(ShaderProgram, "DiffuseTexture");
-	NormalTexLoc = glGetUniformLocation(ShaderProgram, "NormalTexture");
     LightPosLoc = glGetUniformLocation(ShaderProgram, "LightPos");
     LightColorLoc = glGetUniformLocation(ShaderProgram, "LightColor");
     EyePosLoc = glGetUniformLocation(ShaderProgram, "EyePos");
     ModelMatLoc = glGetUniformLocation(ShaderProgram, "ModelMat");
     ModelViewProjLoc  = glGetUniformLocation(ShaderProgram, "ModelViewProjMat");
-  //  InTangent = glGetUniformLocation(ShaderProgram, "inTangent");
-    //InBiTangent = glGetUniformLocation(ShaderProgram, "inBiTangent");
-
-	for (int i = 0; i < MaxLightCount; ++i)
-	{
-		std::string smt = "ShadowMapTexture[" + std::to_string(i) + "]";
-		std::string smm = "ShadowMapMat[" + std::to_string(i) + "]";
-		ShadowMapTextureLoc[i] = getParameterID(smt.c_str());
-		ShadowMapMatLoc[i] = getParameterID(smm.c_str());
-		ShadowMapTexture[i] = NULL;
-		ShadowMapMat[i].identity();
-	}
 }
 void PhongShader::activate(const BaseCamera& Cam) const
 {
@@ -125,14 +100,10 @@ void PhongShader::activate(const BaseCamera& Cam) const
     if(UpdateState&SPEC_EXP_CHANGED)
         glUniform1f(SpecularExpLoc, SpecularExp);
     
-	int TexSlotIdx = 0;
-    DiffuseTexture->activate(TexSlotIdx++);
+    DiffuseTexture->activate(0);
     if(UpdateState&DIFF_TEX_CHANGED && DiffuseTexture)
-        glUniform1i(DiffuseTexLoc, TexSlotIdx-1);
-	NormalTexture->activate(TexSlotIdx++);
-	if (UpdateState&NORM_TEX_CHANGED && NormalTexture)
-		glUniform1i(NormalTexLoc, TexSlotIdx-1);
-
+        glUniform1i(DiffuseTexLoc, 0);
+    
     if(UpdateState&LIGHT_COLOR_CHANGED)
         glUniform3f(LightColorLoc, LightColor.R, LightColor.G, LightColor.B);
     if(UpdateState&LIGHT_POS_CHANGED)
@@ -145,29 +116,8 @@ void PhongShader::activate(const BaseCamera& Cam) const
     
     Vector EyePos = Cam.position();
     glUniform3f(EyePosLoc, EyePos.X, EyePos.Y, EyePos.Z );
-
-	for (int i = 0; i < MaxLightCount; ++i)
-	{
-		if (ShadowMapTexture[i] && (ShadowMapMatLoc[i] != -1))
-		{
-			ShadowMapTexture[i]->activate(TexSlotIdx);
-			setParameter(ShadowMapTextureLoc[i], TexSlotIdx++);
-			setParameter(ShadowMapMatLoc[i], ShadowMapMat[i]);
-		}
-	}
     
-   //setParameter(InTangent, Vector(1,0,0));
-  // setParameter(InBiTangent, Vector(0,1,0));
-
     UpdateState = 0x0;
-}
-void PhongShader::shadowMap(unsigned int slot, const Texture* pTex, const Matrix& Mtx)
-{
-	if (slot >= MaxLightCount)
-		return;
-
-	ShadowMapTexture[slot] = pTex;
-	ShadowMapMat[slot] = Mtx;
 }
 void PhongShader::diffuseColor( const Color& c)
 {
@@ -207,15 +157,6 @@ void PhongShader::diffuseTexture(const Texture* pTex)
         DiffuseTexture = Texture::defaultTex();
     
     UpdateState |= DIFF_TEX_CHANGED;
-}
-
-void PhongShader::normalTexture(const Texture* pTex)
-{
-	NormalTexture = pTex;
-	if (!NormalTexture)
-		NormalTexture = Texture::defaultNormalTex();
-
-	UpdateState |= NORM_TEX_CHANGED;
 }
 
 

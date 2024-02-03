@@ -35,25 +35,10 @@ public:
     
     virtual void activate(const BaseCamera& Cam) const;
     virtual void deactivate() const;
-    
-    bool load( const char* VertexShaderFile, const char* FragmentShaderFile );
-    GLint getParameterID(const char* ParamenterName) const;
-	GLuint getBlockID(const char* BlockName) const;
-
-	void setBlock(GLuint ID, GLuint UniformBufferID) const;
-    void setParameter( GLint ID, float Param) const;
-    void setParameter( GLint ID, int Param) const;
-    void setParameter( GLint ID, const Vector& Param) const;
-    void setParameter( GLint ID, const Color& Param) const;
-    void setParameter( GLint ID, const Matrix& Param) const;
-
-	GLuint openGLProgramID() { return ShaderProgram; }
 protected:
-    char* loadFile( const char* File, unsigned int& Filesize );
     GLuint createShaderProgram( const char* VScode, const char* FScode );
     Matrix ModelTransform;
     GLuint ShaderProgram;
-	GLuint LightUniformBuffer;
     
     static const BaseShader* ShaderInPipe;
 };

@@ -1,5 +1,3 @@
-﻿  Model.cpp
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\CGPrakt6\cgprakt6\src\Model.cpp(84,30): warning C4018: '<': signed/unsigned mismatch
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\CGPrakt6\cgprakt6\src\Model.cpp(122,30): warning C4018: '<': signed/unsigned mismatch
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\CGPrakt6\cgprakt6\src\Model.cpp(131,34): warning C4018: '<': signed/unsigned mismatch
-  CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\HSOS\Computergrafik\CGPrakt6\cgprakt6\CGVStudio\Debug\CGVStudio.exe
+﻿  Ghost.cpp
+C:\Users\quint\Documents\Studium\Pacman\src\Ghost.cpp(6,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\Pacman\CGVStudio\Debug\CGVStudio.exe

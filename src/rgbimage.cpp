@@ -1,11 +1,10 @@
-#include "rgbimage.h"
+ï»¿#include "rgbimage.h"
 #include "color.h"
 #include "assert.h"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <fstream>
-#include <vector>
 
 RGBImage::RGBImage(unsigned int Width, unsigned int Height) {
     m_Height = Height;
@@ -104,121 +103,11 @@ unsigned char RGBImage::convertColorChannel(float v) {
 //    f.close();
 //    return true;
 //}
-
-RGBImage& RGBImage::sobelFilter(RGBImage& dst, const RGBImage& src, float factor) {
-    assert(dst.height() == src.height());
-    assert(dst.width() == src.width());
-
-    Color src_color;
-
-    std::vector<std::vector<int>> k{
-        {1, 0, -1},
-        {2, 0, -2},
-        {1, 0, -1}
-    };
-
-    for (unsigned int y = 0; y < dst.height(); y++)
-    {
-        for (unsigned int x = 0; x < dst.width(); x++)
-        {
-
-            float u = 0, v = 0;
-
-            for (size_t i = 0; i <= 2; i++)
-            {
-                for (size_t j = 0; j <= 2; j++)
-                {
-                    src_color = src.getPixelColor(std::fmin(std::fmax(x + i - 1, 0), src.width() - 1), std::fmin(std::fmax(y + j - 1, 0), src.width() - 1));
-                    u += ((float)(src_color.R + src_color.G + src_color.B) / 3)
-                        * k[i][j] * factor;
-                    v += ((float)(src_color.R + src_color.G + src_color.B) / 3)
-                        * k[j][i] * factor;
-                }
-            }
-            float sobel = std::sqrt(u * u + v * v);
-            dst.setPixelColor(x, y, Color(sobel, sobel, sobel));
-        }
-    }
-    return dst;
-}
-
-RGBImage& RGBImage::gaussFilter(RGBImage& dst, const RGBImage& src, float factor) {
-    /*
-     assert(dst.height() == src.height());
-     assert(dst.width() == src.width());
-
-     Color blurColor;
-
-     float K[7] = { 0.006, 0.061, 0.242, 0.383, 0.242, 0.061, 0.006 };
-
-     // Horizontal Pass
-     for (int y = 0; y < dst.height(); y++) {
-         for (int x = 0; x < dst.width(); x++) {
-             blurColor = Color(0, 0, 0);
-             for (int j = 0; j < 7; j++) {
-                 int sourceX = std::fmin(std::fmax(x - j + 3, 0), src.width() - 1);
-                 blurColor += src.getPixelColor(sourceX, y) * K[j] * factor;
-             }
-             dst.setPixelColor(x, y, blurColor* (1/factor));
-         }
-     }
-
-
-
-     // Vertical Pass
-     for (int y = 0; y < dst.height(); y++) {
-         for (int x = 0; x < dst.width(); x++) {
-             blurColor = Color(0, 0, 0);
-             for (int j = 0; j < 7; j++) {
-                 int sourceY = std::fmin(std::fmax(y - j + 3, 0), src.height() - 1);
-                 blurColor += dst.getPixelColor(x, sourceY) * K[j] * factor;
-             }
-             dst.setPixelColor(x, y, blurColor * (1 / factor));
-         }
-     }
-
-     return dst;
-     */
-    assert(dst.height() == src.height());
-    assert(dst.width() == src.width());
-
-    Color src_color;
-
-    std::vector<std::vector<int>> k{
-        {1, 2, 1},
-        {2, 4, 2},
-        {1, 2, 1}
-    };
-
-    for (int y = 1; y < dst.height() - 1; y++)
-    {
-        for (int x = 1; x < dst.width() - 1; x++)
-        {
-
-            float u = 0, v = 0;
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    src_color = src.getPixelColor(x + i - 1, y + j - 1);
-                    u += ((float)(src_color.R + src_color.G + src_color.B) / 3)
-                        * k[i][j];
-                    v += ((float)(src_color.R + src_color.G + src_color.B) / 3)
-                        * k[j][i];
-                }
-            }
-            float sobel = std::sqrt(u * u + v * v);
-            dst.setPixelColor(x, y, Color(sobel, sobel, sobel));
-        }
-    }
-    return dst;
-}
 bool RGBImage::saveToDisk(const char* Filename) {
-    // Öffnen der Datei zum Schreiben im binären Modus
+    // ï¿½ffnen der Datei zum Schreiben im binï¿½ren Modus
     FILE* file = fopen(Filename, "wb");
     if (file == nullptr) {
-        std::cerr << "Fehler beim Öffnen der Datei zum Schreiben." << std::endl;
+        std::cerr << "Fehler beim ï¿½ffnen der Datei zum Schreiben." << std::endl;
         return false;
     }
 
@@ -226,24 +115,24 @@ bool RGBImage::saveToDisk(const char* Filename) {
     unsigned int fileSize = 54 + 3 * m_Width * m_Height;
     unsigned char fileHeader[14] = {
             'B', 'M',             // Dateityp (Bitmap)
-            fileSize, fileSize >> 8, fileSize >> 16, fileSize >> 24, // Dateigröße
+            fileSize, fileSize >> 8, fileSize >> 16, fileSize >> 24, // Dateigrï¿½ï¿½e
             0, 0, 0, 0,           // Reserviert
             54, 0, 0, 0           // Offset zum Bild-Datenbereich
     };
 
     unsigned char infoHeader[40] = {
-            40, 0, 0, 0,          // Info-Headergröße
+            40, 0, 0, 0,          // Info-Headergrï¿½ï¿½e
             m_Width, m_Width >> 8, m_Width >> 16, m_Width >> 24, // Bildbreite
-            -m_Height, -m_Height >> 8, -m_Height >> 16, -m_Height >> 24, // Bildhöhe
+            -m_Height, -m_Height >> 8, -m_Height >> 16, -m_Height >> 24, // Bildhï¿½he
             1, 0,                // Farbebenen (immer 1)
             24, 0,               // Bittiefe (24-Bit RGB)
             0, 0, 0, 0,          // Keine Kompression
-            0, 0, 0, 0,          // Bildgröße (wird später berechnet)
-            0, 0, 0, 0,          // X-Auflösung
-            0, 0, 0, 0           // Y-Auflösung
+            0, 0, 0, 0,          // Bildgrï¿½ï¿½e (wird spï¿½ter berechnet)
+            0, 0, 0, 0,          // X-Auflï¿½sung
+            0, 0, 0, 0           // Y-Auflï¿½sung
     };
 
-    // Bildgröße im Header aktualisieren
+    // Bildgrï¿½ï¿½e im Header aktualisieren
     infoHeader[20] = 3 * m_Width;
     infoHeader[21] = 3 * m_Width >> 8;
     infoHeader[22] = 3 * m_Width >> 16;
@@ -266,7 +155,7 @@ bool RGBImage::saveToDisk(const char* Filename) {
         }
     }
 
-    // Datei schließen
+    // Datei schlieï¿½en
     fclose(file);
     return true;
 }

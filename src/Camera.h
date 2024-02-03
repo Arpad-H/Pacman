@@ -31,22 +31,6 @@ public:
     virtual ~BaseCamera() {};
 };
 
-class SimpleCamera : public BaseCamera
-{
-public:
-	virtual void update() {}
-	virtual const Matrix& getViewMatrix() const { return View; }
-	virtual const Matrix& getProjectionMatrix() const { return Proj;  }
-	virtual Vector position() const { Matrix m = View; m.invert(); return m.translation(); }
-	void setViewMatrix(const Matrix& m) { View = m;  }
-	void setProjectionMatrix(const Matrix& m) { Proj = m; }
-	virtual ~SimpleCamera() {};
-protected:
-	Matrix View;
-	Matrix Proj;
-
-};
-
 class Camera : public BaseCamera
 {
 public:

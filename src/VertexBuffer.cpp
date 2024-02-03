@@ -41,8 +41,6 @@ void VertexBuffer::begin()
     Colors.clear();
     Texcoord0.clear();
     Texcoord1.clear();
-    Texcoord2.clear();
-    Texcoord3.clear();
     WithinBeginBlock = true;
 }
 

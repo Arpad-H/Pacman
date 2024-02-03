@@ -17,26 +17,32 @@
 #include "vertexbuffer.h"
 #include "indexbuffer.h"
 #include "basemodel.h"
-#include "ShadowMapGenerator.h"
+#include "GameObject.h"
+#include <chrono>
+#include <algorithm>
 
 class Application
 {
 public:
     typedef std::list<BaseModel*> ModelList;
+    typedef std::list<GameObject*> GameObjectList;
     Application(GLFWwindow* pWin);
     void start();
-    void update(float dtime);
+    void update();
+    void updateGameObjects(float deltaTime);
     void draw();
     void end();
 protected:
-	void createScene();
-	void createNormalTestScene();
-	void createShadowTestScene();
     Camera Cam;
     ModelList Models;
+    GameObject* temp;
+    GameObjectList GameObjects;
     GLFWwindow* pWindow;
-	BaseModel* pModel;
-	ShadowMapGenerator ShadowGenerator;
+    ;
+   
+    float time;
+    std::chrono::high_resolution_clock::time_point lastFrameTime;
+
 };
 
 #endif /* Application_hpp */

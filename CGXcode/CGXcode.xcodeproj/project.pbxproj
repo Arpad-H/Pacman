@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A00605A1DDC73080046A3F2 /* Tank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A0060581DDC73080046A3F2 /* Tank.cpp */; };
+		7A0060601DDE018F0046A3F2 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A00605E1DDE018F0046A3F2 /* Scene.cpp */; };
 		7A01EEF51DC9EA78002FE604 /* Aabb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A01EEF31DC9EA78002FE604 /* Aabb.cpp */; };
 		7A29D90A1DABA6460028612B /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A29D8ED1DABA6450028612B /* Application.cpp */; };
 		7A29D90B1DABA6460028612B /* BaseModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A29D8EF1DABA6450028612B /* BaseModel.cpp */; };
@@ -31,10 +33,6 @@
 		7A29D92C1DABB0760028612B /* LineBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A29D92A1DABB0760028612B /* LineBoxModel.cpp */; };
 		7A29D92F1DABB5220028612B /* TriangleBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A29D92D1DABB5220028612B /* TriangleBoxModel.cpp */; };
 		7A3786AB1DD1E6080066A2AB /* libassimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A3786AA1DD1E6080066A2AB /* libassimp.a */; };
-		7A9428E81E070EF4006EA587 /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A9428E01E070EF4006EA587 /* Framebuffer.cpp */; };
-		7A9428E91E070EF4006EA587 /* Lights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A9428E21E070EF4006EA587 /* Lights.cpp */; };
-		7A9428EA1E070EF4006EA587 /* ShaderLightMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A9428E41E070EF4006EA587 /* ShaderLightMapper.cpp */; };
-		7A9428EB1E070EF4006EA587 /* ShadowMapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A9428E61E070EF4006EA587 /* ShadowMapGenerator.cpp */; };
 		7ABD81771DA3C67D0008D349 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABD81761DA3C67D0008D349 /* main.cpp */; };
 		7ABD81871DA3C8EA0008D349 /* color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABD81811DA3C8EA0008D349 /* color.cpp */; };
 		7ABD81881DA3C8EA0008D349 /* rgbimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABD81831DA3C8EA0008D349 /* rgbimage.cpp */; };
@@ -54,6 +52,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7A0060581DDC73080046A3F2 /* Tank.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tank.cpp; path = ../../src/Tank.cpp; sourceTree = "<group>"; };
+		7A0060591DDC73080046A3F2 /* Tank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tank.h; path = ../../src/Tank.h; sourceTree = "<group>"; };
+		7A00605E1DDE018F0046A3F2 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../../src/Scene.cpp; sourceTree = "<group>"; };
+		7A00605F1DDE018F0046A3F2 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../../src/Scene.h; sourceTree = "<group>"; };
 		7A01EEF31DC9EA78002FE604 /* Aabb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Aabb.cpp; path = ../../src/Aabb.cpp; sourceTree = "<group>"; };
 		7A01EEF41DC9EA78002FE604 /* Aabb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Aabb.h; path = ../../src/Aabb.h; sourceTree = "<group>"; };
 		7A29D8ED1DABA6450028612B /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../../src/Application.cpp; sourceTree = "<group>"; };
@@ -95,14 +97,6 @@
 		7A29D92D1DABB5220028612B /* TriangleBoxModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TriangleBoxModel.cpp; path = ../../src/TriangleBoxModel.cpp; sourceTree = "<group>"; };
 		7A29D92E1DABB5220028612B /* TriangleBoxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TriangleBoxModel.h; path = ../../src/TriangleBoxModel.h; sourceTree = "<group>"; };
 		7A3786AA1DD1E6080066A2AB /* libassimp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassimp.a; path = thirdparty/assimp/lib/libassimp.a; sourceTree = "<group>"; };
-		7A9428E01E070EF4006EA587 /* Framebuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Framebuffer.cpp; path = ../../src/Framebuffer.cpp; sourceTree = "<group>"; };
-		7A9428E11E070EF4006EA587 /* Framebuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Framebuffer.h; path = ../../src/Framebuffer.h; sourceTree = "<group>"; };
-		7A9428E21E070EF4006EA587 /* Lights.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Lights.cpp; path = ../../src/Lights.cpp; sourceTree = "<group>"; };
-		7A9428E31E070EF4006EA587 /* Lights.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lights.h; path = ../../src/Lights.h; sourceTree = "<group>"; };
-		7A9428E41E070EF4006EA587 /* ShaderLightMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderLightMapper.cpp; path = ../../src/ShaderLightMapper.cpp; sourceTree = "<group>"; };
-		7A9428E51E070EF4006EA587 /* ShaderLightMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderLightMapper.h; path = ../../src/ShaderLightMapper.h; sourceTree = "<group>"; };
-		7A9428E61E070EF4006EA587 /* ShadowMapGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowMapGenerator.cpp; path = ../../src/ShadowMapGenerator.cpp; sourceTree = "<group>"; };
-		7A9428E71E070EF4006EA587 /* ShadowMapGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShadowMapGenerator.h; path = ../../src/ShadowMapGenerator.h; sourceTree = "<group>"; };
 		7ABD816C1DA3C6050008D349 /* CGXcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CGXcode; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ABD81761DA3C67D0008D349 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../src/main.cpp; sourceTree = "<group>"; };
 		7ABD81811DA3C8EA0008D349 /* color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = color.cpp; path = ../../src/color.cpp; sourceTree = "<group>"; };
@@ -134,7 +128,6 @@
 		7A29D9181DABA64A0028612B /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				7A9428DF1E070EC2006EA587 /* lights */,
 				7A29D9191DABA6800028612B /* models */,
 				7A29D9291DABAE4F0028612B /* shaders */,
 				7A29D9281DABADB10028612B /* yours */,
@@ -142,8 +135,6 @@
 				7A29D8F41DABA6450028612B /* Camera.h */,
 				7A29D8F81DABA6460028612B /* IndexBuffer.cpp */,
 				7A29D8F91DABA6460028612B /* IndexBuffer.h */,
-				7A9428E01E070EF4006EA587 /* Framebuffer.cpp */,
-				7A9428E11E070EF4006EA587 /* Framebuffer.h */,
 				7A29D8FC1DABA6460028612B /* Matrix.cpp */,
 				7A29D8FD1DABA6460028612B /* Matrix.h */,
 				7A29D9021DABA6460028612B /* Texture.cpp */,
@@ -203,19 +194,6 @@
 			name = shaders;
 			sourceTree = "<group>";
 		};
-		7A9428DF1E070EC2006EA587 /* lights */ = {
-			isa = PBXGroup;
-			children = (
-				7A9428E21E070EF4006EA587 /* Lights.cpp */,
-				7A9428E31E070EF4006EA587 /* Lights.h */,
-				7A9428E41E070EF4006EA587 /* ShaderLightMapper.cpp */,
-				7A9428E51E070EF4006EA587 /* ShaderLightMapper.h */,
-				7A9428E61E070EF4006EA587 /* ShadowMapGenerator.cpp */,
-				7A9428E71E070EF4006EA587 /* ShadowMapGenerator.h */,
-			);
-			name = lights;
-			sourceTree = "<group>";
-		};
 		7ABD81631DA3C6050008D349 = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +224,10 @@
 				7A29D8ED1DABA6450028612B /* Application.cpp */,
 				7A29D8EE1DABA6450028612B /* Application.h */,
 				7ABD81761DA3C67D0008D349 /* main.cpp */,
+				7A0060581DDC73080046A3F2 /* Tank.cpp */,
+				7A0060591DDC73080046A3F2 /* Tank.h */,
+				7A00605E1DDE018F0046A3F2 /* Scene.cpp */,
+				7A00605F1DDE018F0046A3F2 /* Scene.h */,
 			);
 			path = CGXcode;
 			sourceTree = "<group>";
@@ -306,12 +288,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A0060601DDE018F0046A3F2 /* Scene.cpp in Sources */,
 				7A29D9141DABA6460028612B /* Texture.cpp in Sources */,
 				7A29D9111DABA6460028612B /* Matrix.cpp in Sources */,
 				7A29D9121DABA6460028612B /* Model.cpp in Sources */,
-				7A9428E91E070EF4006EA587 /* Lights.cpp in Sources */,
 				7A29D90F1DABA6460028612B /* IndexBuffer.cpp in Sources */,
 				7A29D9131DABA6460028612B /* PhongShader.cpp in Sources */,
+				7A00605A1DDC73080046A3F2 /* Tank.cpp in Sources */,
 				7A29D9171DABA6460028612B /* VertexBuffer.cpp in Sources */,
 				7A29D9101DABA6460028612B /* LinePlaneModel.cpp in Sources */,
 				7A29D9161DABA6460028612B /* TriangleSphereModel.cpp in Sources */,
@@ -319,7 +302,6 @@
 				7ABD81771DA3C67D0008D349 /* main.cpp in Sources */,
 				7A29D90B1DABA6460028612B /* BaseModel.cpp in Sources */,
 				7A29D92C1DABB0760028612B /* LineBoxModel.cpp in Sources */,
-				7A9428E81E070EF4006EA587 /* Framebuffer.cpp in Sources */,
 				7A29D90A1DABA6460028612B /* Application.cpp in Sources */,
 				7A29D92F1DABB5220028612B /* TriangleBoxModel.cpp in Sources */,
 				7A29D90D1DABA6460028612B /* Camera.cpp in Sources */,
@@ -328,8 +310,6 @@
 				7ABD81891DA3C8EA0008D349 /* vector.cpp in Sources */,
 				7A29D90E1DABA6460028612B /* ConstantShader.cpp in Sources */,
 				7A29D9151DABA6460028612B /* TrianglePlaneModel.cpp in Sources */,
-				7A9428EA1E070EF4006EA587 /* ShaderLightMapper.cpp in Sources */,
-				7A9428EB1E070EF4006EA587 /* ShadowMapGenerator.cpp in Sources */,
 				7A29D90C1DABA6460028612B /* BaseShader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
