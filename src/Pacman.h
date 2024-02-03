@@ -11,11 +11,13 @@ class Pacman : public GameObject
 public:
 	Pacman(const char* ModelFilePath, bool FitSize, Vector initSale);
 	virtual ~Pacman();
-	void steer(float forwardBackward, float leftRight);
+	void steer(float dir);
 	void update(float dtime);
 	void draw(const BaseCamera& Cam);
 protected:
-	float ForwardBackward, LeftRight;
+	float speed;
+	Model * pacmanModel;
+	float dir;
 };
 
 #endif  /* Pacman_hpp */

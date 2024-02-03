@@ -13,6 +13,8 @@ public:
     virtual ~Ghost();
 	void update(float dtime);
 	void draw(const BaseCamera& Cam);
+protected:
+	Model* ghostModel;
 };
 
 #endif  /* Ghost_hpp */

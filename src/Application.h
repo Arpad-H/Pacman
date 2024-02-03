@@ -47,6 +47,7 @@ protected:
     float levelDimY = 32;
     float levelSegments =32;
     float time;
+    float dir = -1;
     std::chrono::high_resolution_clock::time_point lastFrameTime;
 
 };

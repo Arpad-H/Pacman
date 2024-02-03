@@ -50,6 +50,8 @@ public:
     virtual void update();
     virtual const Matrix& getViewMatrix() const;
     virtual const Matrix& getProjectionMatrix() const;
+
+   
 protected:
     void updateMouseInput();
     
@@ -58,7 +60,6 @@ protected:
     void rotate( float x, float y );
     Vector getVSpherePos( float x, float y);
     Vector rotateAxisAngle( Vector v, Vector n, float a);
-    
     Matrix m_ViewMatrix;
     Matrix m_ProjMatrix;
     Vector m_Position;

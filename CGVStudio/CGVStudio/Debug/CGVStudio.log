@@ -1,3 +1,9 @@
-﻿  Pacman.cpp
+﻿  Application.cpp
+C:\Users\quint\Documents\Studium\Pacman\src\Application.cpp(37,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\Pacman\src\Application.cpp(42,21): warning C4101: 'pConstShader': unreferenced local variable
+C:\Users\quint\Documents\Studium\Pacman\src\Application.cpp(41,16): warning C4101: 'pModel': unreferenced local variable
+C:\Users\quint\Documents\Studium\Pacman\src\Application.cpp(43,18): warning C4101: 'pPhongShader': unreferenced local variable
+  Pacman.cpp
 C:\Users\quint\Documents\Studium\Pacman\src\Pacman.cpp(6,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\Pacman\CGVStudio\Debug\CGVStudio.exe

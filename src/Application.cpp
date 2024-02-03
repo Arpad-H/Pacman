@@ -42,19 +42,13 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     ConstantShader* pConstShader;
     PhongShader* pPhongShader;
     
-    // create LineGrid model with constant color shader
-   /* pModel = new LinePlaneModel(10, 10, 10, 10);
-    pConstShader = new ConstantShader();
-	pConstShader->color( Color(1,1,1));
-    pModel->shader(pConstShader, true);
-    Models.push_back( pModel );*/
     level = Level();
     level.loadLevel(levelDimX,levelDimY,levelSegments);
     
     //create ghosts
-    temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1));
+   /* temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1));
     GameObjects.push_back(temp);
-    Models.push_back(temp);
+    Models.push_back(temp);*/
 
     //spawn the pacman
     pacman= new Pacman(ASSET_DIRECTORY "Pacman.dae",true,Vector(1,1,1));
@@ -84,19 +78,36 @@ void Application::update()
     time += deltaTime;
 
     //Check Controll Inputs
-    int stateForward= glfwGetKey(pWindow, GLFW_KEY_W);
-    int stateBackward = -glfwGetKey(pWindow, GLFW_KEY_S);
-    int stateLeft = glfwGetKey(pWindow, GLFW_KEY_A);
-    int stateRight = -glfwGetKey(pWindow, GLFW_KEY_D);
-    int forwardBackward = stateBackward + stateForward;
-    int leftRigth = stateLeft + stateRight;
+    Matrix mdir;
+    if (glfwGetKey(pWindow, GLFW_KEY_W)){
+        //if(dir != 0) dir = 0;
+        pacman->initTransform *= mdir.rotationY(toRad(0));
+}
+    else if (glfwGetKey(pWindow, GLFW_KEY_S))
+    {
+       // if (dir != 180) dir = 180;
+        //else dir = 0;
+        pacman->initTransform *= mdir.rotationY(toRad(180));
+    }
+    else if (glfwGetKey(pWindow, GLFW_KEY_A)) {
+        //if (dir != 270) dir = 270;
+        //else dir = 0;
+        pacman->initTransform *= mdir.rotationY(toRad(90));
+    }
+    else if (glfwGetKey(pWindow, GLFW_KEY_D)) {
+       // if (dir != 90) dir = 90;
+       // else dir = 0;
+        pacman->initTransform *= mdir.rotationY(toRad(270));
+    }
+  
    
-
     double xpos, ypos;
     glfwGetCursorPos(pWindow, &xpos, &ypos);
    
-    pacman->steer(forwardBackward, leftRigth);
+    pacman->steer(dir);
+
     updateGameObjects(deltaTime);
+ // Cam.setPosition((pacman->transform().translation()+Vector(0,0,-2))*Cam.);
     Cam.update();
 }
 void Application::updateGameObjects(float deltaTime) {
