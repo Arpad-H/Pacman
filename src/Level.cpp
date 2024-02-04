@@ -16,6 +16,11 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 {
 	//PhongShader* pPhongShader = new PhongShader();
 	ConstantShader* pConstShader;
+	ConstantShader* pConstShader2;
+	ConstantShader* pConstShader3;
+	ConstantShader* pConstShader4;
+	ConstantShader* pConstShader5;
+	ConstantShader* pConstShader6;
 
 		//bottom
 		Matrix m,t,f;
@@ -28,13 +33,17 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 
 		//top
 		pModel = new LinePlaneModel(dimX, dimY, segments, segments);
-		pModel->shader(pConstShader, true);
+		pConstShader2 = new ConstantShader();
+		pConstShader2->color(Color(1, 0, 0));
+		pModel->shader(pConstShader2, true);
 		pModel->transform(m.translation(0, dimY/2, 0));
 		Models.push_back(pModel);
 
 		//left
 		pModel = new LinePlaneModel(dimY, dimX, segments, segments);
-		pModel->shader(pConstShader, true);
+		pConstShader3 = new ConstantShader();
+		pConstShader3->color(Color(0, 1, 0));
+		pModel->shader(pConstShader3, true);
 		m.rotationZ(toRad(90));
 		t.translation(0, dimX / 2, 0);
 		f = m*t;
@@ -43,7 +52,9 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 
 		//right
 		pModel = new LinePlaneModel(dimY, dimX, segments, segments);
-		pModel->shader(pConstShader, true);
+		pConstShader4 = new ConstantShader();
+		pConstShader4->color(Color(0, 0, 1));
+		pModel->shader(pConstShader4, true);
 		m.rotationZ(toRad(90));
 		t.translation(0, -dimX / 2, 0);
 		f = m * t;
@@ -52,7 +63,9 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 
 		//front
 		pModel = new LinePlaneModel(dimY, dimX, segments, segments);
-		pModel->shader(pConstShader, true);
+		pConstShader5 = new ConstantShader();
+		pConstShader5->color(Color(1, 1, 0));
+		pModel->shader(pConstShader5, true);
 		
 		m.rotationYawPitchRoll(0, toRad(90), 0);
 		t.translation(0, 0, dimX/2);
@@ -62,7 +75,9 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 
 		//back
 		pModel = new LinePlaneModel(dimY, dimX, segments, segments);
-		pModel->shader(pConstShader, true);
+		pConstShader6 = new ConstantShader();
+		pConstShader6->color(Color(0, 1, 1));
+		pModel->shader(pConstShader6, true);
 
 		m.rotationYawPitchRoll(0, toRad(90), 0);
 		t.translation(0, 0, -dimX / 2);

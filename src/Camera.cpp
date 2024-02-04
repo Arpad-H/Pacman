@@ -168,6 +168,12 @@ const Matrix& Camera::getViewMatrix() const
     return m_ViewMatrix;
 }
 
+const void Camera::setViewMatrix(const Matrix& m)
+{
+m_ViewMatrix = m;
+    return void();
+}
+
 const Matrix& Camera::getProjectionMatrix() const
 {
     return m_ProjMatrix;

@@ -10,9 +10,10 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 	pacmanModel = new Model();
 	loadModels(ModelFilePath, FitSize, initScale, *pacmanModel);
 	Matrix i;
-	i.rotationYawPitchRoll(toRad(90),0,toRad(90));
-	initTransform = i * pacmanModel->transform();
-	speed = 1;
+	i.rotationYawPitchRoll(toRad(90),0,0);
+	
+	initTransform =  pacmanModel->transform();
+	speed = 3;
 }
 Pacman::~Pacman()
 {
@@ -24,15 +25,19 @@ void Pacman::steer(float dir)
 }
 void Pacman::update(float dtime)
 {
-   //if (dir ==-1)return;
-	
-	std::cout << dir << std::endl;
-	Matrix  m_trans, m_rot;
-	m_trans.translation(speed * dtime, 0, 0);
-	//m_rot.rotationY(toRad(dir));
+	if (dir == -1)return;
+	/*std::cout << "dir: " << dir << std::endl;
+	std::cout << "sin: " << (int)sin(toRad(dir)) << std::endl;
+	std::cout << "cos: " << (int)cos(toRad(dir)) << std::endl;*/
+	Matrix  m_trans, m_rot,startloc;
+	//startloc.translation(0, 16, 0);
+	m_trans.translation(-(int)sin(toRad(dir)) *speed*dtime, 0, -(int)cos(toRad(dir)) * speed * dtime);
 	this->transform(transform() * m_trans);
-
-	pacmanModel->transform(transform()*initTransform);
+	Matrix i,final;
+	i.rotationYawPitchRoll(toRad(dir+180), 0, toRad(90));
+	final = i* initTransform;
+	pacmanModel->transform(transform()*final);
+	
 
 }
 void Pacman::draw(const BaseCamera& Cam)

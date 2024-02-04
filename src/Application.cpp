@@ -77,38 +77,44 @@ void Application::update()
     lastFrameTime = currentTime;
     time += deltaTime;
 
-    //Check Controll Inputs
-    Matrix mdir;
+    //Check Controll Inputs and set pacmans direction in 
+    //90 degree steps
     if (glfwGetKey(pWindow, GLFW_KEY_W)){
-        //if(dir != 0) dir = 0;
-        pacman->initTransform *= mdir.rotationY(toRad(0));
-}
+       dir = 0;
+    }
     else if (glfwGetKey(pWindow, GLFW_KEY_S))
     {
-       // if (dir != 180) dir = 180;
-        //else dir = 0;
-        pacman->initTransform *= mdir.rotationY(toRad(180));
-    }
-    else if (glfwGetKey(pWindow, GLFW_KEY_A)) {
-        //if (dir != 270) dir = 270;
-        //else dir = 0;
-        pacman->initTransform *= mdir.rotationY(toRad(90));
+       dir = 180;
+     
     }
     else if (glfwGetKey(pWindow, GLFW_KEY_D)) {
-       // if (dir != 90) dir = 90;
-       // else dir = 0;
-        pacman->initTransform *= mdir.rotationY(toRad(270));
+       dir=270;
+    }
+    else if (glfwGetKey(pWindow, GLFW_KEY_A)) {
+      dir=90;
     }
   
    
     double xpos, ypos;
     glfwGetCursorPos(pWindow, &xpos, &ypos);
    
+    //Handle updating variables necessery for pacman
     pacman->steer(dir);
+    
+    //Apply Transformation to camera to follow pacman
+    Matrix m,rotc,offsetc,tilt;
+    m.identity();
+    tilt.rotationX(toRad(-45));
+    offsetc.translation(0,0,16);
+    rotc.rotationY(toRad(180));
+    m *= pacman->transform()*tilt*offsetc;
+    m.invert();
+    Cam.setViewMatrix(m);
+//Cam.update();
 
-    updateGameObjects(deltaTime);
- // Cam.setPosition((pacman->transform().translation()+Vector(0,0,-2))*Cam.);
-    Cam.update();
+    //Update all game objects with the current delta time
+    updateGameObjects(deltaTime); 
+    
 }
 void Application::updateGameObjects(float deltaTime) {
     for (GameObjectList::iterator it = GameObjects.begin(); it != GameObjects.end(); ++it) {

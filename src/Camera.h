@@ -49,6 +49,7 @@ public:
     
     virtual void update();
     virtual const Matrix& getViewMatrix() const;
+    virtual const void setViewMatrix(const Matrix& m);
     virtual const Matrix& getProjectionMatrix() const;
 
    
