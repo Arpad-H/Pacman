@@ -1,27 +1,5 @@
-﻿  Level.cpp
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(16,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(47,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(54,73): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(54,57): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(54,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(71,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(77,85): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(77,65): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(77,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(97,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(103,85): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(103,65): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(103,46): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(123,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(129,85): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(129,65): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(129,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(150,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(156,85): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(156,69): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(156,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(177,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(183,86): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(183,69): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(183,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+﻿  Pacman.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(6,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(51,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(55,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\CGVStudio\Debug\CGVStudio.exe

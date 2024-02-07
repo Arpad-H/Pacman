@@ -8,6 +8,7 @@
 #include "vector.h"
 #include "TriangleBoxModel.h"
 #include "Maze.h"
+#include "Face.h"
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
@@ -46,7 +47,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	Maze* maze;
 	maze = new Maze(dimX);
 	Model* pWall;
-	for (int i = 0; i < dimX; ++i) {
+	/*for (int i = 0; i < dimX; ++i) {
 		for (int j = 0; j < dimY; ++j) {
 			if(maze->maze[i][j].isWall){
 				pWall = new Model(ASSET_DIRECTORY "cube.dae",true,Vector(1,1,1));
@@ -56,7 +57,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 				
 			}
 		}
-	}
+	}*/
 	pModel->transform(m.translation(0, -dimY / 2, 0));
 	Models.push_back(pModel);
 	///////////////////////////////////////////////////////
@@ -95,7 +96,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	t.translation(0, dimX / 2, 0);
 	f = m * t;
 	maze = new Maze(dimX);
-	for (int i = 0; i < dimX; ++i) {
+	/*for (int i = 0; i < dimX; ++i) {
 		for (int j = 0; j < dimY; ++j) {
 			if (maze->maze[i][j].isWall) {
 				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
@@ -105,7 +106,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 
 			}
 		}
-	}
+	}*/
 	pModel->transform(f);
 	Models.push_back(pModel);
 	///////////////////////////////////////////////////////
@@ -121,7 +122,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	t.translation(0, -dimX / 2, 0);
 	f = m * t;
 	maze = new Maze(dimX);
-	for (int i = 0; i < dimX; ++i) {
+	/*for (int i = 0; i < dimX; ++i) {
 		for (int j = 0; j < dimY; ++j) {
 			if (maze->maze[i][j].isWall) {
 				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
@@ -131,7 +132,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 
 			}
 		}
-	}
+	}*/
 	pModel->transform(f);
 	Models.push_back(pModel);
 	///////////////////////////////////////////////////////
@@ -148,7 +149,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	t.translation(0, 0, dimX / 2);
 	f = t * m;
 	maze = new Maze(dimX);
-	for (int i = 0; i < dimX; ++i) {
+	/*for (int i = 0; i < dimX; ++i) {
 		for (int j = 0; j < dimY; ++j) {
 			if (maze->maze[i][j].isWall) {
 				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
@@ -158,7 +159,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 
 			}
 		}
-	}
+	}*/
 	pModel->transform(f);
 	Models.push_back(pModel);
 	///////////////////////////////////////////////////////
@@ -175,7 +176,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	t.translation(0, 0, -dimX / 2);
 	f = t * m;
 	maze = new Maze(dimX);
-	for (int i = 0; i < dimX; ++i) {
+	/*for (int i = 0; i < dimX; ++i) {
 		for (int j = 0; j < dimY; ++j) {
 			if (maze->maze[i][j].isWall) {
 				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
@@ -185,7 +186,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 
 			}
 		}
-	}
+	}*/
 	pModel->transform(f);
 	Models.push_back(pModel);
 

@@ -75,6 +75,35 @@ Vector& Vector::normalize() {
     return *this;
 }
 
+Vector& Vector::toUnitVector()
+{
+    //convert a vector to a unit vector based on biggest value
+    //this->normalize();
+    float max = abs(X);
+    if (abs(Y) > max) {
+		max = abs(Y);
+	}
+    if (abs(Z) > max) {
+		max = abs(Z);
+	}
+    if (abs(X) == max ) {
+        this->X = copysign(1.0,X);
+        this->Y = 0;
+        this->Z = 0;
+        }
+    else if (abs(Y) == max) {
+        this->X = 0;
+        this->Y = copysign(1.0, Y);
+        this->Z = 0;
+		}
+    else if (abs(Z) == max) {
+        this->X = 0;
+        this->Y = 0;
+        this->Z = copysign(1.0, Z);
+    }	
+	return *this;
+}
+
 float Vector::length() const {
 
     return sqrt(lengthSquared());

@@ -92,6 +92,7 @@
     <ClCompile Include="..\..\src\Camera.cpp" />
     <ClCompile Include="..\..\src\color.cpp" />
     <ClCompile Include="..\..\src\ConstantShader.cpp" />
+    <ClCompile Include="..\..\src\Face.cpp" />
     <ClCompile Include="..\..\src\Ghost.cpp" />
     <ClCompile Include="..\..\src\IndexBuffer.cpp" />
     <ClCompile Include="..\..\src\Level.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="..\..\src\Camera.h" />
     <ClInclude Include="..\..\src\color.h" />
     <ClInclude Include="..\..\src\ConstantShader.h" />
+    <ClInclude Include="..\..\src\Face.h" />
     <ClInclude Include="..\..\src\Ghost.h" />
     <ClInclude Include="..\..\src\IndexBuffer.h" />
     <ClInclude Include="..\..\src\Level.h" />

@@ -21,6 +21,7 @@ public:
     Vector operator*(float c) const;
     Vector operator-() const;
     Vector& normalize();
+    Vector& toUnitVector();
     float length() const;
     float lengthSquared() const;
     void toString()const;
