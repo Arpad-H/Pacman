@@ -20,6 +20,7 @@ public:
 protected:
     BaseModel* pModel;
     ModelList Models;
+
 };
 
 #endif /* Level_hpp */

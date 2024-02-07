@@ -99,6 +99,7 @@
     <ClCompile Include="..\..\src\LinePlaneModel.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Matrix.cpp" />
+    <ClCompile Include="..\..\src\Maze.cpp" />
     <ClCompile Include="..\..\src\Model.cpp" />
     <ClCompile Include="..\..\src\Pacman.cpp" />
     <ClCompile Include="..\..\src\PhongShader.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="..\..\src\LineBoxModel.h" />
     <ClInclude Include="..\..\src\LinePlaneModel.h" />
     <ClInclude Include="..\..\src\Matrix.h" />
+    <ClInclude Include="..\..\src\Maze.h" />
     <ClInclude Include="..\..\src\Model.h" />
     <ClInclude Include="..\..\src\Pacman.h" />
     <ClInclude Include="..\..\src\PhongShader.h" />

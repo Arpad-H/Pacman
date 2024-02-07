@@ -31,5 +31,5 @@ void GameObject::update(float dtime)
 
 void GameObject::draw(const BaseCamera& Cam)
 {
-    
+  
 }

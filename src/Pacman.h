@@ -14,9 +14,10 @@ public:
 	void steer(float dir);
 	void update(float dtime);
 	void draw(const BaseCamera& Cam);
+	Model* pacmanModel;
 protected:
 	float speed;
-	Model * pacmanModel;
+	
 	float dir;
 };
 

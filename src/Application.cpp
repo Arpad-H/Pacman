@@ -85,13 +85,12 @@ void Application::update()
     else if (glfwGetKey(pWindow, GLFW_KEY_S))
     {
        dir = 180;
-     
     }
     else if (glfwGetKey(pWindow, GLFW_KEY_D)) {
        dir=270;
     }
     else if (glfwGetKey(pWindow, GLFW_KEY_A)) {
-      dir=90;
+       dir=90;
     }
   
    
@@ -106,8 +105,18 @@ void Application::update()
     m.identity();
     tilt.rotationX(toRad(-45));
     offsetc.translation(0,0,16);
-    rotc.rotationY(toRad(180));
-    m *= pacman->transform()*tilt*offsetc;
+    //rotc.rotationY(toRad(180));
+    Matrix pacmanloca;
+    //pacmanloca.identity();
+    pacmanloca.translation(pacman->pacmanModel->transform().translation());
+    
+    //m *= pacman->pacmanModel->transform()*tilt*offsetc;
+    m *= pacmanloca*tilt*offsetc;
+    //Matrix rotZ;
+    //rotZ.rotationYawPitchRoll(0,0,toRad(-90));
+    //m *= pacman->pacmanModel->transform()*offsetc*rotZ;
+   
+   // m *= pacmanloca*tilt*offsetc;
     m.invert();
     Cam.setViewMatrix(m);
 //Cam.update();
