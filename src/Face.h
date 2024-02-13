@@ -29,6 +29,7 @@ class Face : public BaseModel
 protected:
 	Matrix buildM;
 	ModelList WallModels;
+	ModelList GhostModels;
 	void addWalls();
 	//FacesList neighbouringFaces;
 	

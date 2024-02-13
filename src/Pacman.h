@@ -18,6 +18,9 @@ public:
 	Model* pacmanModel;
 	void setLevel(Level* level);
 protected:
+
+	void transition(float time);
+	float transitionTime;
 	float speed;
 	Level* level;
 	float dir;

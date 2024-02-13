@@ -47,7 +47,7 @@ void Face::addWalls()
 			if (layout->maze[i][j].isWall) {
 				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
 				pWall->shader(pPhongshader, true);
-				f= m.translation(-dimmensions / 2 + j - 0.5, 0.5, -dimmensions / 2 + i - 0.5)* pWall->transform();
+				f= m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5)* pWall->transform();
 				pWall->transform(buildM*f);
 				WallModels.push_back(pWall);
 			}

@@ -25,7 +25,12 @@ void Pacman::steer(float dir)
 void Pacman::update(float dtime)
 {
 	if (dir == -1)return;
-	
+	if (transitionTime > 0)
+	{
+		transitionTime -= dtime;
+		transition(transitionTime);
+		return;
+	}
 	Matrix  mtrans,  mrot,startloc, pcmat,pcmat2;
 	//rotate Model so it lies flat on the ground
 	mrot.rotationYawPitchRoll(toRad(dir + 180), 0, toRad(90));
@@ -39,13 +44,23 @@ void Pacman::update(float dtime)
 	//add the new position to the current position
 	//Pacmans height is always 16. Half of the level height
 	pos = pacmanModel->transform().translation() + posOffset;
-
+	
 	//check if the new position is a wall
-	if (level->isWall(pos + pacmanModel->transform().forward().toUnitVector() * 0.5))
+	int levelbounds = level->isWall(pos + pacmanModel->transform().forward().toUnitVector() * 0.5);
+	if (levelbounds == 1)
 	{
 		pos = pacmanModel->transform().translation();
 	}
+	else if(levelbounds == -1)
+	{	
+		// new position is outside the level
+		//initiate transition
+		transition(1.0f);
+		return;
+	}
 
+
+	
 
 	pos.Y = 16;
 
@@ -78,3 +93,10 @@ void Pacman::setLevel(Level* level)
 {
 	this->level = level;
 }
+
+void Pacman::transition(float time)
+{
+	Matrix mrot;
+	mrot.rotationYawPitchRoll(level->activeFace->faceModel->transform().up());
+}
+

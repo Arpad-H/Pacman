@@ -84,7 +84,6 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 void Level::update(float dtime)
 {
 	
-	
 }
 void Level::draw(const BaseCamera& Cam)
 {
@@ -93,9 +92,10 @@ void Level::draw(const BaseCamera& Cam)
 	}
 }
 
-bool Level::isWall(Vector pos)
+int Level::isWall(Vector pos)
 {
 	int z = (int)(pos.Z + (size / 2)) ;
 	int x = (int)(pos.X + (size / 2)) ;
+	if (z < 0 || z >= size || x < 0 || x >= size) return -1;
 	return activeFace->layout->maze[z][x].isWall;
 }

@@ -20,10 +20,10 @@ public:
     bool loadLevel(float dimX, float dimY,float segments );
     void update(float dtime);
     virtual void draw(const BaseCamera& Cam);
-    bool isWall(Vector pos);
+    int isWall(Vector pos);
     Face* activeFace;
-protected:
     float size;
+protected:
     BaseModel* pModel;
     ModelList Models;
     FacesList Faces;
