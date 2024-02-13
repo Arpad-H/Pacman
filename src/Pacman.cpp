@@ -39,6 +39,14 @@ void Pacman::update(float dtime)
 	//add the new position to the current position
 	//Pacmans height is always 16. Half of the level height
 	pos = pacmanModel->transform().translation() + posOffset;
+
+	//check if the new position is a wall
+	if (level->isWall(pos + pacmanModel->transform().forward().toUnitVector() * 0.5))
+	{
+		pos = pacmanModel->transform().translation();
+	}
+
+
 	pos.Y = 16;
 
 	//snap pacman to the grid
@@ -64,4 +72,9 @@ void Pacman::update(float dtime)
 void Pacman::draw(const BaseCamera& Cam)
 {
 	pacmanModel->draw(Cam);
+}
+
+void Pacman::setLevel(Level* level)
+{
+	this->level = level;
 }

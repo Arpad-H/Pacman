@@ -5,6 +5,7 @@
 #include <math.h>
 #include <algorithm>
 #include "GameObject.h"
+#include "Level.h"
 
 class Pacman : public GameObject
 {
@@ -15,9 +16,10 @@ public:
 	void update(float dtime);
 	void draw(const BaseCamera& Cam);
 	Model* pacmanModel;
+	void setLevel(Level* level);
 protected:
 	float speed;
-	
+	Level* level;
 	float dir;
 };
 

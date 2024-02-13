@@ -40,7 +40,7 @@ void Model::deleteNodes(Node* pNode)
 
 bool Model::load(const char* ModelFile, bool FitSize, Vector initScale)
 {
-    if (FitSize == true) std::cout << "true" << std::endl;
+  // if (FitSize == true) std::cout << "true" << std::endl;
     const aiScene* pScene = aiImportFile(ModelFile, aiProcessPreset_TargetRealtime_Fast | aiProcess_TransformUVCoords);
 
     if (pScene == NULL || pScene->mNumMeshes <= 0)
@@ -64,7 +64,7 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize, Vector initScale)
     calcBoundingBox(pScene, BoundingBox);
     MeshCount = pScene->mNumMeshes;
     pMeshes = new Mesh[MeshCount];
-    std::cout << MeshCount << std::endl;
+   // std::cout << MeshCount << std::endl;
 
     //Scene Besteht aus mehreren meshes und jedes muss asu der datei geladen werden
     for (size_t i = 0; i < MeshCount; i++) {

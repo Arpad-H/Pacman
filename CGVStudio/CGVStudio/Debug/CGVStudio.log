@@ -1,5 +1,5 @@
-﻿  Pacman.cpp
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(6,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(51,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(55,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  Level.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(17,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(98,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(99,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\CGVStudio\Debug\CGVStudio.exe
