@@ -50,7 +50,7 @@ const Texture* Texture::LoadShared(const char* Filename)
     if(!pTex->load(Filename) )
     {
         delete pTex;
-        std::cout << "WARNING: Texture " << Filename << " not loaded (not found).\n";
+       // std::cout << "WARNING: Texture " << Filename << " not loaded (not found).\n";
         return NULL;
     }
     
@@ -121,7 +121,7 @@ bool Texture::load( const char* Filename)
     
     if(ImageFormat == FIF_UNKNOWN)
     {
-        std::cout << "Warning: Unkown texture format: " << Filename << std::endl;
+//        std::cout << "Warning: Unkown texture format: " << Filename << std::endl;
         return false;
     }
     
@@ -129,7 +129,7 @@ bool Texture::load( const char* Filename)
     
     if(pBitmap==NULL)
     {
-        std::cout << "Warning: Unable to open texture image " << Filename << std::endl;
+   //     std::cout << "Warning: Unable to open texture image " << Filename << std::endl;
         return false;
     }
     

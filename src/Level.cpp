@@ -96,6 +96,19 @@ int Level::isWall(Vector pos)
 {
 	int z = (int)(pos.Z + (size / 2)) ;
 	int x = (int)(pos.X + (size / 2)) ;
-	if (z < 0 || z >= size || x < 0 || x >= size) return -1;
-	return activeFace->layout->maze[z][x].isWall;
+	int y = (int)(pos.Y + (size / 2)) ;
+//	if (z < 0 || z >= size || x < 0 || x >= size || y < 0 || y >= size) return -1;
+//	return activeFace->layout->maze[z][x].isWall;
+	return 0;
+}
+void Level::consumeDot(Vector pos)
+{
+
+	for (ModelList::iterator it = activeFace->DotModels.begin(); it != activeFace->DotModels.end(); it++) {
+		if (((*it)->transform().translation() - pos).length() < 0.8f) {
+			activeFace->DotModels.erase(it);
+			cout << "Dot consumed" << endl;
+			return;
+		}
+	}
 }

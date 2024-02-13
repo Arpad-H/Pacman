@@ -104,7 +104,7 @@ void Application::update()
     //Apply Transformation to camera to follow pacman
     Matrix m,rotc,offsetc,tilt;
     m.identity();
-    tilt.rotationX(toRad(-45));
+    tilt.rotationX(toRad(-75));
     offsetc.translation(0,0,16);
     //rotc.rotationY(toRad(180));
     Matrix pacmanloca;

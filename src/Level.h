@@ -23,6 +23,7 @@ public:
     int isWall(Vector pos);
     Face* activeFace;
     float size;
+    void consumeDot(Vector pos);
 protected:
     BaseModel* pModel;
     ModelList Models;

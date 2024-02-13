@@ -26,6 +26,7 @@ class Face : public BaseModel
 	Face* neighbouringFaces[4];
 	Maze* layout;
 	void setNeighbouringFaces(Face* f1, Face* f2, Face* f3, Face* f4);
+	ModelList DotModels;
 protected:
 	Matrix buildM;
 	ModelList WallModels;

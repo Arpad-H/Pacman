@@ -265,7 +265,7 @@ void Model::applyMaterial(unsigned int index)
 
     PhongShader* pPhong = dynamic_cast<PhongShader*>(shader());
     if (!pPhong) {
-        std::cout << "Model::applyMaterial(): WARNING Invalid shader-type. Please apply PhongShader for rendering models.\n";
+        //std::cout << "Model::applyMaterial(): WARNING Invalid shader-type. Please apply PhongShader for rendering models.\n";
         return;
     }
 
@@ -280,7 +280,7 @@ void Model::applyMaterial(unsigned int index)
 void Model::draw(const BaseCamera& Cam)
 {
     if (!pShader) {
-        std::cout << "BaseModel::draw() no shader found" << std::endl;
+       // std::cout << "BaseModel::draw() no shader found" << std::endl;
         return;
     }
     pShader->modelTransform(transform());
