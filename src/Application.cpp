@@ -106,20 +106,14 @@ void Application::update()
     m.identity();
     tilt.rotationX(toRad(-75));
     offsetc.translation(0,0,16);
-    //rotc.rotationY(toRad(180));
-    Matrix pacmanloca;
-    //pacmanloca.identity();
-    pacmanloca.translation(pacman->pacmanModel->transform().translation());
+  
+    //Adjust the Camera to follow pacman while keeping its orientation
+    Matrix pc = pacman->pacmanModel->transform();
+    Matrix view;
+    Vector pos = pc.translation() + level.lastFace->faceModel->transform().translation() + pc.up().toUnitVector() * 16;
     
-    //m *= pacman->pacmanModel->transform()*tilt*offsetc;
-    m *= pacmanloca*tilt*offsetc;
-    //Matrix rotZ;
-    //rotZ.rotationYawPitchRoll(0,0,toRad(-90));
-    //m *= pacman->pacmanModel->transform()*offsetc*rotZ;
-   
-   // m *= pacmanloca*tilt*offsetc;
-    m.invert();
-    Cam.setViewMatrix(m);
+    view.lookAt(pc.translation(), pc.up(), pos);
+    Cam.setViewMatrix(view);
 //Cam.update();
 
     //Update all game objects with the current delta time

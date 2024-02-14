@@ -17,6 +17,7 @@ public:
     virtual void update(float dtime);
     virtual void draw(const BaseCamera& Cam);
     Matrix initTransform;
+    Matrix scale;
    
 };
 #endif /* GameObject_hpp */

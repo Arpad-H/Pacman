@@ -18,6 +18,7 @@ public:
 	Model* pacmanModel;
 	void setLevel(Level* level);
 protected:
+	void snapToGrid(Vector &pos,Vector posOffset);
 	void reajust();
 	void transition(float time);
 	float transitionTime = -0.4;

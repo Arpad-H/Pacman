@@ -78,7 +78,10 @@ Vector& Vector::normalize() {
 Vector& Vector::toUnitVector()
 {
     //convert a vector to a unit vector based on biggest value
-    //this->normalize();
+    // it works in this application because we are only using it 
+    // on direction vectors (up,forward,right) which are always
+    // going to be 1 in one direction and 0 in the others (due to 4 directional movement)
+    // avoids floating point precision errors
     float max = abs(X);
     if (abs(Y) > max) {
 		max = abs(Y);

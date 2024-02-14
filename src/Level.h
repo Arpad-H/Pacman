@@ -22,6 +22,7 @@ public:
     virtual void draw(const BaseCamera& Cam);
     int isWall(Vector pos);
     Face* activeFace;
+    Face* lastFace;
     float size;
     void consumeDot(Vector pos);
 protected:

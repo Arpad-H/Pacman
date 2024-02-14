@@ -78,6 +78,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	pFace_right->setNeighbouringFaces(pFace_back, pFace_bottom, pFace_front, pFace_top);
 	
 	activeFace = pFace_top;
+	lastFace = pFace_front;
 	std::cout << "Level loaded" << std::endl;
 	return true;
 }

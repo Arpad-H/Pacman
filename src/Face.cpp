@@ -14,7 +14,7 @@ Face::Face(float dimmensions, Matrix m)
 	//faceModel = new BaseModel();
 	ConstantShader* pConstShader;
 	pConstShader = new ConstantShader();
-	pConstShader->color(Color(1, 1, 1));
+	pConstShader->color(Color(0.5, 0.5, 0.5)+Color(m.up().X, m.up().Y, m.up().Z));
 	faceModel = new TrianglePlaneModel(dimmensions, dimmensions, 1, 1);
 	faceModel->shader(pConstShader, true);
 	faceModel->transform(buildM);
