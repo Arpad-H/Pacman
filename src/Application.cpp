@@ -80,8 +80,8 @@ void Application::update()
 
     //Check Controll Inputs and set pacmans direction in 
     //90 degree steps
-    if (!pacman->transitionState)
-    {
+    //if (!pacman->transitionState)
+  //  {
         if (glfwGetKey(pWindow, GLFW_KEY_W)) {
             dir = 0;
         }
@@ -105,9 +105,9 @@ void Application::update()
         //Update all game objects with the current delta time
         updateGameObjects(deltaTime);
         currentView = Cam.getViewMatrix();
-    }
+   // }
 
-
+/*
     //Apply Transformation to camera to follow pacman
     Matrix m, rotc, offsetc, tilt;
     m.identity();
@@ -135,9 +135,12 @@ void Application::update()
     else
     {
         Cam.setViewMatrix(view);
-    }
-    
-//Cam.update();
+    }*/
+    Matrix pc = pacman->pacmanModel->transform();
+    Matrix view;
+    Vector pos = pc.translation() + level.lastFace->faceModel->transform().translation() + pc.up().toUnitVector() * 16;
+    view.lookAt(pc.translation(), pc.up(), Vector(0,25,10));
+Cam.setViewMatrix(view);
 
     
 }

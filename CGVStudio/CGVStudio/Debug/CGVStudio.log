@@ -1,6 +1,99 @@
-﻿  Application.cpp
+﻿  Aabb.cpp
+  Application.cpp
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Application.cpp(37,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Application.cpp(42,21): warning C4101: 'pConstShader': unreferenced local variable
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Application.cpp(41,16): warning C4101: 'pModel': unreferenced local variable
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Application.cpp(43,18): warning C4101: 'pPhongShader': unreferenced local variable
-  CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\CGVStudio\Debug\CGVStudio.exe
+  BaseModel.cpp
+  BaseShader.cpp
+  Camera.cpp
+  color.cpp
+  ConstantShader.cpp
+  Face.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(40,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(50,77): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(50,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Ghost.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Ghost.cpp(6,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  IndexBuffer.cpp
+  Level.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(17,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  LineBoxModel.cpp
+  LinePlaneModel.cpp
+  main.cpp
+  Matrix.cpp
+  Maze.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Maze.cpp(14,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Model.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Model.cpp(83,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Model.cpp(128,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Model.cpp(137,34): warning C4018: '<': signed/unsigned mismatch
+  Pacman.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(6,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(65,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(66,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(67,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(103,29): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(137,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(138,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(142,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(143,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(147,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(148,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  PhongShader.cpp
+  rgbimage.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(37,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(38,17): warning C4244: 'return': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(110,22): warning C4566: character represented by universal-character-name '\uFFFD' cannot be represented in the current code page (1252)
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(118,13): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(118,32): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(118,47): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(126,13): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(126,24): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(126,40): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(126,57): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(125,13): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(125,30): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(125,44): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(126,13): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(126,34): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(126,50): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+  Generating Code...
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Matrix.cpp(441): warning C4172: returning address of local variable or temporary: result
+  Compiling...
+  Scene.cpp
+  GameObject.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\GameObject.cpp(9,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  TerrainShader.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(4,78): error C2665: 'PhongShader::PhongShader': no overloaded function could convert all the argument types
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\PhongShader.h(87,1): message : could be 'PhongShader::PhongShader(PhongShader &&)'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(4,78): message : 'PhongShader::PhongShader(PhongShader &&)': cannot convert argument 1 from 'bool' to 'PhongShader &&'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(4,79): message : Reason: cannot convert from 'bool' to 'PhongShader'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(4,79): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\PhongShader.h(87,1): message : or       'PhongShader::PhongShader(const PhongShader &)'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(4,78): message : 'PhongShader::PhongShader(const PhongShader &)': cannot convert argument 1 from 'bool' to 'const PhongShader &'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(4,79): message : Reason: cannot convert from 'bool' to 'const PhongShader'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(4,79): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(4,78): message : while trying to match the argument list '(bool)'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(8,10): error C3861: 'load': identifier not found
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(10,34): error C2248: 'PhongShader::assignLocations': cannot access private member declared in class 'PhongShader'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\PhongShader.h(53,10): message : see declaration of 'PhongShader::assignLocations'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\PhongShader.h(30,7): message : see declaration of 'PhongShader'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(13,17): error C3861: 'getParameterID': identifier not found
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(14,18): error C3861: 'getParameterID': identifier not found
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(15,18): error C3861: 'getParameterID': identifier not found
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(22,27): error C3861: 'getParameterID': identifier not found
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(37,5): error C3861: 'setParameter': identifier not found
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(38,5): error C3861: 'setParameter': identifier not found
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\TerrainShader.cpp(54,9): error C3861: 'setParameter': identifier not found
+  Texture.cpp
+  TriangleBoxModel.cpp
+  TrianglePlaneModel.cpp
+  TriangleSphereModel.cpp
+  vector.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(93,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(99,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(105,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  VertexBuffer.cpp
+  Generating Code...
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(112): warning C4172: returning address of local variable or temporary

@@ -19,12 +19,14 @@ public:
 	void setLevel(Level* level);
 	bool transitionState = false;
 protected:
+	Matrix faceAdaptation;
 	void snapToGrid(Vector &pos,Vector posOffset);
 	void reajust();
 	void transition();
 	float speed;
 	Level* level;
 	float dir;
+	Vector test = Vector(0,0,-1);
 };
 
 #endif  /* Pacman_hpp */

@@ -71,7 +71,7 @@ void Face::update(float dtime)
 void Face::draw(const BaseCamera& Cam)
 {
 	for (ModelList::iterator it = WallModels.begin(); it != WallModels.end(); it++) {
-		(*it)->draw(Cam);
+	//	(*it)->draw(Cam);
 	}
 	for (ModelList::iterator it = DotModels.begin(); it != DotModels.end(); it++) {
 		(*it)->draw(Cam);

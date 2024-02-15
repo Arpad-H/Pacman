@@ -7,6 +7,7 @@ static float toRad(float deg) { return deg * M_PI / 180.0f; }
 
 Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 {
+ 
 	pacmanModel = new Model();
 	loadModels(ModelFilePath, FitSize, initScale, *pacmanModel);	
 	//scale
@@ -14,8 +15,10 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 
 	speed = 4;
 	Matrix startPos,rotation;
+	//faceAdaptation.identity();
 	rotation.rotationYawPitchRoll(toRad(  180), 0, 0);
 	initTransform = rotation*pacmanModel->transform();
+	//(initTransform = rotation*pacmanModel->transform();
 	startPos.translation(Vector(0, 16, 0));
 	pacmanModel->transform(startPos* initTransform);
 	//std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
@@ -47,14 +50,15 @@ void Pacman::update(float dtime)
 	Vector pos;
 	Matrix updatedLoc;
 	//add the new position to the current position
-	cout << pacmanModel->transform().translation().X << " " << pacmanModel->transform().translation().Y << " " << pacmanModel->transform().translation().Z << endl;
+	//cout << pacmanModel->transform().translation().X << " " << pacmanModel->transform().translation().Y << " " << pacmanModel->transform().translation().Z << endl;
 	pos = pacmanModel->transform().translation() + posOffset;
 	
 	//TODO cuz this aint working with snaping to grid
 	//check if in levelbounds 
 	Vector v = level->activeFace->faceModel->transform().translation();
 	Vector levelboundsVec =  pos-v;
-	if (abs(levelboundsVec.X) > 16 || abs(levelboundsVec.Y) > 16|| abs(levelboundsVec.Z) > 16)
+	//if (abs(levelboundsVec.X) > 16 || abs(levelboundsVec.Y) > 16|| abs(levelboundsVec.Z) > 16)
+	if (false)
 	{
 		cout << "out of bounds" << endl;
 		pos = pos - posOffset;
@@ -62,10 +66,11 @@ void Pacman::update(float dtime)
 	    pos.Y = (int)(pos.Y);
 		pos.Z = (int)(pos.Z);
 		pos = pacmanModel->transform().translation() - pacmanModel->transform().up().toUnitVector() + posOffset.toUnitVector()*0.5 ;
+		reajust(); //set the active face to the new face
 		transition();
 		updatedLoc.translation(pos);
 		pacmanModel->transform(updatedLoc * initTransform * mrot);
-		reajust(); //set the active face to the new face
+		
 		return;
 	}else{
 		
@@ -85,9 +90,31 @@ void Pacman::update(float dtime)
 	
 
 	updatedLoc.translation(pos);
-	pacmanModel->transform(updatedLoc*initTransform*mrot);
 
-	std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
+	
+	//Vector pcmtrans = pcmt.translation();
+	//std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().left().toUnitVector().Y << " " << pacmanModel->transform().left().toUnitVector().Z << std::endl;
+	Vector pcmtrans = pos;
+	//cout << "pos: " << pcmtrans.X << " " << pcmtrans.Y << " " << pcmtrans.Z << endl;
+	Vector temp = pos + pacmanModel->transform().up().toUnitVector();
+	//cout << "temp: " << temp.X << " " << temp.Y << " " << temp.Z << endl;
+	Vector faceNormal = level->activeFace->faceModel->transform().up();
+	//cout << "faceNormal: " << faceNormal.X << " " << faceNormal.Y << " " << faceNormal.Z << endl;
+	test = test + test * dtime*0.1;
+	//pos = pos - posOffset;
+	//pos = pos + posOffset*0.1;
+	faceAdaptation.lookAt(pos+ pacmanModel->transform().left().toUnitVector()*100, faceNormal,pos);
+	faceAdaptation.invert();
+	
+	
+	//pacmanModel->transform(faceAdaptation*mrot*initTransform);
+	
+	Matrix pcmt = updatedLoc * mrot * initTransform;
+	pcmt.up(Vector(0, 1, -1));
+	pacmanModel->transform(pcmt);
+	 
+
+	std::cout << "forward: " << pacmanModel->transform().up().toUnitVector().X << " " << pacmanModel->transform().up().toUnitVector().Y << " " << pacmanModel->transform().up().toUnitVector().Z << std::endl;
 	//std::cout << "right: " << pacmanModel->transform().right().toUnitVector().X << " " << pacmanModel->transform().right().toUnitVector().Y << " " << pacmanModel->transform().right().toUnitVector().Z << std::endl;
 	
 
@@ -149,12 +176,14 @@ void Pacman::reajust()
 void Pacman::transition()
 {
 	
+	
+	
 	cout<<"transition"<<endl;
 	transitionState = true;
 	Matrix mrot;
 	mrot.rotationYawPitchRoll(0, toRad(-90), 0);
 	//mrot.rotationYawPitchRoll(toRad(180), toRad(-90), toRad(90));
-	initTransform = mrot*initTransform  ;
+	//initTransform = mrot*initTransform  ;
 	//initTransform = mrot*scale;
 	
 	
