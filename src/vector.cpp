@@ -107,6 +107,15 @@ Vector& Vector::toUnitVector()
 	return *this;
 }
 
+Vector& Vector::lerp(const Vector& other, float t)
+{
+    return Vector(
+        X * (1.0f - t) + other.X * t,
+        Y * (1.0f - t) + other.Y * t,
+        Z * (1.0f - t) + other.Z * t
+    );
+}
+
 float Vector::length() const {
 
     return sqrt(lengthSquared());

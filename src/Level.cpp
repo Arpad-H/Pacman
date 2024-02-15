@@ -70,7 +70,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	Face* pFace_front = new Face(dimX, t * r);
 	Faces.push_back(pFace_front);
 	//                                 0            90           180          270
-	pFace_top->setNeighbouringFaces(pFace_back, pFace_right, pFace_front, pFace_left);
+	pFace_top->setNeighbouringFaces(pFace_back, pFace_left, pFace_front, pFace_right);
 	pFace_bottom->setNeighbouringFaces(pFace_front, pFace_right, pFace_back, pFace_left);
 	pFace_front->setNeighbouringFaces(pFace_top, pFace_right, pFace_bottom, pFace_left);
 	pFace_back->setNeighbouringFaces(pFace_bottom, pFace_right, pFace_top, pFace_left);

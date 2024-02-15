@@ -49,7 +49,8 @@ protected:
     float time;
     float dir = -1;
     std::chrono::high_resolution_clock::time_point lastFrameTime;
-
+    float transitionTime = 0;
+    Matrix currentView;
 };
 
 #endif /* Application_hpp */

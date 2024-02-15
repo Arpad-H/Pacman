@@ -22,6 +22,7 @@ public:
     Vector operator-() const;
     Vector& normalize();
     Vector& toUnitVector();
+    Vector& lerp(const Vector& other, float t);
     float length() const;
     float lengthSquared() const;
     void toString()const;

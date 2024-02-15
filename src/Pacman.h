@@ -17,11 +17,11 @@ public:
 	void draw(const BaseCamera& Cam);
 	Model* pacmanModel;
 	void setLevel(Level* level);
+	bool transitionState = false;
 protected:
 	void snapToGrid(Vector &pos,Vector posOffset);
 	void reajust();
-	void transition(float time);
-	float transitionTime = -0.4;
+	void transition();
 	float speed;
 	Level* level;
 	float dir;

@@ -26,6 +26,7 @@ public:
     float size;
     void consumeDot(Vector pos);
 protected:
+   
     BaseModel* pModel;
     ModelList Models;
     FacesList Faces;

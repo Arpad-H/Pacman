@@ -80,44 +80,65 @@ void Application::update()
 
     //Check Controll Inputs and set pacmans direction in 
     //90 degree steps
-    if (glfwGetKey(pWindow, GLFW_KEY_W)){
-       dir = 0;
-    }
-    else if (glfwGetKey(pWindow, GLFW_KEY_S))
+    if (!pacman->transitionState)
     {
-       dir = 180;
+        if (glfwGetKey(pWindow, GLFW_KEY_W)) {
+            dir = 0;
+        }
+        else if (glfwGetKey(pWindow, GLFW_KEY_S))
+        {
+            dir = 180;
+        }
+        else if (glfwGetKey(pWindow, GLFW_KEY_D)) {
+            dir = 270;
+        }
+        else if (glfwGetKey(pWindow, GLFW_KEY_A)) {
+            dir = 90;
+        }
+
+
+        double xpos, ypos;
+        glfwGetCursorPos(pWindow, &xpos, &ypos);
+
+        //Handle updating variables necessery for pacman
+        pacman->steer(dir);
+        //Update all game objects with the current delta time
+        updateGameObjects(deltaTime);
+        currentView = Cam.getViewMatrix();
     }
-    else if (glfwGetKey(pWindow, GLFW_KEY_D)) {
-       dir=270;
-    }
-    else if (glfwGetKey(pWindow, GLFW_KEY_A)) {
-       dir=90;
-    }
-  
-   
-    double xpos, ypos;
-    glfwGetCursorPos(pWindow, &xpos, &ypos);
-   
-    //Handle updating variables necessery for pacman
-    pacman->steer(dir);
-    
+
+
     //Apply Transformation to camera to follow pacman
-    Matrix m,rotc,offsetc,tilt;
+    Matrix m, rotc, offsetc, tilt;
     m.identity();
     tilt.rotationX(toRad(-75));
-    offsetc.translation(0,0,16);
-  
+    offsetc.translation(0, 0, 16);
     //Adjust the Camera to follow pacman while keeping its orientation
     Matrix pc = pacman->pacmanModel->transform();
     Matrix view;
     Vector pos = pc.translation() + level.lastFace->faceModel->transform().translation() + pc.up().toUnitVector() * 16;
-    
     view.lookAt(pc.translation(), pc.up(), pos);
-    Cam.setViewMatrix(view);
+    if (pacman->transitionState)
+    {
+        transitionTime += deltaTime;
+        float  t = std::min(1.0f, std::max(0.0f, transitionTime));
+
+        Matrix lerpedView = Matrix::lerp(currentView, view, t);
+        //lerpedView.print();
+        Cam.setViewMatrix(lerpedView);
+        if (transitionTime >= 1.0f)
+        {
+            pacman->transitionState = false;
+            transitionTime = 0;
+        }
+    }
+    else
+    {
+        Cam.setViewMatrix(view);
+    }
+    
 //Cam.update();
 
-    //Update all game objects with the current delta time
-    updateGameObjects(deltaTime); 
     
 }
 void Application::updateGameObjects(float deltaTime) {

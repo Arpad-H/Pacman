@@ -432,6 +432,25 @@ float Matrix::determinat()
     m01 * (m10 * m22 - m12 * m20) +
     m02 * (m10 * m21 - m11 * m20);
 }
+Matrix& Matrix::lerp(const Matrix& start, const Matrix& end, float t)
+{
+    Matrix result;
+    for (int i = 0; i < 16; ++i) {
+        result.m[i] = start.m[i] * (1.0f - t) + end.m[i] * t;
+    }
+    return result;
+
+}
+
+void Matrix::print()
+{
+printf("%f %f %f %f\n", m00, m01, m02, m03);
+	printf("%f %f %f %f\n", m10, m11, m12, m13);
+	printf("%f %f %f %f\n", m20, m21, m22, m23);
+	printf("%f %f %f %f\n", m30, m31, m32, m33);
+	printf("\n");
+}
+
 
 
 
