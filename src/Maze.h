@@ -23,6 +23,8 @@ public:
     virtual ~Maze();
     Maze(int size);
     void display();
+    // get Size of the maze
+    int getSize() const;
 vector<vector<Cell>> maze;
 private:
     int size;

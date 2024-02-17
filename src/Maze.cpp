@@ -26,6 +26,11 @@ void  Maze::display() {
 	}
 }
 
+int Maze::getSize() const
+{
+	return this->size;
+}
+
 void Maze::initMaze() {
 	maze = vector<vector<Cell>>(size, vector<Cell>(size));
 	for (int i = 0; i < size; ++i)
