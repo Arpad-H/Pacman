@@ -18,7 +18,9 @@ public:
 	Model* pacmanModel;
 	void setLevel(Level* level);
 	bool transitionState = false;
+	void registerCamera(Camera* camera);
 protected:
+	Camera* camera;
 	Matrix faceAdaptation;
 	void snapToGrid(Vector &pos,Vector posOffset);
 	void reajust();

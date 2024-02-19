@@ -39,6 +39,7 @@ void Camera::setPosition( const Vector& Pos)
 
 
 }
+
 void Camera::setTarget( const Vector& Target)
 {
     m_Target = Target;

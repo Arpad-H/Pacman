@@ -74,17 +74,16 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	pFace_bottom->setNeighbouringFaces(pFace_front, pFace_right, pFace_back, pFace_left);
 	pFace_front->setNeighbouringFaces(pFace_top, pFace_right, pFace_bottom, pFace_left);
 	pFace_back->setNeighbouringFaces(pFace_bottom, pFace_right, pFace_top, pFace_left);
-	pFace_left->setNeighbouringFaces(pFace_back, pFace_top, pFace_front, pFace_bottom);
+	pFace_left->setNeighbouringFaces(pFace_back, pFace_bottom, pFace_front, pFace_bottom);
 	pFace_right->setNeighbouringFaces(pFace_back, pFace_bottom, pFace_front, pFace_top);
 	
 	activeFace = pFace_top;
-	lastFace = pFace_front;
+	forwardFacingFace = pFace_front;
 	std::cout << "Level loaded" << std::endl;
 	return true;
 }
 void Level::update(float dtime)
 {
-	
 }
 void Level::draw(const BaseCamera& Cam)
 {

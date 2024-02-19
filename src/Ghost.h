@@ -25,10 +25,10 @@ protected:
     Vector target; // Current target position
     void chooseDirection(); // Method to decide the next direction based
     void moveToTarget(float dtime); // Method to move towards the target
-    vector<Cell> findPath(const Maze& maze, const Cell& start, const Cell& target);
+   // vector<Cell> findPath(const Maze& maze, const Cell& start, const Cell& target);
 
 private:
-    vector<Cell> reconstructPath(map<Cell, Cell>& predecessor, const Cell& target);
+    //vector<Cell> reconstructPath(map<Cell, Cell>& predecessor, const Cell& target);
 
 };
 

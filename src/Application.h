@@ -36,6 +36,7 @@ public:
     void end();
     void setupLevel();
 protected:
+   
     Pacman* pacman;
     Camera Cam;
     ModelList Models;

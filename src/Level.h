@@ -22,14 +22,15 @@ public:
     virtual void draw(const BaseCamera& Cam);
     int isWall(Vector pos);
     Face* activeFace;
-    Face* lastFace;
+    Face* forwardFacingFace;
     float size;
     void consumeDot(Vector pos);
+    FacesList Faces;
 protected:
    
     BaseModel* pModel;
     ModelList Models;
-    FacesList Faces;
+ 
 
 };
 

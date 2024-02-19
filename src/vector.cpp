@@ -75,6 +75,8 @@ Vector& Vector::normalize() {
     return *this;
 }
 
+
+
 Vector& Vector::toUnitVector()
 {
     //convert a vector to a unit vector based on biggest value

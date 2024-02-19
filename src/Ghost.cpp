@@ -28,8 +28,8 @@ void Ghost::setLevel(Level* level)
 void Ghost::update(float dtime)
 {
     // AI to decide movement, targeting, etc.
-    chooseDirection();
-    moveToTarget(dtime);
+    //chooseDirection();
+   // moveToTarget(dtime);
 }
 
 void Ghost::draw(const BaseCamera& Cam)
@@ -53,6 +53,7 @@ void Ghost::moveToTarget(float dtime)
     // Movement logic can be adapted from Pacman::update, with modifications for ghost-specific behavior
 }
 
+/*
 vector<Cell> Ghost::findPath(const Maze& maze, const Cell& start, const Cell& target) {
     vector<vector<bool>> visited(maze.getSize(), vector<bool>(maze.getSize(), false));
     map<Cell, Cell> predecessor;
@@ -91,7 +92,6 @@ vector<Cell> Ghost::findPath(const Maze& maze, const Cell& start, const Cell& ta
     // If no path found
     return vector<Cell>();
 }
-
 vector<Cell> Ghost::reconstructPath(map<Cell, Cell>& predecessor, const Cell& target) {
     vector<Cell> path;
     for (Cell at = target; predecessor.find(at) != predecessor.end(); at = predecessor[at]) {
@@ -99,4 +99,4 @@ vector<Cell> Ghost::reconstructPath(map<Cell, Cell>& predecessor, const Cell& ta
     }
     reverse(path.begin(), path.end());
     return path;
-}
+}*/

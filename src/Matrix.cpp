@@ -383,9 +383,9 @@ Matrix& Matrix::invert()
     m33 = (((num5 * num27) - (num4 * num25)) + (num3 * num24)) * num;
     return *this;
 }
-Matrix& Matrix::lookAt(const Vector& Target, const Vector& Up, const Vector& Position )
+Matrix& Matrix::lookAt(const Vector& Target, const Vector& Up, const Vector& Position)
 {
-    Vector f = Target-Position;
+    Vector f = Target - Position;
     f.normalize();
     Vector u = Up;
     u.normalize();

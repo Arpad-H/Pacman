@@ -21,6 +21,7 @@ public:
     Vector operator*(float c) const;
     Vector operator-() const;
     Vector& normalize();
+   // Vector& max_element();
     Vector& toUnitVector();
     Vector& lerp(const Vector& other, float t);
     float length() const;
