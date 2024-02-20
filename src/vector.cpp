@@ -12,14 +12,52 @@ Vector::Vector(float x, float y, float z) {
 }
 
 Vector::Vector() {
-    // nichts?
+  
 }
 
-//               const Vector& = cannot modify Vector v
-//                                 const = cant change class member variables || unless variable marked mutable
-float Vector::dot(const Vector& v) const //pass by refrence?
+float Vector::dot(const Vector& v) const 
 {
     return v.X * X + v.Y * Y + v.Z * Z;
+}
+
+float Vector::at(int i) const
+{
+    switch (i)
+    {
+        case 0:
+		return X;
+		break;
+        case 1:
+        return Y;
+        break;
+        case 2:
+        return Z;
+        break;
+        default:
+        break;
+    }
+}
+//helper function to get the index of the non zero value of a vector
+//due to the nature if rightangled movement, in some cases we can assume that
+//the vector will only have one non zero value
+float Vector::nonZeroIndex() const
+{
+    if (X != 0)
+    {
+        return 0;
+    }
+	else if (Y != 0)
+	{
+		return 1;
+	}
+	else if (Z != 0)
+	{
+		return 2;
+	}
+	else
+	{
+		return -1;
+}
 }
 
 Vector Vector::cross(const Vector& v) const {
@@ -27,6 +65,11 @@ Vector Vector::cross(const Vector& v) const {
         (Z * v.X) - (X * v.Z),
         (X * v.Y) - (Y * v.X));
     return result;
+}
+
+Vector Vector::componentwiseMult(const Vector& v) const
+{
+   return Vector(X * v.X, Y * v.Y, Z * v.Z);
 }
 
 
@@ -59,7 +102,6 @@ Vector Vector::operator-() const {
 
 
 Vector& Vector::operator+=(const Vector& v) {
-    // TODO: Read up on this crap, the refrencing that is
     this->X += v.X;
     this->Y += v.Y;
     this->Z += v.Z;
@@ -129,7 +171,6 @@ float Vector::lengthSquared() const {
 }
 
 Vector Vector::reflection(const Vector& normal) const {
-    //TODO read up on this mess
     float dotProduct = dot(normal);
     Vector v = Vector(2 * dotProduct * normal.X,
         2 * dotProduct * normal.Y,

@@ -20,12 +20,13 @@ public:
     bool loadLevel(float dimX, float dimY,float segments );
     void update(float dtime);
     virtual void draw(const BaseCamera& Cam);
-    int isWall(Vector pos);
+    int isWall(Vector pos, float pos2dRow, float pos2dCol);
     Face* activeFace;
     Face* forwardFacingFace;
     float size;
     void consumeDot(Vector pos);
     FacesList Faces;
+    int score;
 protected:
    
     BaseModel* pModel;

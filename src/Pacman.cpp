@@ -20,6 +20,7 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 	initTransform = rotation*pacmanModel->transform();
 	startPos.translation(Vector(0, 16, 0));
 	pacmanModel->transform(startPos* initTransform);
+	camRefrencePoint.translation(Vector(0, 0, 16));
 	std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
 	std::cout << "right: " << pacmanModel->transform().right().toUnitVector().X << " " << pacmanModel->transform().right().toUnitVector().Y << " " << pacmanModel->transform().right().toUnitVector().Z << std::endl;
 }
@@ -62,25 +63,18 @@ void Pacman::update(float dtime)
 	
 	Vector pos;
 	Matrix updatedLoc;
-	//add the new position to the current position
-	//cout << pacmanModel->transform().translation().X << " " << pacmanModel->transform().translation().Y << " " << pacmanModel->transform().translation().Z << endl;
 	pos = pacmanModel->transform().translation() + posOffset;
-	
-	//TODO cuz this aint working with snaping to grid
-	//check if in levelbounds 
 	Vector v = level->activeFace->faceModel->transform().translation();
 	Vector levelboundsVec =  pos-v;
 	if (abs(levelboundsVec.X) > 16 || abs(levelboundsVec.Y) > 16|| abs(levelboundsVec.Z) > 16)
-	//if (false)
 	{
-		cout << "out of bounds" << endl;
 		pos = pos - posOffset;
 		pos.X = (int)(pos.X);
 	    pos.Y = (int)(pos.Y);
 		pos.Z = (int)(pos.Z);
 		pos = pacmanModel->transform().translation() - pacmanModel->transform().up().toUnitVector() + posOffset.toUnitVector()*0.5 ;
-		reajust(); //set the active face to the new face
 		transition();
+		reajust();
 		updatedLoc.translation(pos);
 		pacmanModel->transform(updatedLoc * initTransform * faceAdaptation * mrot);
 		
@@ -88,13 +82,17 @@ void Pacman::update(float dtime)
 	}else{
 		
 		//check if the new position is a wall
-		int levelbounds = level->isWall(pos + pacmanModel->transform().forward().toUnitVector() * 0.5);
+		Vector wallcheck = pos + pacmanModel->transform().forward().toUnitVector() * 0.5;
+		float pos2dRow = wallcheck.at(wallcheck.componentwiseMult( pacmanModel->transform().forward().toUnitVector()).nonZeroIndex());
+		float pos2dCol = wallcheck.at(wallcheck.componentwiseMult( pacmanModel->transform().right().toUnitVector()).nonZeroIndex());
+		
+		int levelbounds = level->isWall(wallcheck, pos2dRow, pos2dCol);
 		if (levelbounds == 1)
 		{
 		pos = pacmanModel->transform().translation();
 		}
 	}
-	//snapToGrid(pos, posOffset);
+	snapToGrid(pos, posOffset);
 	
 	level->consumeDot(pos);
 	
@@ -146,76 +144,62 @@ void Pacman::snapToGrid(Vector &pos, Vector posOffset)
 
 void Pacman::reajust()
 {
-	int index = 0;
-	switch ((int)dir)
-	{
-	case 0:
-		index = 0;
-		break;
-	case 90:
-		index = 1;
-		break;
-	case 180:
-		index = 2;
-		break;
-	case 270:
-		index = 3;
-		break;
-	default:
-		break;
-	}
-
-	level->activeFace = level->activeFace->neighbouringFaces[index];
-
-	Camera cam = *camera;
-	Matrix temp = cam.getViewMatrix();
-	temp.invert();
-	temp = faceAdaptation*temp;
-	Vector camPos = temp.translation();
- // biggest value of camPos	
-
-	Vector offestToCenter = level->activeFace->faceModel->transform().translation() - pacmanModel->transform().translation();
-	camPos = camPos + offestToCenter;
+	Vector pacmanLoc = pacmanModel->transform().translation();
 	Face* closest = *level->Faces.begin();
 	float closestDistance = 10000;
 	for (Face* face : level->Faces) {
 		Vector faceCenter = face->faceModel->transform().translation();
-		Vector faceToCam = camPos - faceCenter;
-		float distance = faceToCam.length();
+		Vector faceToPacman = pacmanLoc - faceCenter;
+		float distance = faceToPacman.length();
+		if (distance < closestDistance && face != level->activeFace) {
+			closest = face;
+			closestDistance = distance;
+		}
+	}
+	level->activeFace = closest;
+
+
+	Vector refrencePoint = camRefrencePoint.translation();
+	closest = *level->Faces.begin();
+	closestDistance = 10000;
+	for (Face* face : level->Faces) {
+		Vector faceCenter = face->faceModel->transform().translation();
+		Vector faceToRefrencePoint = refrencePoint - faceCenter;
+		float distance = faceToRefrencePoint.length();
 		if (distance < closestDistance && face != level->activeFace) {
 			closest = face;
 			closestDistance = distance;
 		}
 	}
 	level->forwardFacingFace = closest;
-
-	
-	
 }
 
 void Pacman::transition()
 {
 	
-	cout<<"transition"<<endl;
 	transitionState = true;
-	Matrix mrot1;
+	Matrix mrot1,mrot2;
 
-	Vector right = pacmanModel->transform().left().toUnitVector()*90;
-	if (right.X)
+	Vector left = pacmanModel->transform().left().toUnitVector()*90;
+	if (left.X)
 	{
-		mrot1.rotationX(toRad(right.X));
+		mrot1.rotationX(toRad(left.X));
+		mrot2.rotationX(toRad(-left.X));
 	}
-	else if (right.Y)
+	else if (left.Y)
 	{
-		mrot1.rotationY(toRad(right.Y));
+		mrot1.rotationY(-toRad(left.Y));
+		mrot2.rotationY(-toRad(left.Y));
 	}
-	else if (right.Z)
+	else if (left.Z)
 	{
-		mrot1.rotationZ(toRad(right.Z));
+		mrot1.rotationZ(toRad(left.Z));
+		mrot2.rotationZ(toRad(-left.Z));
 	}
 	
 	
 
 	faceAdaptation = mrot1*faceAdaptation;
+	camRefrencePoint = mrot2* camRefrencePoint;
 }
 

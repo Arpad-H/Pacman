@@ -69,13 +69,13 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	t.translation(0, 0, dimX / 2);
 	Face* pFace_front = new Face(dimX, t * r);
 	Faces.push_back(pFace_front);
-	//                                 0            90           180          270
+	/*                                0            90           180          270
 	pFace_top->setNeighbouringFaces(pFace_back, pFace_left, pFace_front, pFace_right);
 	pFace_bottom->setNeighbouringFaces(pFace_front, pFace_right, pFace_back, pFace_left);
 	pFace_front->setNeighbouringFaces(pFace_top, pFace_right, pFace_bottom, pFace_left);
 	pFace_back->setNeighbouringFaces(pFace_bottom, pFace_right, pFace_top, pFace_left);
-	pFace_left->setNeighbouringFaces(pFace_back, pFace_bottom, pFace_front, pFace_bottom);
-	pFace_right->setNeighbouringFaces(pFace_back, pFace_bottom, pFace_front, pFace_top);
+	pFace_left->setNeighbouringFaces(pFace_back, pFace_bottom, pFace_front, pFace_top);
+	pFace_right->setNeighbouringFaces(pFace_back, pFace_bottom, pFace_front, pFace_top);*/
 	
 	activeFace = pFace_top;
 	forwardFacingFace = pFace_front;
@@ -92,14 +92,13 @@ void Level::draw(const BaseCamera& Cam)
 	}
 }
 
-int Level::isWall(Vector pos)
+int Level::isWall(Vector pos, float pos2dRow, float pos2dCol)
 {
-	int z = (int)(pos.Z + (size / 2)) ;
-	int x = (int)(pos.X + (size / 2)) ;
-	int y = (int)(pos.Y + (size / 2)) ;
-//	if (z < 0 || z >= size || x < 0 || x >= size || y < 0 || y >= size) return -1;
-//	return activeFace->layout->maze[z][x].isWall;
 	return 0;
+	int row = (int)(pos2dRow + (size / 2));
+	int col = (int)(pos2dCol + (size / 2));
+
+	return activeFace->layout->maze[col][row].isWall;
 }
 void Level::consumeDot(Vector pos)
 {
@@ -107,7 +106,7 @@ void Level::consumeDot(Vector pos)
 	for (ModelList::iterator it = activeFace->DotModels.begin(); it != activeFace->DotModels.end(); it++) {
 		if (((*it)->transform().translation() - pos).length() < 0.8f) {
 			activeFace->DotModels.erase(it);
-			cout << "Dot consumed" << endl;
+			score += 10;
 			return;
 		}
 	}

@@ -28,7 +28,7 @@ protected:
 	float speed;
 	Level* level;
 	float dir;
-	Vector test = Vector(0,0,-1);
+	Matrix camRefrencePoint;
 };
 
 #endif  /* Pacman_hpp */

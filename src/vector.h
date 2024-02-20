@@ -14,7 +14,10 @@ public:
     Vector();
     
     float dot(const Vector& v) const;
+    float at(int i) const;
+    float nonZeroIndex() const;
     Vector cross(const Vector& v) const;
+    Vector componentwiseMult(const Vector& v) const;
     Vector operator+(const Vector& v) const;
     Vector operator-(const Vector& v) const;
     Vector& operator+=(const Vector& v);

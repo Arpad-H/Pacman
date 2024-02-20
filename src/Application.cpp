@@ -107,7 +107,7 @@ void Application::update()
    
    Matrix view;
    Matrix pc = pacman->pacmanModel->transform();
-   Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation() + pc.up().toUnitVector() * 16;
+   Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation()*0.4 + pc.up().toUnitVector() * 16;
    view.lookAt(pc.translation(), pc.up(), pos);
    
    if (pacman->transitionState)
@@ -115,7 +115,7 @@ void Application::update()
         transitionTime += deltaTime;
         float  t = std::min(1.0f, std::max(0.0f, transitionTime));
         Matrix lerpedView = Matrix::lerp(currentView, view, t);
-        lerpedView.print();
+        //lerpedView.print();
         Cam.setViewMatrix(lerpedView);
         if (transitionTime >= 1.0f)
         {
@@ -127,12 +127,6 @@ void Application::update()
     {
         Cam.setViewMatrix(view);
     }
-   //Cam.setViewMatrix(view);
-    /*Matrix pc = pacman->pacmanModel->transform();
-    Matrix view;
-    Vector pos = pc.translation() + level.lastFace->faceModel->transform().translation() + pc.up().toUnitVector() * 16;
-    view.lookAt(pc.translation(), pc.up(), Vector(0,25,10));
-Cam.setViewMatrix(view);*/
 }
 void Application::updateGameObjects(float deltaTime) {
     for (GameObjectList::iterator it = GameObjects.begin(); it != GameObjects.end(); ++it) {
