@@ -1,4 +1,9 @@
 #ifdef WIN32
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+//#include "imgui_impl_opengl3_loader.h"
+
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
 #else
@@ -50,17 +55,38 @@ int main () {
         Application App(window);
         App.start();
       
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 460");
+
+
         while (!glfwWindowShouldClose (window)) {
             // once per frame
-            
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
             glfwPollEvents();
             App.update();
             App.draw();
+            ImGui::Begin("Hello, world!");
+            ImGui::Text("my text yes this is text");
+            ImGui::End();
+
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
             glfwSwapBuffers (window);
         }
         App.end();
     }
-    
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
     glfwTerminate();
     return 0;
 }

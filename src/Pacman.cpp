@@ -18,7 +18,7 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 	faceAdaptation.identity();
 	rotation.rotationYawPitchRoll(toRad(  180), 0, 0);
 	initTransform = rotation*pacmanModel->transform();
-	startPos.translation(Vector(0, 16, 0));
+	startPos.translation(Vector(0, 16, -16));
 	pacmanModel->transform(startPos* initTransform);
 	camRefrencePoint.translation(Vector(0, 0, 16));
 	std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
@@ -39,9 +39,6 @@ void Pacman::update(float dtime)
 
 	Matrix  mtrans,  mrot,startloc, pcmat;
 	
-	//Handle rotation
-	//TODO: now it only rotates correcly on the Y axis (yaw) so it only works on top and bottom face
-	//mrot.rotationYawPitchRoll(toRad(dir), 0,0);
 	Vector up = pacmanModel->transform().up().toUnitVector() * 90;
 	if (up.X)
 	{
@@ -60,12 +57,11 @@ void Pacman::update(float dtime)
 
 	//calculate an offset to move the model
 	Vector posOffset = pacmanModel->transform().forward().toUnitVector() * speed * dtime;
-	
 	Vector pos;
 	Matrix updatedLoc;
 	pos = pacmanModel->transform().translation() + posOffset;
-	Vector v = level->activeFace->faceModel->transform().translation();
-	Vector levelboundsVec =  pos-v;
+	Vector activeFaceCenter = level->activeFace->faceModel->transform().translation();
+	Vector levelboundsVec =  pos- activeFaceCenter;
 	if (abs(levelboundsVec.X) > 16 || abs(levelboundsVec.Y) > 16|| abs(levelboundsVec.Z) > 16)
 	{
 		pos = pos - posOffset;
@@ -80,17 +76,68 @@ void Pacman::update(float dtime)
 		
 		return;
 	}else{
+		float levelSize = level->size;
 		
-		//check if the new position is a wall
-		Vector wallcheck = pos + pacmanModel->transform().forward().toUnitVector() * 0.5;
-		float pos2dRow = wallcheck.at(wallcheck.componentwiseMult( pacmanModel->transform().forward().toUnitVector()).nonZeroIndex());
-		float pos2dCol = wallcheck.at(wallcheck.componentwiseMult( pacmanModel->transform().right().toUnitVector()).nonZeroIndex());
-		
-		int levelbounds = level->isWall(wallcheck, pos2dRow, pos2dCol);
-		if (levelbounds == 1)
+		Vector planeOfMovement = activeFaceCenter.notVector();
+		int zeroIndex = planeOfMovement.zeroIndex();
+		Vector locationToCheck = pos + pacmanModel->transform().forward().toUnitVector()*0.5;
+		locationToCheck = locationToCheck + Vector(levelSize, levelSize, levelSize) * 0.5; // adjusted location
+		locationToCheck = locationToCheck.componentwiseMult(planeOfMovement); //to 2d plane
+		//cout << "pos: " << pos.X << " " << pos.Y << " " << pos.Z << endl;
+		//cout << "locationToCheck: " << locationToCheck.X << " " << locationToCheck.Y << " " << locationToCheck.Z << endl;
+		locationToCheck.X = (int)locationToCheck.X;
+		locationToCheck.Y = (int)locationToCheck.Y;
+		locationToCheck.Z = (int)locationToCheck.Z;
+
+		//we now hav a location in the 2d plane of the active face adjusted to fit the maze structure
+
+		int row=99;
+		int col=99;
+		/*if (zeroIndex == 0)
 		{
-		pos = pacmanModel->transform().translation();
+			row = locationToCheck.Z;
+			col = locationToCheck.Y;
+			if (activeFaceCenter.at(0) < 0)
+			{
+				int temp = row;
+				row = col;
+				col = temp;
+			}
 		}
+		else*/ if (zeroIndex == 1)
+		{
+			row = locationToCheck.X;
+			col = locationToCheck.Z;
+			/*if (activeFaceCenter.at(1) < 0)
+			{
+				int temp = row;
+				row = col;
+				col = temp;
+			}*/
+		}
+		else if (zeroIndex == 2)
+		{
+			row = locationToCheck.X;
+			col = locationToCheck.Y;
+			if (activeFaceCenter.at(2) > 0)
+			{
+				
+				//row = abs(row-levelSize);
+				int temp = row;
+				row = abs(col - (levelSize-1));
+				col = temp;
+
+			}
+		}
+		cout << "row: " << row << " col: " << col << endl;
+		if (row < levelSize && col < levelSize && row > 0 && col > 0)
+		{
+			if (level->isWall(row, col))
+			{
+				pos = pacmanModel->transform().translation();
+			}
+		}
+		
 	}
 	snapToGrid(pos, posOffset);
 	
@@ -196,8 +243,6 @@ void Pacman::transition()
 		mrot1.rotationZ(toRad(left.Z));
 		mrot2.rotationZ(toRad(-left.Z));
 	}
-	
-	
 
 	faceAdaptation = mrot1*faceAdaptation;
 	camRefrencePoint = mrot2* camRefrencePoint;

@@ -26,7 +26,7 @@ Level::~Level()
 bool Level::loadLevel(float dimX, float dimY, float segments)
 {
 	size = dimX;
-	Matrix r,t;
+	Matrix a,r,t;
 	///////////////////////////////////////////////////////
 	//top
 	///////////////////////////////////////////////////////
@@ -37,14 +37,16 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	///////////////////////////////////////////////////////
 	//bottom
 	///////////////////////////////////////////////////////
-	r.rotationZ(toRad(180));
+	r.rotationX(toRad(180));
+	a.rotationY(toRad(180));
 	t.translation(0, -dimX/2, 0);
-	Face* pFace_bottom = new Face(dimX,t*r);
+	Face* pFace_bottom = new Face(dimX,t*a*r);
 	Faces.push_back(pFace_bottom);
 	///////////////////////////////////////////////////////
 	//left
 	///////////////////////////////////////////////////////
 	r.rotationZ(toRad(90));
+	//a.rotationX(toRad(90));
 	t.translation(-dimX / 2, 0, 0);
 	Face* pFace_left = new Face(dimX, t * r);
 	Faces.push_back(pFace_left);
@@ -52,8 +54,9 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	//right
 	///////////////////////////////////////////////////////
 	r.rotationZ(toRad(-90));
+	a.rotationX(toRad(-90));
 	t.translation(dimX / 2, 0, 0);
-	Face* pFace_right = new Face(dimX, t * r);
+	Face* pFace_right = new Face(dimX, t*a * r);
 	Faces.push_back(pFace_right);
 	///////////////////////////////////////////////////////
 	//back
@@ -66,8 +69,9 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	//front
 	///////////////////////////////////////////////////////
 	r.rotationX(toRad(90));
+	a.rotationZ(toRad(-180));
 	t.translation(0, 0, dimX / 2);
-	Face* pFace_front = new Face(dimX, t * r);
+	Face* pFace_front = new Face(dimX, t*a * r);
 	Faces.push_back(pFace_front);
 	/*                                0            90           180          270
 	pFace_top->setNeighbouringFaces(pFace_back, pFace_left, pFace_front, pFace_right);
@@ -92,12 +96,8 @@ void Level::draw(const BaseCamera& Cam)
 	}
 }
 
-int Level::isWall(Vector pos, float pos2dRow, float pos2dCol)
+int Level::isWall(float row, float col)
 {
-	return 0;
-	int row = (int)(pos2dRow + (size / 2));
-	int col = (int)(pos2dCol + (size / 2));
-
 	return activeFace->layout->maze[col][row].isWall;
 }
 void Level::consumeDot(Vector pos)

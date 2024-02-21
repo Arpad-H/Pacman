@@ -20,6 +20,9 @@
     <Filter Include="Quelldateien\utils\GameObjects">
       <UniqueIdentifier>{e1727eb6-78de-48fb-9d3a-a9df0edaa0c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\utils\Imgui">
+      <UniqueIdentifier>{87b255b1-fb44-46ca-881c-98d83f12159c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -109,6 +112,27 @@
     <ClCompile Include="..\..\src\GlowShader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui.cpp">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_demo.cpp">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_draw.cpp">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_impl_glfw.cpp">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_impl_opengl3.cpp">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_tables.cpp">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_widgets.cpp">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -194,6 +218,33 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GlowShader.h">
       <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imstb_truetype.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imconfig.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imgui.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imgui_impl_glfw.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imgui_impl_opengl3.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imgui_internal.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imstb_rectpack.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imstb_textedit.h">
+      <Filter>Quelldateien\utils\Imgui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,17 +40,17 @@ float Vector::at(int i) const
 //helper function to get the index of the non zero value of a vector
 //due to the nature if rightangled movement, in some cases we can assume that
 //the vector will only have one non zero value
-float Vector::nonZeroIndex() const
+int Vector::zeroIndex() const
 {
-    if (X != 0)
+    if (X == 0)
     {
         return 0;
     }
-	else if (Y != 0)
+	else if (Y == 0)
 	{
 		return 1;
 	}
-	else if (Z != 0)
+	else if (Z == 0)
 	{
 		return 2;
 	}
@@ -58,6 +58,28 @@ float Vector::nonZeroIndex() const
 	{
 		return -1;
 }
+}
+
+
+Vector Vector::notVector() const
+{
+    if(X != 0)
+	{
+		return Vector(0,1,1);
+	}
+	else if(Y != 0)
+	{
+		return Vector(1,0,1);
+	}
+	else if(Z != 0)
+	{
+		return Vector(1,1,0);
+	}
+	else
+	{
+		return Vector(0,0,0);
+	}
+    return Vector();
 }
 
 Vector Vector::cross(const Vector& v) const {

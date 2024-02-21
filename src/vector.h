@@ -15,7 +15,8 @@ public:
     
     float dot(const Vector& v) const;
     float at(int i) const;
-    float nonZeroIndex() const;
+    int zeroIndex() const;
+    Vector notVector() const;
     Vector cross(const Vector& v) const;
     Vector componentwiseMult(const Vector& v) const;
     Vector operator+(const Vector& v) const;

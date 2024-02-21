@@ -39,6 +39,7 @@ void Face::addWalls()
 	//Maze* maze;
 	layout = new Maze(dimmensions);
 	layout->display();
+	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 	//layout = maze;
 	Model* pWall;
 	Matrix m,f;
