@@ -25,12 +25,10 @@ public:
     void display();
     // get Size of the maze
     int getSize() const;
-vector<vector<Cell>> maze;
+    vector<vector<Cell>> maze;
 private:
     int size;
-    
     stack<Cell> cellStack;
-
     void initMaze();
     void generateMaze();
     void openMazeEdges();

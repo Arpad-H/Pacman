@@ -10,25 +10,25 @@
 class Ghost : public GameObject
 {
 public:
-    Ghost(const char* ModelFilePath, bool FitSize, Vector initScale, int ghostId);
+    Ghost(const char* ModelFilePath, bool FitSize, Vector initScale, int ghostId, Face* face);
     virtual ~Ghost();
     void update(float dtime);
     void draw(const BaseCamera& Cam);
-    void setLevel(Level* level);
     void setTarget(Vector targetPosition); // Ghosts target Pacman
-protected:
+    void positionGhost(Vector position); // Set the ghost to a specific position
+    void setFace(Face* face); // Set the face the ghost is associated with)
     Model* ghostModel;
-    Level* level;
+protected:
+    Face* associatedFace; // Pointer to the face the ghost is associated with
     float speed;
+    pair<int, int> activeAxes;
     int id; // To identify different ghosts, shader spaeter?
     Vector direction; // Current movement direction
     Vector target; // Current target position
     void chooseDirection(); // Method to decide the next direction based
     void moveToTarget(float dtime); // Method to move towards the target
-   // vector<Cell> findPath(const Maze& maze, const Cell& start, const Cell& target);
 
 private:
-    //vector<Cell> reconstructPath(map<Cell, Cell>& predecessor, const Cell& target);
 
 };
 
