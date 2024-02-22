@@ -46,9 +46,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     level.loadLevel(levelDimX,levelDimY,levelSegments);
     
     //create ghosts
-   /* temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1));
+    temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1), 1, level.activeFace);
     GameObjects.push_back(temp);
-    Models.push_back(temp);*/
+    Models.push_back(temp);
 
     //spawn the pacman
     pacman= new Pacman(ASSET_DIRECTORY "Pacman.dae",true,Vector(1,1,1));

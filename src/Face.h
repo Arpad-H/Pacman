@@ -8,6 +8,9 @@
 #include <list>
 #include "PhongShader.h"
 #include "Maze.h"
+#include <array>
+#include <algorithm>
+#include <cmath>
 
 
 class Face : public BaseModel
@@ -27,12 +30,17 @@ class Face : public BaseModel
 	Maze* layout;
 	void setNeighbouringFaces(Face* f1, Face* f2, Face* f3, Face* f4);
 	ModelList DotModels;
+	pair<int, int> determineActiveAxes() const;
+	Vector getInitGhostPosition() const;
 protected:
 	Matrix buildM;
 	ModelList WallModels;
 	ModelList GhostModels;
 	void addWalls();
 	//FacesList neighbouringFaces;
+	// Helper method to find the dominant axis of a vector
+	int dominantAxis(const Vector& vec) const;
+	float calculateYBasedOnOrientation() const;
 	
 };
 
