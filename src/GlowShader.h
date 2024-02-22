@@ -1,48 +1,79 @@
+
 #ifndef GlowShader_hpp
 #define GlowShader_hpp
 
 #include <stdio.h>
+#ifdef WIN32
+#include <GL/glew.h>
+#include <glfw/glfw3.h>
+#else
+#define GLFW_INCLUDE_GLCOREARB
+#define GLFW_INCLUDE_GLEXT
+#include <glfw/glfw3.h>
+#endif
+#include <iostream>
 #include <assert.h>
-#include "PhongShader.h"
+#include "color.h"
+#include "vector.h"
+#include "matrix.h"
+#include "camera.h"
+#include "baseshader.h"
+#include "texture.h"
 
-
-class GlowShader : public PhongShader
+class GlowShader : public BaseShader
 {
 public:
-    enum {
-        DETAILTEX0=0,
-        DETAILTEX1,
-        DETAILTEX2,
-        DETAILTEX3,
-        DETAILTEX_COUNT
-    };
+    GlowShader(bool LoadStaticShaderCode = true);
+    // setter
+   
     
-    GlowShader(const std::string& AssetDirectory);
-    virtual ~GlowShader() {}
+    void diffuseTexture(const Texture* pTex);
+    void lightPos(const Vector& pos);
+    //getter
+    const Color& diffuseColor() const { return DiffuseColor; }
+    const Color& ambientColor() const { return AmbientColor; }
+    const Color& specularColor() const { return SpecularColor; }
+    float specularExp() const { return SpecularExp; }
+    const Texture* diffuseTexture() const { return DiffuseTexture; }
+    const Vector& lightPos() const { return LightPos; }
+    const Color& lightColor() const { return LightColor; }
+
     virtual void activate(const BaseCamera& Cam) const;
-    virtual void deactivate() const;
-    
-    const Texture* detailTex(unsigned int idx) const { assert(idx<DETAILTEX_COUNT); return DetailTex[idx]; }
-    const Texture* mixTex() const { return MixTex; }
-
-    void detailTex(unsigned int idx, const Texture* pTex) { assert(idx<DETAILTEX_COUNT); DetailTex[idx] = pTex; }
-    void mixTex(const Texture* pTex) { MixTex = pTex; }
-
-    void scaling(const Vector& s) { Scaling = s; }
-    const Vector& scaling() const { return Scaling; }
-
+protected:
+    void assignLocations();
 private:
-    void activateTex(const Texture* pTex, GLint Loc, int slot) const;
+    Color DiffuseColor;
+    Color SpecularColor;
+    Color AmbientColor;
+    float SpecularExp;
+    Vector LightPos;
+    Color LightColor;
+    const Texture* DiffuseTexture;
 
-    const Texture* MixTex;
-    const Texture* DetailTex[DETAILTEX_COUNT];
-    Vector Scaling;
-    int FactorK = 100;
-    // shader locations
-    GLint MixTexLoc;
-    GLint DetailTexLoc[DETAILTEX_COUNT];
-    GLint ScalingLoc;
-    GLint FactorKLoc;
+    GLint DiffuseColorLoc;
+    GLint SpecularColorLoc;
+    GLint AmbientColorLoc;
+    GLint SpecularExpLoc;
+    GLint LightPosLoc;
+    GLint LightColorLoc;
+    GLint ModelMatLoc;
+    GLint ModelViewProjLoc;
+    GLint EyePosLoc;
+    GLint DiffuseTexLoc;
+
+    mutable unsigned int UpdateState;
+
+    enum UPDATESTATES
+    {
+        DIFF_COLOR_CHANGED = 1 << 0,
+        AMB_COLOR_CHANGED = 1 << 1,
+        SPEC_COLOR_CHANGED = 1 << 2,
+        SPEC_EXP_CHANGED = 1 << 3,
+        LIGHT_POS_CHANGED = 1 << 4,
+        LIGHT_COLOR_CHANGED = 1 << 5,
+        DIFF_TEX_CHANGED = 1 << 6
+    };
+
 };
 
-#endif /* GlowShader_hpp */
+#endif /* PhongShader_hpp */

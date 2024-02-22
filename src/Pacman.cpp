@@ -2,14 +2,27 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <algorithm>
+#include "GlowShader.h"
+#ifdef WIN32
+#define ASSET_DIRECTORY "../../assets/"
+#else
+#define ASSET_DIRECTORY "../assets/"
+#endif
 #define EPSILON 1e-6
 static float toRad(float deg) { return deg * M_PI / 180.0f; }
 
 Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 {
- 
+	GlowShader* pGlowShader;
+	//EXPERIMENTAL GLOW
+	pGlowShader = new GlowShader();
+
 	pacmanModel = new Model();
-	loadModels(ModelFilePath, FitSize, initScale, *pacmanModel);	
+	loadModels(ModelFilePath, FitSize, initScale, *pacmanModel);
+
+	//EXPERIMENTAL GLOW
+	pacmanModel->shader(pGlowShader, true);
+
 	//scale
 	scale = pacmanModel->transform();
 
@@ -18,7 +31,7 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 	faceAdaptation.identity();
 	rotation.rotationYawPitchRoll(toRad(  180), 0, 0);
 	initTransform = rotation*pacmanModel->transform();
-	startPos.translation(Vector(0, 16, -16));
+	startPos.translation(Vector(0, 16, -15));
 	pacmanModel->transform(startPos* initTransform);
 	camRefrencePoint.translation(Vector(0, 0, 16));
 	std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
@@ -156,6 +169,12 @@ void Pacman::update(float dtime)
 }
 void Pacman::draw(const BaseCamera& Cam)
 {
+	//EXPERIMENTAL GLOW
+	//GlowShader* Shader = dynamic_cast<GlowShader*>(pacmanModel->shader());
+	
+//	Shader->mixTex(&MixTex);
+	GlowShader Shader = (GlowShader*)(pacmanModel->shader());
+	Shader.lightPos(pacmanModel->transform().up()*20 + pacmanModel->transform().translation());
 	pacmanModel->draw(Cam);
 }
 

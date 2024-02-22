@@ -24,6 +24,7 @@
 #include "ghost.h"
 #include "scene.h"
 #include "pacman.h"
+#include "GlowShader.h"
 #include <chrono>
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -50,6 +51,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     GameObjects.push_back(temp);
     Models.push_back(temp);*/
 
+    
     //spawn the pacman
     pacman= new Pacman(ASSET_DIRECTORY "Pacman.dae",true,Vector(1,1,1));
     pacman->setLevel(&level);

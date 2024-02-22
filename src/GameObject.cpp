@@ -20,7 +20,7 @@ bool GameObject::loadModels(const char* ModelFilePath,bool FitSize, Vector initS
 {
     PhongShader* pPhongShader = new PhongShader();
     pModel.load(ModelFilePath, FitSize,initScale);
-    pModel.shader(pPhongShader, true);
+   // pModel.shader(pPhongShader, true);
     return true;
 }
 

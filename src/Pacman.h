@@ -29,6 +29,10 @@ protected:
 	Level* level;
 	float dir;
 	Matrix camRefrencePoint;
+
+	//EXPERIMENTAL GLOW
+	//Texture MixTex;
+	
 };
 
 #endif  /* Pacman_hpp */

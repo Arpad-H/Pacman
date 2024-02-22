@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <queue>
 #define EPSILON 1e-6
+
 static float toRad(float deg) { return deg * M_PI / 180.0f; }
 
 Ghost::Ghost(const char* ModelFilePath, bool FitSize, Vector initScale, int ghostId)
