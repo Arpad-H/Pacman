@@ -26,7 +26,7 @@ public:
     float size;
     void consumeDot(Vector pos);
     FacesList Faces;
-    int score;
+    int score = 0;
 protected:
    
     BaseModel* pModel;

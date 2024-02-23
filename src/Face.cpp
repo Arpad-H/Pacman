@@ -119,6 +119,7 @@ void Face::addWalls()
 	//layout = maze;
 	Model* pWall;
 	Matrix m,f;
+	
 	for (int i = 0; i < dimmensions; ++i) {
 		for (int j = 0; j < dimmensions; ++j) {
 			if (layout->maze[i][j].isWall) {

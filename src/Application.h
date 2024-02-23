@@ -31,12 +31,13 @@ public:
     Application(GLFWwindow* pWin);
     void start();
     void update();
-    void updateGameObjects(float deltaTime);
+    
     void draw();
     void end();
     void setupLevel();
 protected:
-   
+    void showHUD(float dtime);
+    void updateGameObjects(float deltaTime);
     Pacman* pacman;
     Camera Cam;
     ModelList Models;

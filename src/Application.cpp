@@ -29,6 +29,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <algorithm>
+#include <imgui.h>
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
@@ -45,7 +46,11 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     
     level = Level();
     level.loadLevel(levelDimX,levelDimY,levelSegments);
-    
+
+    pModel = new Model(ASSET_DIRECTORY "sky.fbx", true,Vector(100,100,100));
+    pModel->shader(new PhongShader(), true);
+    Models.push_back(pModel);
+
     //create ghosts
     temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1), 1, level.activeFace);
     GameObjects.push_back(temp);
@@ -129,6 +134,14 @@ void Application::update()
     {
         Cam.setViewMatrix(view);
     }
+   showHUD(deltaTime);
+}
+void Application::showHUD(float dtime)
+{
+    ImGui::Begin("HUD", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground  | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing);
+    ImGui::Text("Score: %d", level.score);
+    ImGui::Text("fps: %f fps", 1.0f/ dtime);
+    ImGui::End();
 }
 void Application::updateGameObjects(float deltaTime) {
     for (GameObjectList::iterator it = GameObjects.begin(); it != GameObjects.end(); ++it) {

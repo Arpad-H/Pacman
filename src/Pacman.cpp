@@ -31,7 +31,7 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 	faceAdaptation.identity();
 	rotation.rotationYawPitchRoll(toRad(  180), 0, 0);
 	initTransform = rotation*pacmanModel->transform();
-	startPos.translation(Vector(0, 16, -15));
+	startPos.translation(Vector(-15, 16, -15));
 	pacmanModel->transform(startPos* initTransform);
 	camRefrencePoint.translation(Vector(0, 0, 16));
 	std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
@@ -106,39 +106,38 @@ void Pacman::update(float dtime)
 
 		int row=99;
 		int col=99;
-		/*if (zeroIndex == 0)
+		if (zeroIndex == 0) //left or right
 		{
+			//has issues with row 0
 			row = locationToCheck.Z;
-			col = locationToCheck.Y;
+			col =  abs(locationToCheck.Y - (levelSize - 1));
 			if (activeFaceCenter.at(0) < 0)
 			{
-				int temp = row;
-				row = col;
-				col = temp;
+				row = locationToCheck.Z;
+				col = locationToCheck.Y;
 			}
 		}
-		else*/ if (zeroIndex == 1)
+		else if (zeroIndex == 1)//top or bottom
 		{
-			row = locationToCheck.X;
-			col = locationToCheck.Z;
-			/*if (activeFaceCenter.at(1) < 0)
+			
+			row = locationToCheck.Z;
+			col = locationToCheck.X;
+			
+			if (activeFaceCenter.at(1) < 0)
 			{
-				int temp = row;
-				row = col;
-				col = temp;
-			}*/
+				row = abs(locationToCheck.Z - (levelSize-1));
+				col = locationToCheck.X;
+			}
 		}
-		else if (zeroIndex == 2)
+		else if (zeroIndex == 2)//front or back
 		{
-			row = locationToCheck.X;
-			col = locationToCheck.Y;
+			//has issues with col 0
+			row = locationToCheck.Y;
+			col = locationToCheck.X;
 			if (activeFaceCenter.at(2) > 0)
 			{
-				
-				//row = abs(row-levelSize);
-				int temp = row;
-				row = abs(col - (levelSize-1));
-				col = temp;
+				row = abs(locationToCheck.Y - (levelSize - 1));
+				col = locationToCheck.X;
 
 			}
 		}

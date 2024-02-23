@@ -38,7 +38,7 @@ public:
 
     bool load(const char* VertexShaderFile, const char* FragmentShaderFile);
     GLint getParameterID(const char* ParamenterName) const;
-
+    GLuint getProgramID() const { return ShaderProgram; }
     void setParameter(GLint ID, float Param) const;
     void setParameter(GLint ID, int Param) const;
     void setParameter(GLint ID, const Vector& Param) const;
