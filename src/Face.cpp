@@ -33,23 +33,23 @@ void Face::setNeighbouringFaces(Face* f1, Face* f2, Face* f3, Face* f4)
 	neighbouringFaces[3] = f4;
 }
 
-pair<int, int> Face::determineActiveAxes() const
+pair<float, float> Face::determineActiveAxes() const
 {
 	Vector forwardVec = this->buildM.forward();
 	Vector upVec = this->buildM.up();
 	Vector rightVec = this->buildM.right();
 
 	// Determine the dominant global axis for each direction vector
-	int dominantAxisForward = dominantAxis(forwardVec);
-	int dominantAxisUp = dominantAxis(upVec);
-	int dominantAxisRight = dominantAxis(rightVec);
+	float dominantAxisForward = dominantAxis(forwardVec);
+	float dominantAxisUp = dominantAxis(upVec);
+	float dominantAxisRight = dominantAxis(rightVec);
 
 	// the active axes are the ones not aligned with the forward vector
-	array<int, 3> allAxes = { 0,1,2 }; // x,y,z
-	array<int, 2> activeAxes;
+	array<float, 3> allAxes = { 0,1,2 }; // x,y,z
+	array<float, 2> activeAxes;
 
 	auto it = copy_if(allAxes.begin(), allAxes.end(), activeAxes.begin(),
-		[dominantAxisForward](int axis) { return axis != dominantAxisForward; });
+		[dominantAxisForward](float axis) { return axis != dominantAxisForward; });
 
 	// Return the two active axes
 	return make_pair(activeAxes[0], activeAxes[1]);
@@ -80,12 +80,12 @@ Vector Face::getInitGhostPosition() const
 	return Vector(0, 0, 0);
 }
 
-int Face::dominantAxis(const Vector& vec) const
+float Face::dominantAxis(const Vector& vec) const
 {
 	float maxComponent = max({ abs(vec.X), abs(vec.Y), abs(vec.Z) });
-	if (maxComponent == abs(vec.X)) return 0; // X-axis
-	if (maxComponent == abs(vec.Y)) return 1; // Y-axis
-	return 2; // Z-axis
+	if (maxComponent == abs(vec.X)) return 0.f; // X-axis
+	if (maxComponent == abs(vec.Y)) return 1.f; // Y-axis
+	return 2.f; // Z-axis
 }
 
 float Face::calculateYBasedOnOrientation() const

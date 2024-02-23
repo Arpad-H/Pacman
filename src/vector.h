@@ -26,6 +26,9 @@ public:
     Vector operator-() const;
     Vector& normalize();
    // Vector& max_element();
+    // override == vector
+    bool operator==(const Vector& v) const;
+    bool operator!=(const Vector& v) const;
     Vector& toUnitVector();
     Vector& lerp(const Vector& other, float t);
     float length() const;

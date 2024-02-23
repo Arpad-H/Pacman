@@ -141,6 +141,16 @@ Vector& Vector::normalize() {
 
 
 
+bool Vector::operator==(const Vector& v) const
+{
+    return (X == v.X && Y == v.Y && Z == v.Z);
+}
+
+bool Vector::operator!=(const Vector& v) const
+{
+	return !(this->operator==(v));
+}
+
 Vector& Vector::toUnitVector()
 {
     //convert a vector to a unit vector based on biggest value

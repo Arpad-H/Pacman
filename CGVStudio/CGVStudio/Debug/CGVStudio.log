@@ -1,2 +1,48 @@
-﻿  main.cpp
-  CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\CGVStudio\Debug\CGVStudio.exe
+﻿  Ghost.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(8,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,18): warning C4244: 'argument': conversion from '_Ty1' to 'const unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,18): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,18): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,18): warning C4244:             _Ty1=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,18): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,31): warning C4244: 'argument': conversion from '_Ty2' to 'unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,31): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,31): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,31): warning C4244:             _Ty2=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(61,31): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,124): warning C4244: 'argument': conversion from '_Ty1' to 'const unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,124): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,124): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,124): warning C4244:             _Ty1=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,124): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,136): warning C4244: 'argument': conversion from '_Ty2' to 'unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,136): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,136): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,136): warning C4244:             _Ty2=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,136): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,182): warning C4244: 'argument': conversion from '_Ty1' to 'const unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,182): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,182): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,182): warning C4244:             _Ty1=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,182): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,194): warning C4244: 'argument': conversion from '_Ty2' to 'const unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,194): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,194): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,194): warning C4244:             _Ty2=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(75,194): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,29): warning C4244: 'argument': conversion from '_Ty1' to 'const unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,29): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,29): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,29): warning C4244:             _Ty1=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,29): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,41): warning C4244: 'argument': conversion from '_Ty2' to 'unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,41): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,41): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,41): warning C4244:             _Ty2=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(77,41): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(116,20): warning C4244: 'initializing': conversion from '_Ty1' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(116,20): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(116,20): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(116,20): warning C4244:             _Ty1=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(116,20): warning C4244:         ]
+  CGVStudio.vcxproj -> C:\Users\moazh\Source\Repos\Pacman-Arpad\CGVStudio\Debug\CGVStudio.exe

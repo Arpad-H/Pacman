@@ -30,7 +30,7 @@ class Face : public BaseModel
 	Maze* layout;
 	void setNeighbouringFaces(Face* f1, Face* f2, Face* f3, Face* f4);
 	ModelList DotModels;
-	pair<int, int> determineActiveAxes() const;
+	pair<float, float> determineActiveAxes() const;
 	Vector getInitGhostPosition() const;
 protected:
 	Matrix buildM;
@@ -39,7 +39,7 @@ protected:
 	void addWalls();
 	//FacesList neighbouringFaces;
 	// Helper method to find the dominant axis of a vector
-	int dominantAxis(const Vector& vec) const;
+	float dominantAxis(const Vector& vec) const;
 	float calculateYBasedOnOrientation() const;
 	
 };

@@ -56,13 +56,15 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     GameObjects.push_back(temp);
     Models.push_back(temp);
 
-    
     //spawn the pacman
     pacman= new Pacman(ASSET_DIRECTORY "Pacman.dae",true,Vector(1,1,1));
     pacman->setLevel(&level);
     GameObjects.push_back(pacman);
     Models.push_back(pacman);
     pacman->registerCamera(&Cam);
+
+    
+
 }
 void Application::start()
 {

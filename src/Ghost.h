@@ -18,17 +18,18 @@ public:
     void positionGhost(Vector position); // Set the ghost to a specific position
     void setFace(Face* face); // Set the face the ghost is associated with)
     Model* ghostModel;
+    vector<Vector> findPath();
 protected:
     Face* associatedFace; // Pointer to the face the ghost is associated with
     float speed;
-    pair<int, int> activeAxes;
+    pair<float, float> activeAxes;
     int id; // To identify different ghosts, shader spaeter?
     Vector direction; // Current movement direction
     Vector target; // Current target position
-    void chooseDirection(); // Method to decide the next direction based
-    void moveToTarget(float dtime); // Method to move towards the target
-
-private:
+    Vector nextGoal;
+    bool hasGoal;
+    pair<float, float> vectorToGrid(Vector position);
+    Vector gridToVector(pair<float, float> gridPos);
 
 };
 
