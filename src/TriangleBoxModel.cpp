@@ -186,3 +186,14 @@ void TriangleBoxModel::draw(const BaseCamera& Cam)
     VB.deactivate();
 }
 
+VertexBuffer TriangleBoxModel::getVB()
+{
+    return VB;
+}
+
+IndexBuffer TriangleBoxModel::getIB()
+{
+    	return IB;
+}
+
+

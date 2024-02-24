@@ -5,6 +5,7 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include "FreeImage.h"
 
 RGBImage::RGBImage(unsigned int Width, unsigned int Height) {
     m_Height = Height;
@@ -31,6 +32,71 @@ unsigned int RGBImage::width() const {
 
 unsigned int RGBImage::height() const {
     return m_Height;
+}
+
+// //modifizirte texture load funktion basierend auf Texture.cpp. laden von texturen ohne 
+// erstellung von Texture objekten, Vor allem zum laden von sprites in imgui
+bool RGBImage::loadFromDisk(const char* Filename,  unsigned int& width,  unsigned int& height,  unsigned char*& finalData)
+{
+    
+        FREE_IMAGE_FORMAT ImageFormat = FreeImage_GetFileType(Filename, 0);
+        if (ImageFormat == FIF_UNKNOWN)
+            ImageFormat = FreeImage_GetFIFFromFilename(Filename);
+
+        if (ImageFormat == FIF_UNKNOWN)
+        {
+            //        std::cout << "Warning: Unkown texture format: " << Filename << std::endl;
+            return false;
+        }
+
+        FIBITMAP* pBitmap = FreeImage_Load(ImageFormat, Filename);
+
+        if (pBitmap == NULL)
+        {
+            //     std::cout << "Warning: Unable to open texture image " << Filename << std::endl;
+            return false;
+        }
+
+        FREE_IMAGE_TYPE Type = FreeImage_GetImageType(pBitmap);
+        assert(Type == FIT_BITMAP);
+
+        unsigned int Width = FreeImage_GetWidth(pBitmap);
+        unsigned int Height = FreeImage_GetHeight(pBitmap);
+        unsigned int bpp = FreeImage_GetBPP(pBitmap);
+        assert(bpp == 32 || bpp == 16 || bpp == 24);
+
+        unsigned char* data = new unsigned char[Width * Height * 4];
+        unsigned char* dataPtr = data - 1;
+
+        if (data == NULL)
+        {
+            FreeImage_Unload(pBitmap);
+            return false;
+        }
+
+
+        RGBQUAD c;
+        for (unsigned int i = 0; i < Height; ++i)
+            for (unsigned int j = 0; j < Width; ++j)
+            {
+                FreeImage_GetPixelColor(pBitmap, j, Height - i - 1, &c);
+                *(++dataPtr) = c.rgbRed;
+                *(++dataPtr) = c.rgbGreen;
+                *(++dataPtr) = c.rgbBlue;
+                if (bpp == 32)
+                    *(++dataPtr) = c.rgbReserved;
+                else
+                    *(++dataPtr) = 255;
+            }
+
+        FreeImage_Unload(pBitmap);
+        width = Width;
+        height = Height;
+        finalData = data;
+
+        //delete[] data;
+        return true;
+    
 }
 
 unsigned char RGBImage::convertColorChannel(float v) {

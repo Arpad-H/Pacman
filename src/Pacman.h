@@ -19,7 +19,10 @@ public:
 	Model* pacmanModel;
 	void setLevel(Level* level);
 	bool transitionState = false;
+	bool hitState = false;
 	void registerCamera(Camera* camera);
+	int getLives(){return lives; }
+	int getScore(){return score; }
 protected:
 	Camera* camera;
 	Matrix faceAdaptation;
@@ -30,7 +33,8 @@ protected:
 	Level* level;
 	float dir;
 	Matrix camRefrencePoint;
-
+	int lives = 3;
+	int score = 0;
 	//EXPERIMENTAL GLOW
 	 GlowShader* pGlowShader;
 	//Texture MixTex;

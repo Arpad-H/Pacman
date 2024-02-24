@@ -144,8 +144,8 @@ void Ghost::update(float dtime)
 {
     Vector currentPos = this->ghostModel->transform().translation();
 
-    cout<< "Ghost update"<<endl;
-    cout << "Current position: " << currentPos.X << ", " << currentPos.Y << ", " << currentPos.Z << endl;
+    //cout<< "Ghost update"<<endl;
+   // cout << "Current position: " << currentPos.X << ", " << currentPos.Y << ", " << currentPos.Z << endl;
 
     elapsedTime += dtime;
     // check if target is null

@@ -1,7 +1,8 @@
 #pragma once
 #include "Camera.h"
 #include "BaseShader.h"
-class Skybox
+#include "TriangleBoxModel.h"
+class Skybox : public TriangleBoxModel
 {
 public:
 	Skybox();
@@ -11,5 +12,6 @@ private:
 	BaseShader* pSkyboxShader;
 	unsigned int cubemapTexture;
 	unsigned int skyboxVAO, skyboxVBO, skyboxEBO;
+	TriangleBoxModel* pSkyboxModel;
 };
 

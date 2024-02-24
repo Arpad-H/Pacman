@@ -81,7 +81,7 @@ Vector Face::getInitGhostPosition() const
 
 	// so that we have a random spot each time we try to spawn a ghost
 	if (!emptySpaces.empty()) {
-		srand(static_cast<unsigned int>(time(nullptr)));
+		//srand(static_cast<unsigned int>(time(nullptr)));
 		int randomIndex = rand() % emptySpaces.size();
 		return emptySpaces[randomIndex];
 	}
@@ -183,3 +183,5 @@ void Face::draw(const BaseCamera& Cam)
 	}
 	faceModel->draw(Cam);
 }
+
+

@@ -1,11 +1,15 @@
 #include "Skybox.h"
 #include <FreeImage.h>
+#include "vertexbuffer.h"
+#include "indexbuffer.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
 #define ASSET_DIRECTORY "../assets/"
 #endif
-
+static float toRad(float deg) { return deg * M_PI / 180.0f; }
 //Basierend auf den rescourcen von https://learnopengl.com/Advanced-OpenGL/Cubemaps
 float skyboxVertices[] =
 {
@@ -45,6 +49,7 @@ unsigned int skyboxIndices[] =
 Skybox::Skybox()
 {
     setupSkybox();
+    pSkyboxModel = new TriangleBoxModel(1, 1, 1);
 }
 void Skybox::setupSkybox() {
     pSkyboxShader = new BaseShader();
@@ -53,12 +58,13 @@ void Skybox::setupSkybox() {
     glUniform1i(glGetUniformLocation(pSkyboxShader->getProgramID(), "skybox"), 0);
     std::string facesCubemap[6] =
     {
-        ASSET_DIRECTORY "/Skybox/front.jpg",
-        ASSET_DIRECTORY "/Skybox/front.jpg",
-        ASSET_DIRECTORY "/Skybox/front.jpg",
-        ASSET_DIRECTORY "/Skybox/front.jpg",
-        ASSET_DIRECTORY "/Skybox/front.jpg",
-        ASSET_DIRECTORY "/Skybox/front.jpg"
+        ASSET_DIRECTORY "/Skybox/px.png",
+        ASSET_DIRECTORY "/Skybox/nx.png",
+        ASSET_DIRECTORY "/Skybox/py.png",
+        ASSET_DIRECTORY "/Skybox/nx.png",
+        ASSET_DIRECTORY "/Skybox/pz.png",
+        ASSET_DIRECTORY "/Skybox/nz.png",
+       
     };
 
     
@@ -142,10 +148,11 @@ void Skybox::setupSkybox() {
 
         glTexImage2D
         (
-            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,0, GL_RGB, Width, Height, 0,GL_BGR,GL_UNSIGNED_BYTE, data
+            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,0, GL_RGBA, Width, Height, 0,GL_RGBA,GL_UNSIGNED_BYTE, data
         );
 
         FreeImage_Unload(pBitmap);
+        delete[] data;
     }
 }
 void Skybox::draw(const BaseCamera& Cam)
@@ -155,21 +162,29 @@ void Skybox::draw(const BaseCamera& Cam)
    // glDisable(GL_CULL_FACE);
     //pSkyboxShader->activate(Cam);
     glUseProgram(pSkyboxShader->getProgramID());
-    Matrix view, proj;
-    Matrix m_cam  = Cam.getViewMatrix() ;//remove translation
+    Matrix view, proj,m;
+  //  m.rotationX(toRad(180)); 
+    Matrix m_cam  = Cam.getViewMatrix();//remove translation
+   // m_cam.invert();
      m_cam.m03 = 0;
      m_cam.m13 = 0;
      m_cam.m23 = 0;
-    // view.lookAt(m_cam.translation() + m_cam.forward(),m_cam.up() , m_cam.translation());
     proj = Cam.getProjectionMatrix();
     glUniformMatrix4fv(glGetUniformLocation(pSkyboxShader->getProgramID(), "view"), 1, GL_FALSE, m_cam);
     glUniformMatrix4fv(glGetUniformLocation(pSkyboxShader->getProgramID(), "projection"), 1, GL_FALSE, proj);
-
+   //VertexBuffer VB = pSkyboxModel->getVB();
+   //IndexBuffer IB = pSkyboxModel->getIB();
+   
+   //VB.activate();
+   //IB.activate();
     glBindVertexArray(skyboxVAO);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
+   
+  // IB.deactivate();
+    //VB.deactivate();
+     glBindVertexArray(0);
     
     glDepthFunc(GL_LESS);
 }

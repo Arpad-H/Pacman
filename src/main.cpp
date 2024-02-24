@@ -22,6 +22,7 @@
 #define EPSILON 1e-6
 
 void PrintOpenGLVersion();
+void configureImGuiStyle();
 
 float rectangleVertices[] =
 {
@@ -75,9 +76,9 @@ int main() {
     //generate base shader
 
     //frambuffer shader
-    BaseShader* frambufferShader = new BaseShader();
-    frambufferShader->load(ASSET_DIRECTORY "framebuffer.vert", ASSET_DIRECTORY "framebuffer.frag");
-    glUseProgram(frambufferShader->getProgramID());
+    BaseShader* postProcessShader = new BaseShader();
+    postProcessShader->load(ASSET_DIRECTORY "postProcess.vert", ASSET_DIRECTORY "postProcess.frag");
+    glUseProgram(postProcessShader->getProgramID());
     //############################
 
 
@@ -86,7 +87,7 @@ int main() {
     App.start(); //takes care of openGL setup
 
     //###########################
-     //experimental imgui render
+     // imgui Framebuffer
     GLuint imguiFBO, imguiTexture;
     glGenFramebuffers(1, &imguiFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, imguiFBO);
@@ -148,12 +149,8 @@ int main() {
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    ImGui::StyleColorsDark();
-    io.Fonts->AddFontFromFileTTF(ASSET_DIRECTORY "pacmanfont.ttf", 24.0f);
-    ImGuiStyle& style = ImGui::GetStyle();
-    ImVec4* colors = style.Colors;
-    colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.00f);
+    configureImGuiStyle();
+   
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 460");
@@ -203,18 +200,18 @@ int main() {
         // Bind the default framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         // Draw the framebuffer rectangle
-        glUseProgram(frambufferShader->getProgramID()); //activate framebuffer shader
+        glUseProgram(postProcessShader->getProgramID()); //activate framebuffer shader
         glBindVertexArray(rectVAO);
         glDisable(GL_DEPTH_TEST); // prevents framebuffer rectangle from being discarded
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, framebufferTexture);
         // Set the sampler uniform to use texture unit 0
-        glUniform1i(glGetUniformLocation(frambufferShader->getProgramID(), "screenTexture"), 0);
+        glUniform1i(glGetUniformLocation(postProcessShader->getProgramID(), "screenTexture"), 0);
         // Activate the second texture unit and bind the ImGui texture
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, imguiTexture);
         // Set the sampler uniform to use texture unit 1
-        glUniform1i(glGetUniformLocation(frambufferShader->getProgramID(), "uiTexture"), 1);
+        glUniform1i(glGetUniformLocation(postProcessShader->getProgramID(), "uiTexture"), 1);
 
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glfwSwapBuffers(window);
@@ -225,13 +222,25 @@ int main() {
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    glDeleteProgram(frambufferShader->getProgramID());
+    glDeleteProgram(postProcessShader->getProgramID());
     glDeleteFramebuffers(1, &FBO);
     glfwTerminate();
     return 0;
 }
 
-
+void configureImGuiStyle()
+{
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
+    io.Fonts->AddFontFromFileTTF(ASSET_DIRECTORY "pacmanfont.ttf", 24.0f);
+    ImGuiStyle& style = ImGui::GetStyle();
+    ImVec4* colors = style.Colors;
+    colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.00f);
+    style.Colors[ImGuiCol_Button] = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
+    style.Colors[ImGuiCol_Border] = ImVec4(1, 1, 1, 0.7f);
+    style.FrameBorderSize = 2.0f;
+    style.FramePadding = ImVec2(50.0f, 25.0f);
+}
 void PrintOpenGLVersion()
 {
     // get version info

@@ -136,6 +136,12 @@
     <ClCompile Include="..\..\src\Skybox.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\UIManager.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GameState.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -250,6 +256,12 @@
       <Filter>Quelldateien\utils\Imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Skybox.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\UIManager.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GameState.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>

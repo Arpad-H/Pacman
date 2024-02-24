@@ -14,7 +14,7 @@ public:
     bool saveToDisk( const char* Filename);
     unsigned int width() const;
     unsigned int height() const;
-    
+    static bool loadFromDisk( const char* Filename,  unsigned int& width,  unsigned int& height,  unsigned char*& data);
     static unsigned char convertColorChannel( float f);
 protected:
     Color* m_Image;

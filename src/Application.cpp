@@ -30,6 +30,9 @@
 #include <math.h>
 #include <algorithm>
 #include <imgui.h>
+#include "rgbimage.h"
+
+
 
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
@@ -37,22 +40,19 @@
 #define ASSET_DIRECTORY "../assets/"
 #endif
 #define EPSILON 1e-6
+
 static float toRad(float deg) { return deg * M_PI / 180.0f; }
 
 Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 {
+    int width, height;
+    glfwGetWindowSize(pWindow, &width, &height);
     BaseModel* pModel;
     ConstantShader* pConstShader;
     PhongShader* pPhongShader;
     
     level = Level();
     level.loadLevel(levelDimX,levelDimY,levelSegments);
-
-    /*pModel = new Model(ASSET_DIRECTORY "sky.fbx", true,Vector(100,100,100));
-    pModel->shader(new PhongShader(), true);
-    Models.push_back(pModel);*/
-
-    
 
     //spawn the pacman
     pacman= new Pacman(ASSET_DIRECTORY "Pacman.dae",true,Vector(1,1,1));
@@ -62,6 +62,11 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     pacman->registerCamera(&Cam);
 
     skybox = new Skybox();
+
+    uiManager = new UIManager();
+    uiManager->setWindowSize(width, height);
+    uiManager->registerPacman(pacman);
+   
 }
 void Application::start()
 {
@@ -73,18 +78,24 @@ void Application::start()
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     lastFrameTime= std::chrono::high_resolution_clock::now();
     time = 0;
+   
 }
 
 
 void Application::update()
 {
+    if (currentState != GameState::Playing)
+    {
+        return;
+    }
+   
     // Calc Delta Time
     auto currentTime = std::chrono::high_resolution_clock::now();
     float deltaTime = std::chrono::duration<float>(currentTime - lastFrameTime).count();
     lastFrameTime = currentTime;
     time += deltaTime;
  
-   if (!pacman->transitionState)
+   if (!pacman->transitionState || !pacman->hitState)
     {
         if (glfwGetKey(pWindow, GLFW_KEY_W)) {
             dir = 0;
@@ -133,15 +144,18 @@ void Application::update()
     {
         Cam.setViewMatrix(view);
     }
-   showHUD(deltaTime);
+   if (pacman->hitState)
+   {
+       staggeredTime += deltaTime;
+       if (staggeredTime >= 1.0f)
+       {
+           pacman->hitState = false;
+           staggeredTime = 0;
+       }
+   }
+   uiManager->showHUD(deltaTime);
 }
-void Application::showHUD(float dtime)
-{
-    ImGui::Begin("HUD", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground  | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing);
-    ImGui::Text("Score: %d", level.score);
-    ImGui::Text("fps: %f fps", 1.0f/ dtime);
-    ImGui::End();
-}
+
 void Application::updateGameObjects(float deltaTime) {
     for (GameObjectList::iterator it = GameObjects.begin(); it != GameObjects.end(); ++it) {
         (*it)->update(deltaTime);
@@ -150,6 +164,24 @@ void Application::updateGameObjects(float deltaTime) {
 }
 void Application::draw()
 {
+   
+    switch (currentState)
+    {
+    case GameState::MainMenu:
+        uiManager->showMainMenu();
+        skybox->draw(Cam);
+        return;
+    case GameState::Playing:
+        break;
+    case GameState::Paused:
+        uiManager->showPauseMenu();
+        break;
+    case GameState::GameOver:
+        uiManager->showGameOverMenu();
+        return;
+    default:
+        break;
+    }
     // 1. clear screen
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -171,5 +203,6 @@ void Application::end()
     
     Models.clear();
 }
+
 
 

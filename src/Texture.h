@@ -39,6 +39,7 @@ public:
     static Texture* defaultTex();
     static const Texture* LoadShared(const char* Filename);
     static void ReleaseShared( const Texture* pTex );
+    GLuint getTextureID() const { return m_TextureID; }
     
 protected:
     unsigned char* LoadBMP( const char* Filename, unsigned int& width, unsigned int& height );

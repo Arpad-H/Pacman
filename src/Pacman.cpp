@@ -49,7 +49,7 @@ void Pacman::update(float dtime)
 {
 	
 	if (dir == -1)return;
-
+	
 	Matrix  mtrans,  mrot,startloc, pcmat;
 	
 	Vector up = pacmanModel->transform().up().toUnitVector() * 90;
@@ -141,7 +141,7 @@ void Pacman::update(float dtime)
 
 			}
 		}
-		cout << "row: " << row << " col: " << col << endl;
+		//cout << "row: " << row << " col: " << col << endl;
 		if (row < levelSize && col < levelSize && row > 0 && col > 0)
 		{
 			if (level->isWall(row, col))
@@ -153,8 +153,13 @@ void Pacman::update(float dtime)
 	}
 	snapToGrid(pos, posOffset);
 	
-	level->consumeDot(pos);
+	level->consumeDot(pos, score);
 	
+	if(level->checkGhostCollision(pos)){
+				pos = pacmanModel->transform().translation();
+				hitState = true;
+				lives--;
+	}
 	updatedLoc.translation(pos);
 	
 	pacmanModel->transform(updatedLoc*initTransform*faceAdaptation* mrot);

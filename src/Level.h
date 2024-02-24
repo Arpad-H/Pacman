@@ -24,9 +24,10 @@ public:
     Face* activeFace;
     Face* forwardFacingFace;
     float size;
-    void consumeDot(Vector pos);
+    void consumeDot(Vector pos, int &score);
+    bool checkGhostCollision(Vector pos);
     FacesList Faces;
-    int score = 0;
+   
 protected:
    
     BaseModel* pModel;

@@ -24,6 +24,9 @@
 #include <algorithm>
 #include "TriangleBoxModel.h"
 #include "Skybox.h"
+#include "imgui.h"
+#include "UIManager.h"
+#include"GameState.h"
 
 class Application
 {
@@ -38,9 +41,9 @@ public:
     void end();
   
 protected:
-    void showHUD(float dtime);
     void updateGameObjects(float deltaTime);
     Pacman* pacman;
+    UIManager* uiManager;
     Camera Cam;
     ModelList Models;
     
@@ -54,8 +57,11 @@ protected:
     float dir = -1;
     std::chrono::high_resolution_clock::time_point lastFrameTime;
     float transitionTime = 0;
+    float staggeredTime = 0;
+ 
     Matrix currentView;
    Skybox* skybox;
+  
 };
 
 #endif /* Application_hpp */

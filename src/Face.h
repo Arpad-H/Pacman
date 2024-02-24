@@ -34,10 +34,11 @@ class Face : public BaseModel
 	ModelList DotModels;
 	pair<float, float> determineActiveAxes() const;
 	Vector getInitGhostPosition() const;
+	ModelList GhostModels;
 protected:
 	Matrix buildM;
 	ModelList WallModels;
-	ModelList GhostModels;
+	
 	void addWalls();
 	void addGhosts(int amount);
 	//FacesList neighbouringFaces;

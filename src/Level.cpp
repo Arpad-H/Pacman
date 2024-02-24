@@ -99,7 +99,7 @@ int Level::isWall(float row, float col)
 {
 	return activeFace->layout->maze[row][col].isWall;
 }
-void Level::consumeDot(Vector pos)
+void Level::consumeDot(Vector pos, int &score)
 {
 
 	for (ModelList::iterator it = activeFace->DotModels.begin(); it != activeFace->DotModels.end(); it++) {
@@ -110,3 +110,13 @@ void Level::consumeDot(Vector pos)
 		}
 	}
 }
+bool Level::checkGhostCollision(Vector pos)
+{
+	for (ModelList::iterator it = activeFace->GhostModels.begin(); it != activeFace->GhostModels.end(); it++) {
+		if (((*it)->transform().translation() - pos).length() < 0.8f) {
+			return true;
+		}
+	}
+	return false;
+}
+
