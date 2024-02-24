@@ -24,6 +24,7 @@ class Face : public BaseModel
 	BaseModel* faceModel;
 	typedef std::list<BaseModel*> ModelList;
 	typedef std::list<GameObject*> GameObjectList;
+	Vector target = Vector(0, 0, 0);
 	//typedef std::list<Face*> FacesList;
 	void update(float dtime);
 	virtual void draw(const BaseCamera& Cam);
@@ -34,17 +35,19 @@ class Face : public BaseModel
 	ModelList DotModels;
 	pair<float, float> determineActiveAxes() const;
 	Vector getInitGhostPosition() const;
+	void setTarget(Vector t);
+	Vector getTarget() const;
+	bool checkWall(Vector pos);
+	vector<Vector> wallPositions;
 	ModelList GhostModels;
 protected:
 	Matrix buildM;
 	ModelList WallModels;
 	
 	void addWalls();
-	void addGhosts(int amount);
-	//FacesList neighbouringFaces;
+	void initGhosts(int amount);
 	// Helper method to find the dominant axis of a vector
 	float dominantAxis(const Vector& vec) const;
-	float calculateYBasedOnOrientation() const;
 	GameObjectList GameObjects;
 	
 };

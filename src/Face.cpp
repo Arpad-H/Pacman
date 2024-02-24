@@ -7,6 +7,7 @@
 #else
 #define ASSET_DIRECTORY "../assets/"
 #endif
+
 Face::Face(float dimmensions, Matrix m)
 {
 	buildM = m;
@@ -19,7 +20,7 @@ Face::Face(float dimmensions, Matrix m)
 	faceModel = new TrianglePlaneModel(dimmensions, dimmensions, 1, 1);
 	faceModel->shader(pConstShader, true);
 	faceModel->transform(buildM);
-	addGhosts(2);
+	initGhosts(2);
 }
 
 Face::~Face()
@@ -42,15 +43,15 @@ pair<float, float> Face::determineActiveAxes() const
 
 	// Determine the dominant global axis for each direction vector
 	float dominantAxisForward = dominantAxis(forwardVec);
-	float dominantAxisUp = dominantAxis(upVec);
+	float dominantAxisUp = dominantAxis(upVec); // Now using the up vector
 	float dominantAxisRight = dominantAxis(rightVec);
 
-	// the active axes are the ones not aligned with the forward vector
-	array<float, 3> allAxes = { 0.f,1.f,2.f }; // x,y,z
+	// the active axes are the ones not aligned with the UP vector (which represents the normal)
+	array<float, 3> allAxes = { 0,1,2 }; // x,y,z
 	array<float, 2> activeAxes;
 
 	auto it = copy_if(allAxes.begin(), allAxes.end(), activeAxes.begin(),
-		[dominantAxisForward](float axis) { return axis != dominantAxisForward; });
+		[dominantAxisUp](float axis) { return axis != dominantAxisUp; }); // Compare with dominantAxisUp
 
 	// Return the two active axes
 	return make_pair(activeAxes[0], activeAxes[1]);
@@ -59,36 +60,59 @@ pair<float, float> Face::determineActiveAxes() const
 Vector Face::getInitGhostPosition() const
 {
 	vector<Vector> emptySpaces;
-	for (int i = 0; i < layout->getSize(); ++i) {
-		for (int j = 0; j < layout->getSize(); ++j) {
+
+	// Iterate through the maze layout to find empty spaces
+	for (int i = 0; i < dimmensions; i++) {
+		for (int j = 0; j < dimmensions; j++) {
 			if (!layout->maze[i][j].isWall) {
-				// Calculate the 3D position based on face orientation and maze position
-				float localX = -dimmensions / 2 + j + 0.5f; // Adjusted for maze cell size
-				float localZ = -dimmensions / 2 + i + 0.5f; 
+				// Convert the maze grid position to the face's local 3D space
+				Vector localPosition(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5);
 
-				// Calculate localY based on the face's orientation
-				float localY = calculateYBasedOnOrientation();
+				// Transform the local position to the world position using the face's buildM matrix
+				Vector worldPosition = buildM * localPosition;
 
-				// Transform the local position to world space
-				Vector localPos(localX, localY, localZ);
-				Vector worldPos = buildM * localPos;
-
-				//return worldPos;
-				emptySpaces.push_back(worldPos);
+				// Store the world position of the empty space
+				emptySpaces.push_back(worldPosition);
 			}
 		}
 	}
 
-	// so that we have a random spot each time we try to spawn a ghost
+	// Select a random empty space to spawn the ghost
 	if (!emptySpaces.empty()) {
-		//srand(static_cast<unsigned int>(time(nullptr)));
 		int randomIndex = rand() % emptySpaces.size();
 		return emptySpaces[randomIndex];
 	}
 
-	// If no empty space is found, return a default position
-	return Vector(0, 0, 0);
+	// Return a default position if no empty spaces are found (should be handled appropriately)
+	return Vector(0, 0, 0); // Adjust this based on your game's requirements
 }
+
+void Face::setTarget(Vector t)
+{
+	target = t;
+}
+
+Vector Face::getTarget() const
+{
+	return target;
+}
+
+bool Face::checkWall(Vector pos)
+{
+	// Reverse the translation applied when creating walls to get the original array indices
+	int i = round(pos.Z + dimmensions / 2 - 0.5);
+	int j = round(pos.X + dimmensions / 2 - 0.5);
+
+	// Check if the calculated indices are within the bounds of the maze array
+	if (i >= 0 && i < dimmensions && j >= 0 && j < dimmensions) {
+		// Return true if the corresponding cell in the maze is a wall
+		return layout->maze[i][j].isWall;
+	}
+
+	// If out of bounds, it's not a wall
+	return false;
+}
+
 
 float Face::dominantAxis(const Vector& vec) const
 {
@@ -98,26 +122,6 @@ float Face::dominantAxis(const Vector& vec) const
 	return 2.f; // Z-axis
 }
 
-float Face::calculateYBasedOnOrientation() const
-{
-	// The Y position calculation depends on the face orientation
-	// Tthe face's up vector points in the global Y direction when the face is "front" or "back"
-
-	Vector up = buildM.up(); // Get the up vector of the face
-	Vector forward = buildM.forward(); // Get the forward vector of the face
-
-	// Determine the dominant direction of the forward vector to infer face orientation
-	float maxComponent = max({ abs(forward.X), abs(forward.Y), abs(forward.Z) });
-
-	if (maxComponent == abs(forward.Y)) {
-		// Top or bottom face, use the up vector's direction to adjust Y
-		return (forward.Y > 0 ? -0.5f : 0.5f) * dimmensions;
-	}
-	else {
-		// For side faces, we consider them lying on the XZ plane, so their Y is determined by the up vector
-		return up.Y > 0 ? 0.5f : -0.5f;
-	}
-}
 
 void Face::addWalls()
 {
@@ -138,6 +142,10 @@ void Face::addWalls()
 				f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
 				pWall->transform(buildM * f);
 				WallModels.push_back(pWall);
+
+				// extract the position of the wall
+				Vector pos= f.translation();
+				wallPositions.push_back(pos);
 			}
 			/*else {
 				pWall = new Model(ASSET_DIRECTORY "orbdae.dae", true, Vector(0.2, 0.2, 0.2));
@@ -152,13 +160,24 @@ void Face::addWalls()
 	
 }
 
-void Face::addGhosts(int amount)
+void Face::initGhosts(int amount)
 {
-	// eine For Loop gibt uns iwie die selbe Position immer und die Geister sind nicht mal sichtbar ?? I really dont know
-	//create ghosts
-	Ghost* temp = new Ghost(ASSET_DIRECTORY "Pinky.dae", true, Vector(1, 1, 1), 1, this);
-	GameObjects.push_back(temp);
-	GhostModels.push_back(temp);
+	const char* ghosts[4] =
+	{
+		ASSET_DIRECTORY "Pinky.dae",
+		ASSET_DIRECTORY "Blinky.dae",
+		ASSET_DIRECTORY "Inky.dae",
+		ASSET_DIRECTORY "Clyde.dae",
+	};
+
+	for(int i =0; i< amount; i++)
+	{
+		int random = rand() % 4;
+		Ghost* temp = new Ghost(ghosts[random], true, Vector(1, 1, 1), i, this);
+		
+		GameObjects.push_back(temp);
+		GhostModels.push_back(temp);
+	}
 }
 
 

@@ -22,7 +22,7 @@ std::cout << "Ghost " << id << " created" << std::endl;
 	std::cout <<  ghostModel->transform().translation().X << " " << ghostModel->transform().translation().Y << " " << ghostModel->transform().translation().Z << std::endl;
 
     // test target
-    // this->setTarget(Vector(12.5f, 26.5f, 4.5f));
+    // this->setTarget(Vector(12.5f, 16.5f, 4.5f));
 }
 
 Ghost::~Ghost()
@@ -33,8 +33,8 @@ Ghost::~Ghost()
 void Ghost::positionGhost(Vector position)
 {
     Matrix startPos, rotation;
-    rotation.rotationYawPitchRoll(toRad(180), 0, 0);
-    initTransform = rotation*ghostModel->transform();
+    //rotation.rotationYawPitchRoll(toRad(180), 0, 0);
+    initTransform = ghostModel->transform();
     startPos.translation(position);
     ghostModel->transform(startPos* initTransform);
 }
@@ -45,54 +45,73 @@ void Ghost::setFace(Face* face)
     this->activeAxes = associatedFace->determineActiveAxes();
     Vector ghostPos = associatedFace->getInitGhostPosition();
     this->positionGhost(ghostPos);
+    this->maze = associatedFace->wallPositions;
 }
 
 vector<Vector> Ghost::findPath()
 {
-    //int dimensions = associatedFace->layout->dimensions;
-    int dimensions = 33;
-
+    int dimensions = 32; // Assuming a 32x32 grid for the maze
     Vector currentPos = this->ghostModel->transform().translation();
     pair<float, float> start = vectorToGrid(currentPos);
     pair<float, float> goal = vectorToGrid(this->target);
 
-    queue<pair<float, float>> queue;
-    map<pair<float, float>, pair<float, float>> cameFrom; // To reconstruct the path
-    vector<vector<bool>> visited(dimensions, vector<bool>(dimensions, false));
+    std::cout << "Start: " << start.first << ", " << start.second << std::endl;
+    std::cout << "Goal: " << goal.first << ", " << goal.second << std::endl;
 
-    queue.push(start);
-    visited[start.first+0.5f][start.second+0.5f] = true; // failing because the values are sometimes negative (because its actual position) -> visited only works with positive values scheise
+    queue<pair<float, float>> q;
+    map<pair<float, float>, pair<float, float>> prev;
+    vector<pair<float, float>> directions = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} }; // Possible directions to move
 
-    while (!queue.empty()) {
-        auto current = queue.front();
-        queue.pop();
+    q.push(start);
+    prev[start] = { -1, -1 }; // Use an invalid grid position to mark the start
+
+    while (!q.empty()) {
+        pair<float, float> current = q.front();
+        q.pop();
+
+        std::cout << "Current: " << current.first << ", " << current.second << " | Queue Size: " << q.size() << std::endl;
 
         if (current == goal) {
-            break; // Reached the goal
+            std::cout << "Goal reached." << std::endl;
+            break; // Goal reached
         }
 
-        // Explore neighbors (up, down, left, right)
-        for (auto direction : { make_pair(0, 1), make_pair(1, 0), make_pair(0, -1), make_pair(-1, 0) }) {
-            pair<float, float> next = { current.first + direction.first, current.second + direction.second };
+        for (auto dir : directions) {
+            pair<float, float> next = { current.first + dir.first, current.second + dir.second };
 
-            if (next.first >= 0 && next.first < dimensions && next.second >= 0 && next.second < dimensions && !visited[next.first][next.second] && !associatedFace->layout->maze[next.first+0.5f][next.second + 0.5f].isWall) {
-                queue.push(next);
-                visited[next.first][next.second] = true;
-                cameFrom[next] = current;
+            if (next.first >= 0 && next.first < dimensions && next.second >= 0 && next.second < dimensions) {
+                if (!isWall(next) && prev.find(next) == prev.end()) {
+                    q.push(next);
+                    prev[next] = current;
+                    std::cout << "Adding: " << next.first << ", " << next.second << " to Queue" << std::endl;
+                }
             }
         }
     }
 
-    // Reconstruct the path from goal to start
+    // Reconstruct path
     vector<Vector> path;
-    for (auto at = goal; at != start; at = cameFrom[at]) {
-        path.push_back(gridToVector(make_pair(at.first, at.second)));
+    for (pair<float, float> at = goal; at != start; at = prev[at]) {
+        if (at.first == 0 && at.second == 0) {
+            std::cout << "No path found." << std::endl;
+            break; // Check for no path found
+        }
+        path.push_back(gridToVector(at));
     }
-    //path.push_back(gridToVector(start.first, start.second));
-    path.push_back(gridToVector(make_pair(start.first, start.second)));
+    std::cout << "Path size: " << path.size() << std::endl;
     reverse(path.begin(), path.end());
 
     return path;
+}
+
+
+bool Ghost::isWall(pair<float, float> gridPos)
+{
+    // return true 50% of the time
+    //return rand() % 2 == 0;
+    //cout << "Checking wall at: " << gridPos.first << ", " << gridPos.second << endl;
+   // cout << "Wall status: " << this->associatedFace->checkWall(this->gridToVector(gridPos)) << endl;
+    return this->associatedFace->checkWall(this->gridToVector(gridPos));
 }
 
 pair<float, float> Ghost::vectorToGrid(Vector position)
@@ -128,9 +147,9 @@ Vector Ghost::gridToVector(pair<float, float> gridPos)
     else if (activeAxes.second == 2) position.Z = gridPos.second;
 
     // Set the value of the unused axis
-    if (unusedAxis == 0) position.X = this->Transform.translation().X;
-    else if (unusedAxis == 1) position.Y = this->Transform.translation().Y;
-    else if (unusedAxis == 2) position.Z = this->Transform.translation().Z;
+    if (unusedAxis == 0) position.X = this->ghostModel->transform().translation().X;
+    else if (unusedAxis == 1) position.Y = this->ghostModel->transform().translation().Y;
+    else if (unusedAxis == 2) position.Z = this->ghostModel->transform().translation().Z;
 
     return position;
 }
@@ -142,19 +161,17 @@ vector<Vector> currentPath; // Current path the Ghost is following
 
 void Ghost::update(float dtime)
 {
-    Vector currentPos = this->ghostModel->transform().translation();
-
-    //cout<< "Ghost update"<<endl;
-   // cout << "Current position: " << currentPos.X << ", " << currentPos.Y << ", " << currentPos.Z << endl;
-
     elapsedTime += dtime;
+
+    target = this->associatedFace->getTarget();
     // check if target is null
     if (target == Vector(0, 0, 0)) {
-		return;
+        return;
     }
 
     // Every 10 seconds, update the path and reset the timer and path index
-    if (elapsedTime >= 10.0f) {
+    if (elapsedTime >= 5.0f) {
+        cout << "Ghost update" << endl;
         currentPath = this->findPath();
         currentPathIndex = 0;
         elapsedTime = 0.0f; // Reset the timer
@@ -163,32 +180,35 @@ void Ghost::update(float dtime)
     // If we have a path to follow and we're not at the end
     if (!currentPath.empty() && currentPathIndex < currentPath.size()) {
         Vector currentPosition = this->ghostModel->transform().translation();
+
+        // Use the current path point as the target, not the final target
         Vector targetPosition = currentPath[currentPathIndex];
 
-        // Calculate direction and move towards the target position
-        Vector direction = (targetPosition - currentPosition).normalize();
+        // Calculate direction and move towards the current path point
+        Vector direction = (targetPosition - currentPosition).toUnitVector();
         float distanceToMove = speed * dtime; // Distance to move based on speed and elapsed time
 
-        // Check if we are close enough to consider having reached the target position
+        // Check if close enough to the current path point before calculating movement
         if ((targetPosition - currentPosition).length() <= distanceToMove) {
-            // Set ghost's position to the target position and move to the next point in the path
+            // Set ghost's position to the current path point and move to the next point in the path
             currentPosition = targetPosition;
             currentPathIndex++;
         }
         else {
-            // Move towards the target position
+            // Move towards the current path point
             currentPosition += direction * distanceToMove;
         }
 
         // Apply the new position
         Matrix newTransform;
         newTransform.translation(currentPosition);
-        this->ghostModel->transform(newTransform * this->initTransform);
+        ghostModel->transform(newTransform * initTransform);
     }
 
-    // Additional logic here to end game??
+   
     return;
 }
+
 
 void Ghost::draw(const BaseCamera& Cam)
 {

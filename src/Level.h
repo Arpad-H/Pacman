@@ -27,7 +27,7 @@ public:
     void consumeDot(Vector pos, int &score);
     bool checkGhostCollision(Vector pos);
     FacesList Faces;
-   
+    void tellFaceLocation(Vector pos);
 protected:
    
     BaseModel* pModel;
