@@ -84,6 +84,11 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	std::cout << "Level loaded" << std::endl;
 	return true;
 }
+
+void Level::tellFaceLocation(Vector pos) {
+	activeFace->setTarget(pos);
+}
+
 void Level::update(float dtime)
 {
 	activeFace->update(dtime);

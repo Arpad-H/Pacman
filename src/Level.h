@@ -27,6 +27,7 @@ public:
     void consumeDot(Vector pos);
     FacesList Faces;
     int score = 0;
+    void tellFaceLocation(Vector pos);
 protected:
    
     BaseModel* pModel;

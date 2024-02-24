@@ -149,6 +149,7 @@ void Pacman::update(float dtime)
 				pos = pacmanModel->transform().translation();
 			}
 		}
+		this->level->tellFaceLocation(pos);
 		
 	}
 	snapToGrid(pos, posOffset);

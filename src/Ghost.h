@@ -7,6 +7,9 @@
 #include "GameObject.h"
 #include "Level.h"
 #include "vector.h"
+#include "Face.h"
+#include <set> // Include the set header
+
 
 class Ghost : public GameObject
 {
@@ -23,6 +26,7 @@ public:
 protected:
     Face* associatedFace; // Pointer to the face the ghost is associated with
     float speed;
+    vector<Vector> maze;
     pair<float, float> activeAxes;
     int id; // To identify different ghosts, shader spaeter?
     Vector direction; // Current movement direction
@@ -32,6 +36,7 @@ protected:
     bool hasGoal;
     pair<float, float> vectorToGrid(Vector position);
     Vector gridToVector(pair<float, float> gridPos);
+    bool isWall(pair<float, float> gridPos);
 
 };
 
