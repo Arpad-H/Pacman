@@ -46,7 +46,7 @@ pair<float, float> Face::determineActiveAxes() const
 	float dominantAxisRight = dominantAxis(rightVec);
 
 	// the active axes are the ones not aligned with the forward vector
-	array<float, 3> allAxes = { 0,1,2 }; // x,y,z
+	array<float, 3> allAxes = { 0.f,1.f,2.f }; // x,y,z
 	array<float, 2> activeAxes;
 
 	auto it = copy_if(allAxes.begin(), allAxes.end(), activeAxes.begin(),
@@ -58,12 +58,13 @@ pair<float, float> Face::determineActiveAxes() const
 
 Vector Face::getInitGhostPosition() const
 {
+	vector<Vector> emptySpaces;
 	for (int i = 0; i < layout->getSize(); ++i) {
 		for (int j = 0; j < layout->getSize(); ++j) {
 			if (!layout->maze[i][j].isWall) {
 				// Calculate the 3D position based on face orientation and maze position
-				float localX = -dimmensions / 2 + j + 0.5f; // Adjust for maze cell size if necessary
-				float localZ = -dimmensions / 2 + i + 0.5f; // Adjust for maze cell size if necessary
+				float localX = -dimmensions / 2 + j + 0.5f; // Adjusted for maze cell size
+				float localZ = -dimmensions / 2 + i + 0.5f; 
 
 				// Calculate localY based on the face's orientation
 				float localY = calculateYBasedOnOrientation();
@@ -72,9 +73,17 @@ Vector Face::getInitGhostPosition() const
 				Vector localPos(localX, localY, localZ);
 				Vector worldPos = buildM * localPos;
 
-				return worldPos;
+				//return worldPos;
+				emptySpaces.push_back(worldPos);
 			}
 		}
+	}
+
+	// so that we have a random spot each time we try to spawn a ghost
+	if (!emptySpaces.empty()) {
+		srand(static_cast<unsigned int>(time(nullptr)));
+		int randomIndex = rand() % emptySpaces.size();
+		return emptySpaces[randomIndex];
 	}
 
 	// If no empty space is found, return a default position
@@ -91,16 +100,16 @@ float Face::dominantAxis(const Vector& vec) const
 
 float Face::calculateYBasedOnOrientation() const
 {
-	// The Y position calculation now depends on the face orientation
-	// This function assumes the face's up vector points in the global Y direction when the face is "front" or "back"
+	// The Y position calculation depends on the face orientation
+	// Tthe face's up vector points in the global Y direction when the face is "front" or "back"
 
 	Vector up = buildM.up(); // Get the up vector of the face
 	Vector forward = buildM.forward(); // Get the forward vector of the face
 
 	// Determine the dominant direction of the forward vector to infer face orientation
-	float maxComponent = std::max({ std::abs(forward.X), std::abs(forward.Y), std::abs(forward.Z) });
+	float maxComponent = max({ abs(forward.X), abs(forward.Y), abs(forward.Z) });
 
-	if (maxComponent == std::abs(forward.Y)) {
+	if (maxComponent == abs(forward.Y)) {
 		// Top or bottom face, use the up vector's direction to adjust Y
 		return (forward.Y > 0 ? -0.5f : 0.5f) * dimmensions;
 	}
@@ -145,6 +154,7 @@ void Face::addWalls()
 
 void Face::addGhosts(int amount)
 {
+	// eine For Loop gibt uns iwie die selbe Position immer und die Geister sind nicht mal sichtbar ?? I really dont know
 	//create ghosts
 	Ghost* temp = new Ghost(ASSET_DIRECTORY "Pinky.dae", true, Vector(1, 1, 1), 1, this);
 	GameObjects.push_back(temp);
@@ -156,7 +166,7 @@ void Face::addGhosts(int amount)
 void Face::update(float dtime)
 {
 	for (GameObjectList::iterator it = GameObjects.begin(); it != GameObjects.end(); it++) {
-	//	(*it)->update(dtime);
+		(*it)->update(dtime);
 	}
 }
 

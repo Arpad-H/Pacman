@@ -19,7 +19,10 @@ Ghost::Ghost(const char* ModelFilePath, bool FitSize, Vector initScale, int ghos
     // print out
 std::cout << "Ghost " << id << " created" << std::endl;
     // print out the position of the ghost
-	std::cout <<  ghostModel->transform().translation().X << ghostModel->transform().translation().Y << ghostModel->transform().translation().Z << std::endl;
+	std::cout <<  ghostModel->transform().translation().X << " " << ghostModel->transform().translation().Y << " " << ghostModel->transform().translation().Z << std::endl;
+
+    // test target
+    // this->setTarget(Vector(12.5f, 26.5f, 4.5f));
 }
 
 Ghost::~Ghost()
@@ -47,7 +50,7 @@ void Ghost::setFace(Face* face)
 vector<Vector> Ghost::findPath()
 {
     //int dimensions = associatedFace->layout->dimensions;
-    int dimensions = 32;
+    int dimensions = 33;
 
     Vector currentPos = this->ghostModel->transform().translation();
     pair<float, float> start = vectorToGrid(currentPos);
@@ -58,7 +61,7 @@ vector<Vector> Ghost::findPath()
     vector<vector<bool>> visited(dimensions, vector<bool>(dimensions, false));
 
     queue.push(start);
-    visited[start.first][start.second] = true;
+    visited[start.first+0.5f][start.second+0.5f] = true; // failing because the values are sometimes negative (because its actual position) -> visited only works with positive values scheise
 
     while (!queue.empty()) {
         auto current = queue.front();
@@ -72,7 +75,7 @@ vector<Vector> Ghost::findPath()
         for (auto direction : { make_pair(0, 1), make_pair(1, 0), make_pair(0, -1), make_pair(-1, 0) }) {
             pair<float, float> next = { current.first + direction.first, current.second + direction.second };
 
-            if (next.first >= 0 && next.first < dimensions && next.second >= 0 && next.second < dimensions && !visited[next.first][next.second] && !associatedFace->layout->maze[next.first][next.second].isWall) {
+            if (next.first >= 0 && next.first < dimensions && next.second >= 0 && next.second < dimensions && !visited[next.first][next.second] && !associatedFace->layout->maze[next.first+0.5f][next.second + 0.5f].isWall) {
                 queue.push(next);
                 visited[next.first][next.second] = true;
                 cameFrom[next] = current;
@@ -139,7 +142,16 @@ vector<Vector> currentPath; // Current path the Ghost is following
 
 void Ghost::update(float dtime)
 {
+    Vector currentPos = this->ghostModel->transform().translation();
+
+    cout<< "Ghost update"<<endl;
+    cout << "Current position: " << currentPos.X << ", " << currentPos.Y << ", " << currentPos.Z << endl;
+
     elapsedTime += dtime;
+    // check if target is null
+    if (target == Vector(0, 0, 0)) {
+		return;
+    }
 
     // Every 10 seconds, update the path and reset the timer and path index
     if (elapsedTime >= 10.0f) {
@@ -186,4 +198,5 @@ void Ghost::draw(const BaseCamera& Cam)
 void Ghost::setTarget(Vector targetPosition)
 {
     target = targetPosition;
+    cout << "Target set to: " << targetPosition.X << ", " << targetPosition.Y << ", " << targetPosition.Z << endl;
 }

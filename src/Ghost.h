@@ -26,7 +26,8 @@ protected:
     pair<float, float> activeAxes;
     int id; // To identify different ghosts, shader spaeter?
     Vector direction; // Current movement direction
-    Vector target; // Current target position
+    // Vector target and initilise it with 0 0 0 
+    Vector target = Vector(0, 0, 0);
     Vector nextGoal;
     bool hasGoal;
     pair<float, float> vectorToGrid(Vector position);
