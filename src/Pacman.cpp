@@ -13,7 +13,7 @@ static float toRad(float deg) { return deg * M_PI / 180.0f; }
 
 Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 {
-	GlowShader* pGlowShader;
+	//GlowShader* pGlowShader;
 	//EXPERIMENTAL GLOW
 	pGlowShader = new GlowShader();
 
@@ -172,8 +172,8 @@ void Pacman::draw(const BaseCamera& Cam)
 	//GlowShader* Shader = dynamic_cast<GlowShader*>(pacmanModel->shader());
 	
 //	Shader->mixTex(&MixTex);
-	GlowShader Shader = (GlowShader*)(pacmanModel->shader());
-	Shader.lightPos(pacmanModel->transform().up()*20 + pacmanModel->transform().translation());
+	//GlowShader Shader = (GlowShader*)(pacmanModel->shader());
+	//Shader.lightPos(pacmanModel->transform().up()*20 + pacmanModel->transform().translation());
 	pacmanModel->draw(Cam);
 }
 

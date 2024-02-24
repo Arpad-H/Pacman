@@ -22,6 +22,8 @@
 #include "Level.h"
 #include <chrono>
 #include <algorithm>
+#include "TriangleBoxModel.h"
+#include "Skybox.h"
 
 class Application
 {
@@ -34,14 +36,14 @@ public:
     
     void draw();
     void end();
-    void setupLevel();
+  
 protected:
     void showHUD(float dtime);
     void updateGameObjects(float deltaTime);
     Pacman* pacman;
     Camera Cam;
     ModelList Models;
-    GameObject* temp;
+    
     GameObjectList GameObjects;
     GLFWwindow* pWindow;
     Level level;
@@ -53,6 +55,7 @@ protected:
     std::chrono::high_resolution_clock::time_point lastFrameTime;
     float transitionTime = 0;
     Matrix currentView;
+   Skybox* skybox;
 };
 
 #endif /* Application_hpp */

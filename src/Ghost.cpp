@@ -138,7 +138,7 @@ size_t currentPathIndex = 0; // Index of the current target position in the path
 vector<Vector> currentPath; // Current path the Ghost is following
 
 void Ghost::update(float dtime)
-{/*
+{
     elapsedTime += dtime;
 
     // Every 10 seconds, update the path and reset the timer and path index
@@ -175,7 +175,7 @@ void Ghost::update(float dtime)
     }
 
     // Additional logic here to end game??
-    */
+    return;
 }
 
 void Ghost::draw(const BaseCamera& Cam)

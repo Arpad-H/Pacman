@@ -30,6 +30,7 @@
 #include <math.h>
 #include <algorithm>
 #include <imgui.h>
+
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
@@ -47,14 +48,11 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     level = Level();
     level.loadLevel(levelDimX,levelDimY,levelSegments);
 
-    pModel = new Model(ASSET_DIRECTORY "sky.fbx", true,Vector(100,100,100));
+    /*pModel = new Model(ASSET_DIRECTORY "sky.fbx", true,Vector(100,100,100));
     pModel->shader(new PhongShader(), true);
-    Models.push_back(pModel);
+    Models.push_back(pModel);*/
 
-    //create ghosts
-    temp = new Ghost(ASSET_DIRECTORY "Pinky.dae",true,Vector(1,1,1), 1, level.activeFace);
-    GameObjects.push_back(temp);
-    Models.push_back(temp);
+    
 
     //spawn the pacman
     pacman= new Pacman(ASSET_DIRECTORY "Pacman.dae",true,Vector(1,1,1));
@@ -63,8 +61,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     Models.push_back(pacman);
     pacman->registerCamera(&Cam);
 
-    
-
+    skybox = new Skybox();
 }
 void Application::start()
 {
@@ -162,7 +159,7 @@ void Application::draw()
         (*it)->draw(Cam);
     }
     level.draw(Cam);
-    
+   skybox->draw(Cam);
     // 3. check once per frame for opengl errors
     GLenum Error = glGetError();
     assert(Error==0);
@@ -175,6 +172,4 @@ void Application::end()
     Models.clear();
 }
 
-void Application::setupLevel()
-{
-}
+

@@ -1,6 +1,7 @@
 #include "Face.h"
 #include "Maze.h"
 #include "TrianglePlaneModel.h"
+#include "Ghost.h"
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
@@ -18,7 +19,7 @@ Face::Face(float dimmensions, Matrix m)
 	faceModel = new TrianglePlaneModel(dimmensions, dimmensions, 1, 1);
 	faceModel->shader(pConstShader, true);
 	faceModel->transform(buildM);
-	
+	addGhosts(2);
 }
 
 Face::~Face()
@@ -120,8 +121,8 @@ void Face::addWalls()
 	Model* pWall;
 	Matrix m,f;
 	
-	for (int i = 0; i < dimmensions; ++i) {
-		for (int j = 0; j < dimmensions; ++j) {
+	for (int i = 0; i < dimmensions; i++) {
+		for (int j = 0; j < dimmensions; j++) {
 			if (layout->maze[i][j].isWall) {
 				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
 				pWall->shader(pPhongshader, true);
@@ -142,10 +143,21 @@ void Face::addWalls()
 	
 }
 
+void Face::addGhosts(int amount)
+{
+	//create ghosts
+	Ghost* temp = new Ghost(ASSET_DIRECTORY "Pinky.dae", true, Vector(1, 1, 1), 1, this);
+	GameObjects.push_back(temp);
+	GhostModels.push_back(temp);
+}
+
 
 
 void Face::update(float dtime)
 {
+	for (GameObjectList::iterator it = GameObjects.begin(); it != GameObjects.end(); it++) {
+	//	(*it)->update(dtime);
+	}
 }
 
 void Face::draw(const BaseCamera& Cam)
@@ -155,6 +167,9 @@ void Face::draw(const BaseCamera& Cam)
 	}
 	for (ModelList::iterator it = DotModels.begin(); it != DotModels.end(); it++) {
 		//(*it)->draw(Cam);
+	}
+	for (ModelList::iterator it = GhostModels.begin(); it != GhostModels.end(); it++) {
+		(*it)->draw(Cam);
 	}
 	faceModel->draw(Cam);
 }

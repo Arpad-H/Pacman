@@ -133,6 +133,9 @@
     <ClCompile Include="..\thirdparty\imgui\imgui_widgets.cpp">
       <Filter>Quelldateien\utils\Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Skybox.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="..\thirdparty\imgui\imstb_textedit.h">
       <Filter>Quelldateien\utils\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Skybox.h">
+      <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

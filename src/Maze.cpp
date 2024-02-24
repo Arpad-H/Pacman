@@ -18,8 +18,8 @@ Maze::Maze(int size) {
 }
 
 void  Maze::display() {
-	for (int i = 0; i < size; ++i) {
-		for (int j = 0; j < size; ++j) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
 			cout << (maze[i][j].isWall ? 'X' : ' ') << ' ';
 		}
 		cout << '\n';

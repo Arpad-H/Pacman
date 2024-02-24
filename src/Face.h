@@ -11,6 +11,7 @@
 #include <array>
 #include <algorithm>
 #include <cmath>
+#include "GameObject.h"
 
 
 class Face : public BaseModel
@@ -22,6 +23,7 @@ class Face : public BaseModel
 	
 	BaseModel* faceModel;
 	typedef std::list<BaseModel*> ModelList;
+	typedef std::list<GameObject*> GameObjectList;
 	//typedef std::list<Face*> FacesList;
 	void update(float dtime);
 	virtual void draw(const BaseCamera& Cam);
@@ -37,10 +39,12 @@ protected:
 	ModelList WallModels;
 	ModelList GhostModels;
 	void addWalls();
+	void addGhosts(int amount);
 	//FacesList neighbouringFaces;
 	// Helper method to find the dominant axis of a vector
 	float dominantAxis(const Vector& vec) const;
 	float calculateYBasedOnOrientation() const;
+	GameObjectList GameObjects;
 	
 };
 

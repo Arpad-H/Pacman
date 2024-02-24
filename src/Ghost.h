@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "GameObject.h"
 #include "Level.h"
+#include "vector.h"
 
 class Ghost : public GameObject
 {

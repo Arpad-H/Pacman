@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "GameObject.h"
 #include "Level.h"
+#include "GlowShader.h"
 
 class Pacman : public GameObject
 {
@@ -31,6 +32,7 @@ protected:
 	Matrix camRefrencePoint;
 
 	//EXPERIMENTAL GLOW
+	 GlowShader* pGlowShader;
 	//Texture MixTex;
 	
 };

@@ -8,9 +8,10 @@
 
 #include "TriangleBoxModel.h"
 
+
 TriangleBoxModel::TriangleBoxModel(float Width, float Height, float Depth)
 {
-
+    
     float x = Width / 2;
     float y = Height / 2;
     float z = Depth / 2;
@@ -184,3 +185,4 @@ void TriangleBoxModel::draw(const BaseCamera& Cam)
     IB.deactivate();
     VB.deactivate();
 }
+

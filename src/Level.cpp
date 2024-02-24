@@ -86,6 +86,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 }
 void Level::update(float dtime)
 {
+	activeFace->update(dtime);
 }
 void Level::draw(const BaseCamera& Cam)
 {
