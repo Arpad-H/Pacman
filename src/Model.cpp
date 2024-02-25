@@ -318,6 +318,13 @@ void Model::draw(const BaseCamera& Cam)
     }
 }
 
+/*const Texture* Model::getDiffuseTex()
+{
+    if (MaterialCount > 0)
+		return pMaterials[0].DiffTex;
+	return NULL;
+}*/
+
 Matrix Model::convert(const aiMatrix4x4& m)
 {
     return Matrix(m.a1, m.a2, m.a3, m.a4,

@@ -12,13 +12,14 @@
 #include <algorithm>
 #include <cmath>
 #include "GameObject.h"
+#include "WallShader.h"
 
 
 class Face : public BaseModel
 
 {
 	public:
-	Face(float dimmensions,Matrix m);
+	Face(float dimmensions,Matrix m, GLuint SkyboxTexID);
 	virtual ~Face();
 	
 	BaseModel* faceModel;
@@ -28,6 +29,7 @@ class Face : public BaseModel
 	//typedef std::list<Face*> FacesList;
 	void update(float dtime);
 	virtual void draw(const BaseCamera& Cam);
+	
 	float dimmensions;
 	Face* neighbouringFaces[4];
 	Maze* layout;
@@ -43,13 +45,13 @@ class Face : public BaseModel
 protected:
 	Matrix buildM;
 	ModelList WallModels;
-	
+	WallShader* pWallShader;
 	void addWalls();
 	void initGhosts(int amount);
 	// Helper method to find the dominant axis of a vector
 	float dominantAxis(const Vector& vec) const;
 	GameObjectList GameObjects;
-	
+	GLuint SkyboxTexID;
 };
 
 

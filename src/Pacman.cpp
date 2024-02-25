@@ -3,6 +3,7 @@
 #include <math.h>
 #include <algorithm>
 #include "GlowShader.h"
+
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
@@ -19,7 +20,7 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 
 	pacmanModel = new Model();
 	loadModels(ModelFilePath, FitSize, initScale, *pacmanModel);
-
+	//pGlowShader->setDiffuseTexture(pacmanModel->getDiffuseTex());
 	//EXPERIMENTAL GLOW
 	pacmanModel->shader(pGlowShader, true);
 
@@ -174,12 +175,6 @@ void Pacman::update(float dtime)
 }
 void Pacman::draw(const BaseCamera& Cam)
 {
-	//EXPERIMENTAL GLOW
-	//GlowShader* Shader = dynamic_cast<GlowShader*>(pacmanModel->shader());
-	
-//	Shader->mixTex(&MixTex);
-	//GlowShader Shader = (GlowShader*)(pacmanModel->shader());
-	//Shader.lightPos(pacmanModel->transform().up()*20 + pacmanModel->transform().translation());
 	pacmanModel->draw(Cam);
 }
 

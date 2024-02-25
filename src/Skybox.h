@@ -7,10 +7,11 @@ class Skybox : public TriangleBoxModel
 public:
 	Skybox();
 	void draw(const BaseCamera& Cam);
+	GLuint getCubemapTexture() { return cubemapTexture; };
 private:
 	void setupSkybox();
 	BaseShader* pSkyboxShader;
-	unsigned int cubemapTexture;
+	GLuint  cubemapTexture;
 	unsigned int skyboxVAO, skyboxVBO, skyboxEBO;
 	TriangleBoxModel* pSkyboxModel;
 };

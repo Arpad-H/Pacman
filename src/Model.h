@@ -30,7 +30,7 @@ public:
     bool load(const char* ModelFile, bool FitSize, Vector initScale);
     virtual void draw(const BaseCamera& Cam);
     const AABB& boundingBox() const { return BoundingBox; }
-    
+    //const Texture* getDiffuseTex();
 protected: // protected types
     struct Mesh
     {

@@ -53,6 +53,7 @@ int main() {
 
     const int WindowWidth = 800;
     const int WindowHeight = 600;
+    unsigned int msaa_samples =2;
 
     GLFWwindow* window = glfwCreateWindow(WindowWidth, WindowHeight, "Computergrafik - Hochschule Osnabrück", NULL, NULL);
     if (!window) {
@@ -60,6 +61,7 @@ int main() {
         glfwTerminate();
         return 1;
     }
+    glfwWindowHint(GLFW_SAMPLES, msaa_samples); // we are using custom framebuffers so this is not needed but texture2d_multisample is not working for some reason
     glfwMakeContextCurrent(window);
 
 #if WIN32
@@ -71,7 +73,7 @@ int main() {
 
     //############################
     //added the code here
-    glViewport(0, 0, WindowWidth, WindowHeight);
+   // glViewport(0, 0, WindowWidth, WindowHeight);
 
     //generate base shader
 
@@ -105,8 +107,12 @@ int main() {
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0); // Unbind the framebuffer to avoid rendering anything else to it accidentally
     //############################
+    //debug this goddamn multisampling problem
+    GLint maxSamples;
+    glGetIntegerv(GL_MAX_SAMPLES, &maxSamples);
+    std::cout << "Maximum supported samples: " << maxSamples << std::endl;
 
-    //frambuffer rectangle
+    //frambuffer rectangle to draw final image
     unsigned int rectVAO, rectVBO;
 
     glGenVertexArrays(1, &rectVAO);
@@ -119,29 +125,33 @@ int main() {
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-    // Create Frame Buffer Object
-    unsigned int FBO;
-    glGenFramebuffers(1, &FBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-
-    // Create Framebuffer Texture
-    unsigned int framebufferTexture;
-    glGenTextures(1, &framebufferTexture);
-    glBindTexture(GL_TEXTURE_2D, framebufferTexture);
+    // Create Frame Buffer Object for the scene to render to
+    unsigned int sceneFBO;
+    glGenFramebuffers(1, &sceneFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO);
+   
+    // Create Framebuffer Texture for the scene
+    unsigned int sceneTexture;
+    glGenTextures(1, &sceneTexture);
+    glBindTexture(GL_TEXTURE_2D, sceneTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WindowWidth, WindowHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+   // glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, msaa_samples, GL_RGB, WindowWidth, WindowHeight,GL_TRUE);
+   //not needed with multisampling just leave it here incase of reverting bcs i still havent figured out why this wont work aaaaaaaaaargh
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, framebufferTexture, 0);
-
+    GLenum Error = glGetError();
+    cout << "Error: " << Error << std::endl;
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, sceneTexture, 0);
+  
     // Create Render Buffer Object
     unsigned int RBO;
     glGenRenderbuffers(1, &RBO);
     glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, WindowWidth, WindowHeight);
+    glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH24_STENCIL8, WindowWidth, WindowHeight);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
-
+    
     auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "Framebuffer error: " << fboStatus << std::endl;
@@ -161,50 +171,45 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // Bind the custom framebuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-        // Specify the color of the background
-        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-        // Clean the back buffer and depth buffer
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // Enable depth testing since it's disabled when drawing the framebuffer rectangle
+        // Bind the custom framebuffer to render the scene
+        //set default bg color and enable depth test
+     
+        glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO);
+        glClearColor(0, 0, 0, 1.0f);
         glEnable(GL_DEPTH_TEST);
 
         glfwPollEvents();
+        
+        //render the scene
         App.update();
         App.draw();
 
-
-
-
-
-        // Instead of rendering ImGui directly to the screen, render it to the framebuffer
+        // Instead of rendering ImGui directly to the screen, render it to the framebuffer specified by imguiFBO
         ImGui::Render();
         ImDrawData* draw_data = ImGui::GetDrawData();
 
         // Bind the ImGui framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, imguiFBO);
         glViewport(0, 0, WindowWidth, WindowHeight);
-        glClearColor(0, 0, 0, 0); // Clear with transparent color
+        glClearColor(0, 0, 0, 0); // hud is transparent by default
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         // Render ImGui draw data to the framebuffer
         ImGui_ImplOpenGL3_RenderDrawData(draw_data);
-
-        // Unbind the ImGui framebuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
+        
+        // Unbind the ImGui framebuffer by binding the default framebuffer
+       glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         //we have now rendered the scene to the framebuffer and imgui to another framebuffer
         // we can now render the framebuffers to the screen
 
-        // Bind the default framebuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
         // Draw the framebuffer rectangle
-        glUseProgram(postProcessShader->getProgramID()); //activate framebuffer shader
-        glBindVertexArray(rectVAO);
+        glUseProgram(postProcessShader->getProgramID()); //activate postProcess shader
+        glBindVertexArray(rectVAO); //use the rectangle Vertex Array specified earlier
         glDisable(GL_DEPTH_TEST); // prevents framebuffer rectangle from being discarded
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, framebufferTexture);
+        glBindTexture(GL_TEXTURE_2D, sceneTexture);
         // Set the sampler uniform to use texture unit 0
         glUniform1i(glGetUniformLocation(postProcessShader->getProgramID(), "screenTexture"), 0);
         // Activate the second texture unit and bind the ImGui texture
@@ -214,6 +219,7 @@ int main() {
         glUniform1i(glGetUniformLocation(postProcessShader->getProgramID(), "uiTexture"), 1);
 
         glDrawArrays(GL_TRIANGLES, 0, 6);
+        
         glfwSwapBuffers(window);
     }
     App.end();
@@ -223,7 +229,7 @@ int main() {
     ImGui::DestroyContext();
 
     glDeleteProgram(postProcessShader->getProgramID());
-    glDeleteFramebuffers(1, &FBO);
+    glDeleteFramebuffers(1, &sceneFBO);
     glfwTerminate();
     return 0;
 }

@@ -51,7 +51,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     ConstantShader* pConstShader;
     PhongShader* pPhongShader;
     
-    level = Level();
+    skybox = new Skybox();
+    
+    level = Level(skybox->getCubemapTexture());
     level.loadLevel(levelDimX,levelDimY,levelSegments);
 
     //spawn the pacman
@@ -61,7 +63,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     Models.push_back(pacman);
     pacman->registerCamera(&Cam);
 
-    skybox = new Skybox();
+    
 
     uiManager = new UIManager();
     uiManager->setWindowSize(width, height);
@@ -76,6 +78,7 @@ void Application::start()
     glCullFace(GL_BACK);
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_MULTISAMPLE);
     lastFrameTime= std::chrono::high_resolution_clock::now();
     time = 0;
    
@@ -124,8 +127,8 @@ void Application::update()
    
    Matrix view;
    Matrix pc = pacman->pacmanModel->transform();
-   //Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation()*0.4 + pc.up().toUnitVector() * 16;
-   Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation() * 0.4 + pc.up().toUnitVector() * 50; // Increased from 16 to 20
+  Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation()*0.4 + pc.up().toUnitVector() * 16;
+   //Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation() * 0.4 + pc.up().toUnitVector() * 50; // Increased from 16 to 20
 
    view.lookAt(pc.translation(), pc.up(), pos);
    
@@ -193,6 +196,7 @@ void Application::draw()
         (*it)->draw(Cam);
     }
     level.draw(Cam);
+    
    skybox->draw(Cam);
     // 3. check once per frame for opengl errors
     GLenum Error = glGetError();

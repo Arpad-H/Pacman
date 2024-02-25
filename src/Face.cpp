@@ -2,23 +2,27 @@
 #include "Maze.h"
 #include "TrianglePlaneModel.h"
 #include "Ghost.h"
+#include "WallShader.h"
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
 #define ASSET_DIRECTORY "../assets/"
 #endif
 
-Face::Face(float dimmensions, Matrix m)
+Face::Face(float dimmensions, Matrix m, GLuint SkyboxTexID)
 {
 	buildM = m;
 	this->dimmensions = dimmensions;
-	addWalls();
+	
 	//faceModel = new BaseModel();
 	ConstantShader* pConstShader;
 	pConstShader = new ConstantShader();
+	pWallShader = new WallShader();
+	pWallShader->setEnvioromentCube(SkyboxTexID);
+	addWalls();
 	pConstShader->color(Color(0.5, 0.5, 0.5)+Color(m.up().X, m.up().Y, m.up().Z));
 	faceModel = new TrianglePlaneModel(dimmensions, dimmensions, 1, 1);
-	faceModel->shader(pConstShader, true);
+	faceModel->shader(pWallShader, true);
 	faceModel->transform(buildM);
 	initGhosts(2);
 }
@@ -114,6 +118,8 @@ bool Face::checkWall(Vector pos)
 }
 
 
+
+
 float Face::dominantAxis(const Vector& vec) const
 {
 	float maxComponent = max({ abs(vec.X), abs(vec.Y), abs(vec.Z) });
@@ -200,7 +206,11 @@ void Face::draw(const BaseCamera& Cam)
 	for (ModelList::iterator it = GhostModels.begin(); it != GhostModels.end(); it++) {
 		(*it)->draw(Cam);
 	}
+	//wallShader* ws = (WallShader*)faceModel->shader();
+	//ws->setEnvioromentCube(SkyboxTexID);
 	faceModel->draw(Cam);
 }
+
+
 
 

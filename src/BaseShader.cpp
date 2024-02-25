@@ -69,6 +69,7 @@ GLuint BaseShader::createShaderProgram(const char* VScode, const char* FScode)
     glGetShaderiv(VS, GL_COMPILE_STATUS, &Success);
     if (Success == GL_FALSE)
     {
+        
         sprintf(ShaderLog, "VS:");
         WrittenToLog += 3;
         GLsizei Written = 0;

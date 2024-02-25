@@ -18,7 +18,11 @@ static float toRad(float deg) { return deg * M_PI / 180.0f; }
 using namespace std;
 Level::Level()
 {
+}
+Level::Level( GLuint SkyboxTexID)
+{
 	pModel = new BaseModel();
+	this->SkyboxTexID = SkyboxTexID;
 }
 Level::~Level()
 {
@@ -32,14 +36,14 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	///////////////////////////////////////////////////////
 	r.rotationZ(toRad(0));
 	t.translation(0, dimX / 2, 0);
-	Face* pFace_top = new Face(dimX, t * r);
+	Face* pFace_top = new Face(dimX, t * r,SkyboxTexID);
 	Faces.push_back(pFace_top);
 	///////////////////////////////////////////////////////
 	//bottom
 	///////////////////////////////////////////////////////
 	r.rotationX(toRad(180));
 	t.translation(0, -dimX/2, 0);
-	Face* pFace_bottom = new Face(dimX,t*r);
+	Face* pFace_bottom = new Face(dimX,t*r, SkyboxTexID);
 	Faces.push_back(pFace_bottom);
 	///////////////////////////////////////////////////////
 	//left
@@ -47,7 +51,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	r.rotationZ(toRad(90));
 	
 	t.translation(-dimX / 2, 0, 0);
-	Face* pFace_left = new Face(dimX, t * r);
+	Face* pFace_left = new Face(dimX, t * r, SkyboxTexID);
 	Faces.push_back(pFace_left);
 	///////////////////////////////////////////////////////
 	//right
@@ -55,21 +59,21 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	r.rotationZ(toRad(-90));
 	
 	t.translation(dimX / 2, 0, 0);
-	Face* pFace_right = new Face(dimX, t * r);
+	Face* pFace_right = new Face(dimX, t * r, SkyboxTexID);
 	Faces.push_back(pFace_right);
 	///////////////////////////////////////////////////////
 	//back
 	///////////////////////////////////////////////////////
 	r.rotationX(toRad(-90));
 	t.translation(0, 0, -dimX / 2);
-	Face* pFace_back = new Face(dimX, t * r);
+	Face* pFace_back = new Face(dimX, t * r, SkyboxTexID);
 	Faces.push_back(pFace_back);
 	///////////////////////////////////////////////////////
 	//front
 	///////////////////////////////////////////////////////
 	r.rotationX(toRad(90));
 	t.translation(0, 0, dimX / 2);
-	Face* pFace_front = new Face(dimX, t * r);
+	Face* pFace_front = new Face(dimX, t * r, SkyboxTexID);
 	Faces.push_back(pFace_front);
 	/*                                0            90           180          270
 	pFace_top->setNeighbouringFaces(pFace_back, pFace_left, pFace_front, pFace_right);

@@ -16,6 +16,7 @@ public:
     typedef std::list<BaseModel*> ModelList;
     typedef std::list<Face*> FacesList;
     Level();
+    Level( GLuint SkyboxTexID);
     virtual ~Level();
     bool loadLevel(float dimX, float dimY,float segments );
     void update(float dtime);
@@ -32,7 +33,7 @@ protected:
    
     BaseModel* pModel;
     ModelList Models;
- 
+    GLuint SkyboxTexID;
 
 };
 
