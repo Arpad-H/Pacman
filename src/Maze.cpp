@@ -11,10 +11,9 @@ Maze::~Maze()
 }
 Maze::Maze(int size) {
 	this->size = size;
-	//srand(time(0)); // Seed for random number generation
 	initMaze();
 	generateMaze();
-	openMazeEdges(); // Open edges after generating the maze
+	openMazeEdges(); // Open edges after generating the maze to ensure entry to other faces
 }
 
 void  Maze::display() {
@@ -31,6 +30,7 @@ int Maze::getSize() const
 	return this->size;
 }
 
+// all cells are walls
 void Maze::initMaze() {
 	maze = vector<vector<Cell>>(size, vector<Cell>(size));
 	for (int i = 0; i < size; ++i)
@@ -39,10 +39,10 @@ void Maze::initMaze() {
 }
 
 void Maze::generateMaze() {
-	Cell current = maze[rand() % size][rand() % size];
+	Cell current = maze[rand() % size][rand() % size]; // pick a random cell to start
 	current.visited = true;
-	current.isWall = false;
-	cellStack.push(current);
+	current.isWall = false;								// free it
+	cellStack.push(current);							// start the stack
 
 	while (!cellStack.empty()) {
 		Cell next = getNextCell(current);
@@ -64,17 +64,17 @@ void Maze::generateMaze() {
 
 void Maze::openMazeEdges() {
 	// Open random points on the edges to ensure some paths extend to all edges
-	// This can be adjusted to ensure more sophisticated or specific edge openings
 	for (int i = 0; i < size; i += size - 1) { // Top and bottom edges
-		int randomOpen = rand() % (size / 2) * 2; // Ensure an odd index for opening
+		int randomOpen = rand() % (size / 2) * 2;
 		maze[i][randomOpen].isWall = false;
 	}
 	for (int j = 0; j < size; j += size - 1) { // Left and right edges
-		int randomOpen = rand() % (size / 2) * 2; // Ensure an odd index for opening
+		int randomOpen = rand() % (size / 2) * 2;
 		maze[randomOpen][j].isWall = false;
 	}
 }
 
+// Returns a valid unvisited neighbor cell, or an invalid cell if no unvisited neighbors
 Cell Maze::getNextCell(Cell& current) {
 	vector<Cell> neighbors;
 
@@ -96,6 +96,8 @@ Cell Maze::getNextCell(Cell& current) {
 	return Cell(-1, -1); // Return invalid cell if no unvisited neighbors
 }
 
+
+// Removes the wall between the current and next cell
 void Maze::removeWall(Cell& current, Cell& next) {
 	int xDiff = next.x - current.x;
 	int yDiff = next.y - current.y;

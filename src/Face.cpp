@@ -217,18 +217,18 @@ void Face::initGhosts(int amount)
 Matrix Face::rotateToMatchFace(Vector objectUp) {
 	Matrix buildM = m_translation * m_rotation;
 	Vector faceUp = buildM.up();
-	// Normalize both vectors to ensure proper calculations
+	// Normalize
 	//faceUp.normalize();
 	faceUp.toUnitVector();
 	objectUp.toUnitVector();
 	// Check if the vectors are parallel and pointing in the same direction or opposite directions
 	if (faceUp == objectUp) {
-		// No rotation needed
+		// No rotation needed, wie auf dem Top Face bspw.
 		return Matrix().identity();
 	}
 	else if (faceUp == -objectUp) {
-		// 180 degrees rotation around an arbitrary axis perpendicular to faceUp
-		// Choosing an axis perpendicular to faceUp or objectUp. For simplicity, if faceUp is not parallel to the x-axis, use the x-axis as a rotation axis
+		// 180 degrees rotation around an axis orthogonal to faceUp
+		// Choosing an axis orthogonal to faceUp or objectUp. Bzw. if faceUp is not parallel to the x-axis, use the x-axis as a rotation axis
 		Vector axis = Vector(1, 0, 0);
 		if (faceUp == Vector(1, 0, 0) || faceUp == Vector(-1, 0, 0)) { // If faceUp is parallel to the x-axis, choose the y-axis
 			axis = Vector(0, 1, 0);
@@ -236,8 +236,8 @@ Matrix Face::rotateToMatchFace(Vector objectUp) {
 		return Matrix().rotationAxis(axis, toRad(180)); // Rotating 180 degrees around the chosen axis
 	}
 	else {
-		// General case: Calculate axis of rotation and angle
-		Vector axis = objectUp.cross(faceUp).normalize(); // Axis perpendicular to both vectors
+		// General case, calculate axis of rotation and angle
+		Vector axis = objectUp.cross(faceUp).normalize(); // Axis orthogonal to both vectors
 		float angle = acos(objectUp.dot(faceUp)); // Angle between vectors in radians
 
 		// Create rotation matrix around the axis by the calculated angle
@@ -253,7 +253,7 @@ void Face::update(float dtime)
 }
 bool Face::isWithinBounds(Vector position) {
 	Matrix buildM = m_translation * m_rotation;
-	// Get the "up" vector to determine orientation
+	// Get the up vector to determine orientation
 	Vector upVec = buildM.up();
 
 	// Calculate half dimension for bounds checking
@@ -268,13 +268,13 @@ bool Face::isWithinBounds(Vector position) {
 		bool withinZBounds = position.Z >= -halfDim && position.Z <= halfDim;
 		withinBounds = withinXBounds && withinZBounds;
 	}
-	// Vertical Orientation, Wall facing along the X direction
+	// Vertical Orientation == Wall facing along the X direction
 	else if (std::abs(upVec.X) > std::abs(upVec.Y) && std::abs(upVec.X) > std::abs(upVec.Z)) {
 		bool withinYBounds = position.Y >= -halfDim && position.Y <= halfDim;
 		bool withinZBounds = position.Z >= -halfDim && position.Z <= halfDim;
 		withinBounds = withinYBounds && withinZBounds;
 	}
-	// Vertical Orientation, Wall facing along the Z direction
+	// Vertical Orientation == Wall facing along the Z direction
 	else if (std::abs(upVec.Z) > std::abs(upVec.X) && std::abs(upVec.Z) > std::abs(upVec.Y)) {
 		bool withinXBounds = position.X >= -halfDim && position.X <= halfDim;
 		bool withinYBounds = position.Y >= -halfDim && position.Y <= halfDim;
