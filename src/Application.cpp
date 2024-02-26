@@ -127,7 +127,7 @@ void Application::update()
    
    Matrix view;
    Matrix pc = pacman->pacmanModel->transform();
-  Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation()*0.4 + pc.up().toUnitVector() * 16;
+  Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation()*0.4 + pc.up().toUnitVector() * 40;
    //Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation() * 0.4 + pc.up().toUnitVector() * 50; // Increased from 16 to 20
 
    view.lookAt(pc.translation(), pc.up(), pos);

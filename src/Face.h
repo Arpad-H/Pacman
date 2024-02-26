@@ -35,6 +35,7 @@ class Face : public BaseModel
 	Maze* layout;
 	void setNeighbouringFaces(Face* f1, Face* f2, Face* f3, Face* f4);
 	ModelList DotModels;
+	Matrix rotateToMatchFace(Vector objectUp);
 	pair<float, float> determineActiveAxes() const;
 	Vector getInitGhostPosition() const;
 	void setTarget(Vector t);
@@ -42,6 +43,8 @@ class Face : public BaseModel
 	bool checkWall(Vector pos);
 	vector<Vector> wallPositions;
 	ModelList GhostModels;
+	bool isWithinBounds(Vector position);
+
 protected:
 	Matrix buildM;
 	ModelList WallModels;

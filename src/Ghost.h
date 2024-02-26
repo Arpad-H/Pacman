@@ -38,6 +38,8 @@ protected:
     Vector gridToVector(pair<float, float> gridPos);
     bool isWall(pair<float, float> gridPos);
 
+    bool isWithinBounds(pair<float, float> gridPos);
+
 };
 
 #endif  /* Ghost_hpp */

@@ -34,9 +34,11 @@ void Ghost::positionGhost(Vector position)
 {
     Matrix startPos, rotation;
     //rotation.rotationYawPitchRoll(toRad(180), 0, 0);
+    rotation = this->associatedFace->rotateToMatchFace(this->ghostModel->transform().up());
     initTransform = ghostModel->transform();
     startPos.translation(position);
-    ghostModel->transform(startPos* initTransform);
+    //ghostModel->transform( startPos*  initTransform * rotation); Rotation is not working :( To test, you need to comment out the update function.
+    ghostModel->transform(startPos * initTransform);
 }
 
 void Ghost::setFace(Face* face)
@@ -50,7 +52,6 @@ void Ghost::setFace(Face* face)
 
 vector<Vector> Ghost::findPath()
 {
-    int dimensions = 32; // Assuming a 32x32 grid for the maze
     Vector currentPos = this->ghostModel->transform().translation();
     pair<float, float> start = vectorToGrid(currentPos);
     pair<float, float> goal = vectorToGrid(this->target);
@@ -58,60 +59,69 @@ vector<Vector> Ghost::findPath()
     std::cout << "Start: " << start.first << ", " << start.second << std::endl;
     std::cout << "Goal: " << goal.first << ", " << goal.second << std::endl;
 
-    queue<pair<float, float>> q;
-    map<pair<float, float>, pair<float, float>> prev;
-    vector<pair<float, float>> directions = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} }; // Possible directions to move
+    // direction pairs for the four cardinal directions
+    pair<float, float> directions[4] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
 
-    q.push(start);
-    prev[start] = { -1, -1 }; // Use an invalid grid position to mark the start
+    // Queue for BFS, holding paths
+    queue<vector<pair<float, float>>> q;
+    // Start path with the starting position
+    q.push({ start });
 
+    // set of visited positions
+    set<pair<float, float>> visited;
+    visited.insert(start);
+
+    // is q empty?
     while (!q.empty()) {
-        pair<float, float> current = q.front();
+        // Get the first path from the queue
+        vector<pair<float, float>> path = q.front();
         q.pop();
 
-        std::cout << "Current: " << current.first << ", " << current.second << " | Queue Size: " << q.size() << std::endl;
+        // Current position is the last element of the path
+        pair<float, float> current = path.back();
 
-        if (current == goal) {
-            std::cout << "Goal reached." << std::endl;
-            break; // Goal reached
-        }
+        // check if the current position is the goal (or close enough)
+        if (abs(current.first - goal.first) < 0.5f && abs(current.second - goal.second) < 0.5f) { // make it a bit smaller Epislon
+			// Convert the path to a vector of positions and return it
+			vector<Vector> positions;
+            for (auto& p : path) {
+				positions.push_back(gridToVector(p));
+			}
+			return positions;
+		}
 
-        for (auto dir : directions) {
-            pair<float, float> next = { current.first + dir.first, current.second + dir.second };
-
-            if (next.first >= 0 && next.first < dimensions && next.second >= 0 && next.second < dimensions) {
-                if (!isWall(next) && prev.find(next) == prev.end()) { // this line is always false
-                    q.push(next);
-                    prev[next] = current;
-                    std::cout << "Adding: " << next.first << ", " << next.second << " to Queue" << std::endl;
-                }
-            }
-        }
-    }
-
-    // Reconstruct path
-    vector<Vector> path;
-    for (pair<float, float> at = goal; at != start; at = prev[at]) {
-        if (at.first == 0 && at.second == 0) {
-            std::cout << "No path found." << std::endl;
-            break; // Check for no path found
-        }
-        path.push_back(gridToVector(at));
-    }
-    std::cout << "Path size: " << path.size() << std::endl;
-    reverse(path.begin(), path.end());
-
-    return path;
+        // we didn't reach the goalm explore the neighbours, for loop for directions
+        for (auto& dir : directions) {
+			pair<float, float> next = { current.first + dir.first, current.second + dir.second };
+			// check if the next position is within bounds and not a wall
+            if (isWithinBounds(next) && !isWall(next)) {
+				// check if the next position has been visited, if yes, skip it
+                if (visited.find(next) == visited.end()) {
+					// mark the next position as visited
+					visited.insert(next);
+					// create a new path by copying the current path and adding the next position
+					vector<pair<float, float>> new_path = path;
+					new_path.push_back(next);
+					// add the new path to the queue
+					q.push(new_path);
+				}
+			}
+		}
+	}
+    // path not found, aber eigentlich sollte das nicht passieren????
+    return {};
 }
 
 
 bool Ghost::isWall(pair<float, float> gridPos)
 {
-    // return true 50% of the time
-    //return rand() % 2 == 0;
-    //cout << "Checking wall at: " << gridPos.first << ", " << gridPos.second << endl;
-   // cout << "Wall status: " << this->associatedFace->checkWall(this->gridToVector(gridPos)) << endl;
     return this->associatedFace->checkWall(this->gridToVector(gridPos));
+}
+
+bool Ghost::isWithinBounds(pair<float, float> gridPos)
+{
+	Vector pos = this->gridToVector(gridPos);
+    return this->associatedFace->isWithinBounds(pos);
 }
 
 pair<float, float> Ghost::vectorToGrid(Vector position)
@@ -158,56 +168,50 @@ Vector Ghost::gridToVector(pair<float, float> gridPos)
 float elapsedTime = 0.0; // Time elapsed since last path update
 size_t currentPathIndex = 0; // Index of the current target position in the path
 vector<Vector> currentPath; // Current path the Ghost is following
+float blinkElapsedTime = 0.0; // Time elapsed since last blink
+
 
 void Ghost::update(float dtime)
 {
     elapsedTime += dtime;
+    blinkElapsedTime += dtime;
 
     target = this->associatedFace->getTarget();
-    // check if target is null
+    // Check if target is null
     if (target == Vector(0, 0, 0)) {
         return;
     }
 
-    // Every 10 seconds, update the path and reset the timer and path index
     if (elapsedTime >= 5.0f) {
         cout << "Ghost update" << endl;
         currentPath = this->findPath();
         currentPathIndex = 0;
-        elapsedTime = 0.0f; // Reset the timer
+        elapsedTime = 0.0f; // Reset the path update timer
+        cout << "Path size: " << currentPath.size() << endl;
     }
+    
+    // Blink to the next position every 1 second
+    if (blinkElapsedTime >= 0.3f) {
+        if (!currentPath.empty() && currentPathIndex < currentPath.size()) {
+            // Update the Ghost's position to the next path point
+            Vector currentPosition = currentPath[currentPathIndex];
 
-    // If we have a path to follow and we're not at the end
-    if (!currentPath.empty() && currentPathIndex < currentPath.size()) {
-        Vector currentPosition = this->ghostModel->transform().translation();
+            // Apply the new position
+            Matrix newTransform;
+            newTransform.translation(currentPosition);
+            Matrix rotationCorrection;
+            rotationCorrection = this->associatedFace->rotateToMatchFace(this->ghostModel->transform().up());
+            //ghostModel->transform(newTransform * initTransform * rotationCorrection);
+            ghostModel->transform(newTransform * initTransform);
 
-        // Use the current path point as the target, not the final target
-        Vector targetPosition = currentPath[currentPathIndex];
-
-        // Calculate direction and move towards the current path point
-        Vector direction = (targetPosition - currentPosition).toUnitVector();
-        float distanceToMove = speed * dtime; // Distance to move based on speed and elapsed time
-
-        // Check if close enough to the current path point before calculating movement
-        if ((targetPosition - currentPosition).length() <= distanceToMove) {
-            // Set ghost's position to the current path point and move to the next point in the path
-            currentPosition = targetPosition;
-            currentPathIndex++;
-        }
-        else {
-            // Move towards the current path point
-            currentPosition += direction * distanceToMove;
+            currentPathIndex++; // Prepare to move to the next point on the next blink
         }
 
-        // Apply the new position
-        Matrix newTransform;
-        newTransform.translation(currentPosition);
-        ghostModel->transform(newTransform * initTransform);
+        blinkElapsedTime = 0.0f; // Reset the blink timer
     }
-
-   
-    return;
+    
 }
+
 
 
 void Ghost::draw(const BaseCamera& Cam)

@@ -24,7 +24,7 @@ Face::Face(float dimmensions, Matrix m, GLuint SkyboxTexID)
 	faceModel = new TrianglePlaneModel(dimmensions, dimmensions, 1, 1);
 	faceModel->shader(pWallShader, true);
 	faceModel->transform(buildM);
-	initGhosts(2);
+	initGhosts(1);
 }
 
 Face::~Face()
@@ -37,6 +37,41 @@ void Face::setNeighbouringFaces(Face* f1, Face* f2, Face* f3, Face* f4)
 	neighbouringFaces[1] = f2;
 	neighbouringFaces[2] = f3;
 	neighbouringFaces[3] = f4;
+}
+
+// Helper function to convert degrees to radians
+inline float degToRad(float deg) {
+	return deg * (M_PI / 180.0f);
+}
+
+Matrix Face::rotateToMatchFace(Vector objectUp) {
+	Vector faceUp = this->buildM.up();
+	// Normalize both vectors to ensure proper calculations
+	//faceUp.normalize();
+	faceUp.toUnitVector();
+	objectUp.normalize();
+	// Check if the vectors are parallel and pointing in the same direction or opposite directions
+	if (faceUp == objectUp) {
+		// No rotation needed
+		return Matrix().identity();
+	}
+	else if (faceUp == -objectUp) {
+		// 180 degrees rotation around an arbitrary axis perpendicular to faceUp
+		// Choosing an axis perpendicular to faceUp or objectUp. For simplicity, if faceUp is not parallel to the x-axis, use the x-axis as a rotation axis
+		Vector axis = Vector(1, 0, 0);
+		if (faceUp == Vector(1, 0, 0) || faceUp == Vector(-1, 0, 0)) { // If faceUp is parallel to the x-axis, choose the y-axis
+			axis = Vector(0, 1, 0);
+		}
+		return Matrix().rotationAxis(axis, degToRad(180)); // Rotating 180 degrees around the chosen axis
+	}
+	else {
+		// General case: Calculate axis of rotation and angle
+		Vector axis = objectUp.cross(faceUp).normalize(); // Axis perpendicular to both vectors
+		float angle = acos(objectUp.dot(faceUp)); // Angle between vectors in radians
+
+		// Create rotation matrix around the axis by the calculated angle
+		return Matrix().rotationAxis(axis, angle);
+	}
 }
 
 pair<float, float> Face::determineActiveAxes() const
@@ -103,15 +138,46 @@ Vector Face::getTarget() const
 
 bool Face::checkWall(Vector pos)
 {
-	// iterate through wallPostions and check if pos is in the list
+	// iterate through wallPositions and check if pos is in the list
 	for (int i = 0; i < wallPositions.size(); i++)
 	{
 		if (pos == wallPositions[i]) return true;
 	}
+	return false; // Ensure this line is present
 }
 
 
+bool Face::isWithinBounds(Vector position) {
+	// Get the "up" vector to determine orientation
+	Vector upVec = this->buildM.up();
 
+	// Calculate half dimension for bounds checking
+	float halfDim = dimmensions / 2.0f;
+
+	// Initialize withinBounds to false
+	bool withinBounds = false;
+
+	// Horizontal Orientation (Floor or Ceiling)
+	if (std::abs(upVec.Y) > std::abs(upVec.X) && std::abs(upVec.Y) > std::abs(upVec.Z)) {
+		bool withinXBounds = position.X >= -halfDim && position.X <= halfDim;
+		bool withinZBounds = position.Z >= -halfDim && position.Z <= halfDim;
+		withinBounds = withinXBounds && withinZBounds;
+	}
+	// Vertical Orientation, Wall facing along the X direction
+	else if (std::abs(upVec.X) > std::abs(upVec.Y) && std::abs(upVec.X) > std::abs(upVec.Z)) {
+		bool withinYBounds = position.Y >= -halfDim && position.Y <= halfDim;
+		bool withinZBounds = position.Z >= -halfDim && position.Z <= halfDim;
+		withinBounds = withinYBounds && withinZBounds;
+	}
+	// Vertical Orientation, Wall facing along the Z direction
+	else if (std::abs(upVec.Z) > std::abs(upVec.X) && std::abs(upVec.Z) > std::abs(upVec.Y)) {
+		bool withinXBounds = position.X >= -halfDim && position.X <= halfDim;
+		bool withinYBounds = position.Y >= -halfDim && position.Y <= halfDim;
+		withinBounds = withinXBounds && withinYBounds;
+	}
+
+	return withinBounds;
+}
 
 float Face::dominantAxis(const Vector& vec) const
 {
@@ -172,7 +238,7 @@ void Face::initGhosts(int amount)
 	for(int i =0; i< amount; i++)
 	{
 		int random = rand() % 4;
-		Ghost* temp = new Ghost(ghosts[random], true, Vector(1, 1, 1), i, this);
+		Ghost* temp = new Ghost(ghosts[random], true, Vector(5, 5, 5), i, this);
 		
 		GameObjects.push_back(temp);
 		GhostModels.push_back(temp);

@@ -143,7 +143,12 @@ Vector& Vector::normalize() {
 
 bool Vector::operator==(const Vector& v) const
 {
-    return (X == v.X && Y == v.Y && Z == v.Z);
+    if (X == v.X && Y == v.Y && Z == v.Z) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 bool Vector::operator!=(const Vector& v) const
