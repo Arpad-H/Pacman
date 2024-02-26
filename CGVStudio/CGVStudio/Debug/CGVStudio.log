@@ -1,10 +1,26 @@
-﻿  Ghost.cpp
+﻿  Application.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Application.cpp(44,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Application.cpp(51,21): warning C4101: 'pConstShader': unreferenced local variable
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Application.cpp(50,16): warning C4101: 'pModel': unreferenced local variable
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Application.cpp(52,18): warning C4101: 'pPhongShader': unreferenced local variable
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Application.cpp(130,97): warning C4305: 'argument': truncation from 'double' to 'float'
+  Face.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Face.cpp(44,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Face.cpp(108,80): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Face.cpp(108,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Face.cpp(142,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Face.cpp(195,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Face.cpp(207,77): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Face.cpp(207,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  GameObject.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\GameObject.cpp(9,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Ghost.cpp
 C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(8,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(147,20): warning C4244: 'initializing': conversion from '_Ty1' to 'int', possible loss of data
-C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(147,20): warning C4244:         with
-C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(147,20): warning C4244:         [
-C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(147,20): warning C4244:             _Ty1=float
-C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(147,20): warning C4244:         ]
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(148,20): warning C4244: 'initializing': conversion from '_Ty1' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(148,20): warning C4244:         with
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(148,20): warning C4244:         [
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(148,20): warning C4244:             _Ty1=float
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(148,20): warning C4244:         ]
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,16): warning C4244: 'initializing': conversion from '_Ty' to '_Ty1', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,16): warning C4244:         with
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,16): warning C4244:         [
@@ -17,14 +33,14 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
   (compiling source file '../../src/Ghost.cpp')
   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,16):
   the template instantiation context (the oldest one first) is
-  	C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(62,42):
+  	C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(63,42):
   	see reference to function template instantiation 'std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
           with
           [
               _Other1=int,
               _Other2=int
           ]
-  		C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(62,42):
+  		C:\Users\moazh\source\repos\Pacman-Arpad\src\Ghost.cpp(63,42):
   		see the first reference to 'std::pair<float,float>::pair' in 'Ghost::findPath'
   
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,54): warning C4244: 'initializing': conversion from '_Ty' to '_Ty2', possible loss of data
@@ -38,4 +54,77 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,54): warning C4244:         ]
   (compiling source file '../../src/Ghost.cpp')
   
+  Level.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Level.cpp(17,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Level.cpp(109,34): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Level.cpp(109,39): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+  LineBoxModel.cpp
+  LinePlaneModel.cpp
+  Model.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Model.cpp(83,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Model.cpp(128,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Model.cpp(137,34): warning C4018: '<': signed/unsigned mismatch
+  Pacman.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(13,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(82,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(83,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(84,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(102,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(103,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(104,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(113,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(114,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(117,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(118,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(124,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(125,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(129,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(130,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(136,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(137,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(140,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(141,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(148,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(148,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(196,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(197,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(201,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(202,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(206,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Pacman.cpp(207,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Scene.cpp
+  Skybox.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\Skybox.cpp(12,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  TriangleBoxModel.cpp
+  TrianglePlaneModel.cpp
+  TriangleSphereModel.cpp
+  UIManager.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\UIManager.cpp(22,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\UIManager.cpp(22,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\UIManager.cpp(30,20): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\UIManager.cpp(31,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\UIManager.cpp(51,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\UIManager.cpp(51,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  VertexBuffer.cpp
+  WallShader.cpp
+  main.cpp
+  vector.cpp
+C:\Users\moazh\source\repos\Pacman-Arpad\src\vector.cpp(174,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\vector.cpp(180,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\moazh\source\repos\Pacman-Arpad\src\vector.cpp(186,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+C:\Users\moazh\source\repos\Pacman-Arpad\src\vector.cpp(39): warning C4715: 'Vector::at': not all control paths return a value
+C:\Users\moazh\source\repos\Pacman-Arpad\src\vector.cpp(193): warning C4172: returning address of local variable or temporary
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+imgui_widgets.obj : warning LNK4099: PDB '' was not found with 'imgui_widgets.obj' or at ''; linking object as if no debug info
+imgui_tables.obj : warning LNK4099: PDB '' was not found with 'imgui_tables.obj' or at ''; linking object as if no debug info
+imgui_impl_opengl3.obj : warning LNK4099: PDB '' was not found with 'imgui_impl_opengl3.obj' or at ''; linking object as if no debug info
+imgui_impl_glfw.obj : warning LNK4099: PDB '' was not found with 'imgui_impl_glfw.obj' or at ''; linking object as if no debug info
+imgui_draw.obj : warning LNK4099: PDB '' was not found with 'imgui_draw.obj' or at ''; linking object as if no debug info
+imgui_demo.obj : warning LNK4099: PDB '' was not found with 'imgui_demo.obj' or at ''; linking object as if no debug info
+imgui.obj : warning LNK4099: PDB '' was not found with 'imgui.obj' or at ''; linking object as if no debug info
+Texture.obj : warning LNK4099: PDB '' was not found with 'Texture.obj' or at ''; linking object as if no debug info
+GlowShader.obj : warning LNK4099: PDB '' was not found with 'GlowShader.obj' or at ''; linking object as if no debug info
+rgbimage.obj : warning LNK4099: PDB '' was not found with 'rgbimage.obj' or at ''; linking object as if no debug info
+PhongShader.obj : warning LNK4099: PDB '' was not found with 'PhongShader.obj' or at ''; linking object as if no debug info
   CGVStudio.vcxproj -> C:\Users\moazh\source\repos\Pacman-Arpad\CGVStudio\Debug\CGVStudio.exe
