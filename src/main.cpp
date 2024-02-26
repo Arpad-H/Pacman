@@ -107,7 +107,7 @@ int main() {
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0); // Unbind the framebuffer to avoid rendering anything else to it accidentally
     //############################
-    //debug this goddamn multisampling problem
+    //debug this goddamn multisampling problem (╯°□°)╯︵ ┻━┻
     GLint maxSamples;
     glGetIntegerv(GL_MAX_SAMPLES, &maxSamples);
     std::cout << "Maximum supported samples: " << maxSamples << std::endl;

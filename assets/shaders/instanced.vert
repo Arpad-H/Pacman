@@ -14,9 +14,9 @@ uniform mat4 ModelMat;
 
 void main()
 {
-	vec4 worldPos = InstanceRotation*vec4(VertexPos.xyz, 1.0) ; 
-     Position =  worldPos.xyz;
+	vec4 worldPos = InstanceRotation*VertexPos ; 
+     Position =  (VertexPos + InstancePosition).xyz;
     Texcoord = VertexTexcoord;
-    gl_Position = ModelViewProjMat * vec4(worldPos.xyz,1.0);
+    gl_Position = ModelViewProjMat * worldPos;
 }  
 

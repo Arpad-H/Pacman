@@ -100,8 +100,9 @@ void Level::update(float dtime)
 void Level::draw(const BaseCamera& Cam)
 {
 	for (FacesList::iterator it = Faces.begin(); it != Faces.end(); it++) {
-		(*it)->draw(Cam);
+		//(*it)->draw(Cam);
 	}
+	activeFace->draw(Cam);
 }
 
 int Level::isWall(float row, float col)

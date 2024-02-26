@@ -108,18 +108,11 @@ Vector Face::getTarget() const
 
 bool Face::checkWall(Vector pos)
 {
-	// Reverse the translation applied when creating walls to get the original array indices
-	int i = round(pos.Z + dimmensions / 2 - 0.5);
-	int j = round(pos.X + dimmensions / 2 - 0.5);
-
-	// Check if the calculated indices are within the bounds of the maze array
-	if (i >= 0 && i < dimmensions && j >= 0 && j < dimmensions) {
-		// Return true if the corresponding cell in the maze is a wall
-		return layout->maze[i][j].isWall;
+	// iterate through wallPostions and check if pos is in the list
+	for (int i = 0; i < wallPositions.size(); i++)
+	{
+		if (pos == wallPositions[i]) return true;
 	}
-
-	// If out of bounds, it's not a wall
-	return false;
 }
 
 
@@ -156,16 +149,13 @@ void Face::addWalls()
 				//WallModels.push_back(pWall);
 
 				//INSTANCING
-				f = m_translation*m_rotation*m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) ;
-				
-				
+				f = m_translation * m_rotation * m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5);				
 				pBox->InstanceData.push_back({ f.translation(), f });
-Matrix rot;
-			//since we already rotate in the translation part and rotation is not relevant for our box
-				rot.identity(); 
+	
+
 				// extract the position of the wall
 				Vector pos= f.translation();
-				wallPositions.push_back(pos);
+				wallPositions.push_back(m_translation*m_rotation*pos);
 			}
 			/*else {
 				pWall = new Model(ASSET_DIRECTORY "orbdae.dae", true, Vector(0.2, 0.2, 0.2));

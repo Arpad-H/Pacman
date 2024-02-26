@@ -1,2 +1,9 @@
-﻿  VertexBuffer.cpp
+﻿  Face.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(78,80): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(78,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(112,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(134,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(152,102): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(152,69): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(116): warning C4715: 'Face::checkWall': not all control paths return a value
   CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\CGVStudio\Debug\CGVStudio.exe

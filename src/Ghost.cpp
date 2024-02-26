@@ -80,7 +80,7 @@ vector<Vector> Ghost::findPath()
             pair<float, float> next = { current.first + dir.first, current.second + dir.second };
 
             if (next.first >= 0 && next.first < dimensions && next.second >= 0 && next.second < dimensions) {
-                if (!isWall(next) && prev.find(next) == prev.end()) {
+                if (!isWall(next) && prev.find(next) == prev.end()) { // this line is always false
                     q.push(next);
                     prev[next] = current;
                     std::cout << "Adding: " << next.first << ", " << next.second << " to Queue" << std::endl;
