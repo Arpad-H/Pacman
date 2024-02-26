@@ -22,7 +22,7 @@ class Face : public BaseModel
 	public:
 	Face(float dimmensions,Matrix t, Matrix r, GLuint SkyboxTexID);
 	virtual ~Face();
-	
+	Matrix rotateToMatchFace(Vector objectUp);
 	BaseModel* faceModel;
 	typedef std::list<BaseModel*> ModelList;
 	typedef std::list<GameObject*> GameObjectList;
@@ -43,6 +43,8 @@ class Face : public BaseModel
 	bool checkWall(Vector pos);
 	vector<Vector> wallPositions;
 	ModelList GhostModels;
+	bool isWithinBounds(Vector position);
+
 protected:
 	
 	

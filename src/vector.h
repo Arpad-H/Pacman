@@ -12,7 +12,7 @@ public:
     
     Vector( float x, float y, float z);
     Vector();
-    
+
     float dot(const Vector& v) const;
     float at(int i) const;
     int zeroIndex() const;

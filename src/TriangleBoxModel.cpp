@@ -27,7 +27,7 @@ void TriangleBoxModel::draw(const BaseCamera& Cam)
     IB.activate();
 
     //glDrawElements(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0);
-    glDrawElementsInstanced(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0, InstanceData.size());
+    glDrawElementsInstanced(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0, numInstances);
 
     IB.deactivate();
     VB.deactivate();

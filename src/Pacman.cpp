@@ -146,7 +146,7 @@ void Pacman::update(float dtime)
 		{
 			if (level->isWall(row, col))
 			{
-				pos = pacmanModel->transform().translation();
+				//pos = pacmanModel->transform().translation();
 			}
 		}
 		this->level->tellFaceLocation(pos);

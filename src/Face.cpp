@@ -10,7 +10,7 @@
 #else
 #define ASSET_DIRECTORY "../assets/"
 #endif
-
+static float toRad(float deg) { return deg * M_PI / 180.0f; }
 Face::Face(float dimmensions, Matrix t, Matrix r, GLuint SkyboxTexID)
 {
 	m_translation = t;
@@ -28,7 +28,7 @@ Face::Face(float dimmensions, Matrix t, Matrix r, GLuint SkyboxTexID)
 	faceModel = new TrianglePlaneModel(dimmensions, dimmensions, 1, 1);
 	faceModel->shader(pWallShader, true);
 	faceModel->transform(t*r);
-	initGhosts(2);
+	initGhosts(3);
 }
 
 Face::~Face()
@@ -113,6 +113,7 @@ bool Face::checkWall(Vector pos)
 	{
 		if (pos == wallPositions[i]) return true;
 	}
+	return false;
 }
 
 
@@ -142,7 +143,7 @@ void Face::addWalls()
 
 	//for instanced rendering
 	
-
+	pBox = new TriangleBoxModel(1, 1, 1);
 	for (int i = 0; i < dimmensions; i++) {
 		for (int j = 0; j < dimmensions; j++) {
 			if (layout->maze[i][j].isWall) {
@@ -171,10 +172,10 @@ void Face::addWalls()
 			
 		}
 	}
-	InstanceShader* instanceShader = new InstanceShader(true);
-	pBox = new TriangleBoxModel(1, 1, 1);
+	//InstanceShader* instanceShader = new InstanceShader(true);
+	PhongShader* phongShader = new PhongShader();
 	pBox-> numInstances = InstancePositionData.size();
-	pBox->shader(instanceShader, true);
+	pBox->shader(phongShader, true);
 	//pBox->pupulateBuffers();
 	
 }
@@ -199,7 +200,36 @@ void Face::initGhosts(int amount)
 	}
 }
 
+Matrix Face::rotateToMatchFace(Vector objectUp) {
+	Matrix buildM = m_translation * m_rotation;
+	Vector faceUp = buildM.up();
+	// Normalize both vectors to ensure proper calculations
+	//faceUp.normalize();
+	faceUp.toUnitVector();
+	objectUp.normalize();
+	// Check if the vectors are parallel and pointing in the same direction or opposite directions
+	if (faceUp == objectUp) {
+		// No rotation needed
+		return Matrix().identity();
+	}
+	else if (faceUp == -objectUp) {
+		// 180 degrees rotation around an arbitrary axis perpendicular to faceUp
+		// Choosing an axis perpendicular to faceUp or objectUp. For simplicity, if faceUp is not parallel to the x-axis, use the x-axis as a rotation axis
+		Vector axis = Vector(1, 0, 0);
+		if (faceUp == Vector(1, 0, 0) || faceUp == Vector(-1, 0, 0)) { // If faceUp is parallel to the x-axis, choose the y-axis
+			axis = Vector(0, 1, 0);
+		}
+		return Matrix().rotationAxis(axis, toRad(180)); // Rotating 180 degrees around the chosen axis
+	}
+	else {
+		// General case: Calculate axis of rotation and angle
+		Vector axis = objectUp.cross(faceUp).normalize(); // Axis perpendicular to both vectors
+		float angle = acos(objectUp.dot(faceUp)); // Angle between vectors in radians
 
+		// Create rotation matrix around the axis by the calculated angle
+		return Matrix().rotationAxis(axis, angle);
+	}
+}
 
 void Face::update(float dtime)
 {
@@ -207,12 +237,43 @@ void Face::update(float dtime)
 		(*it)->update(dtime);
 	}
 }
+bool Face::isWithinBounds(Vector position) {
+	Matrix buildM = m_translation * m_rotation;
+	// Get the "up" vector to determine orientation
+	Vector upVec = buildM.up();
 
+	// Calculate half dimension for bounds checking
+	float halfDim = dimmensions / 2.0f;
+
+	// Initialize withinBounds to false
+	bool withinBounds = false;
+
+	// Horizontal Orientation (Floor or Ceiling)
+	if (std::abs(upVec.Y) > std::abs(upVec.X) && std::abs(upVec.Y) > std::abs(upVec.Z)) {
+		bool withinXBounds = position.X >= -halfDim && position.X <= halfDim;
+		bool withinZBounds = position.Z >= -halfDim && position.Z <= halfDim;
+		withinBounds = withinXBounds && withinZBounds;
+	}
+	// Vertical Orientation, Wall facing along the X direction
+	else if (std::abs(upVec.X) > std::abs(upVec.Y) && std::abs(upVec.X) > std::abs(upVec.Z)) {
+		bool withinYBounds = position.Y >= -halfDim && position.Y <= halfDim;
+		bool withinZBounds = position.Z >= -halfDim && position.Z <= halfDim;
+		withinBounds = withinYBounds && withinZBounds;
+	}
+	// Vertical Orientation, Wall facing along the Z direction
+	else if (std::abs(upVec.Z) > std::abs(upVec.X) && std::abs(upVec.Z) > std::abs(upVec.Y)) {
+		bool withinXBounds = position.X >= -halfDim && position.X <= halfDim;
+		bool withinYBounds = position.Y >= -halfDim && position.Y <= halfDim;
+		withinBounds = withinXBounds && withinYBounds;
+	}
+
+	return withinBounds;
+}
 void Face::draw(const BaseCamera& Cam)
 {
 	//pBox->draw(Cam);
 	for (ModelList::iterator it = WallModels.begin(); it != WallModels.end(); it++) {
-		(*it)->draw(Cam);
+		//(*it)->draw(Cam);
 	}
 	
 	for (ModelList::iterator it = DotModels.begin(); it != DotModels.end(); it++) {
@@ -221,8 +282,7 @@ void Face::draw(const BaseCamera& Cam)
 	for (ModelList::iterator it = GhostModels.begin(); it != GhostModels.end(); it++) {
 		(*it)->draw(Cam);
 	}
-	//wallShader* ws = (WallShader*)faceModel->shader();
-	//ws->setEnvioromentCube(SkyboxTexID);
+
 	faceModel->draw(Cam);
 }
 

@@ -38,8 +38,13 @@ protected:
     Vector gridToVector(pair<float, float> gridPos);
     bool isWall(pair<float, float> gridPos);
 
+    bool isWithinBounds(pair<float, float> gridPos);
+    // Member variables added to Ghost class
+    float elapsedTime = 0.0; // Time elapsed since last path update
+    size_t currentPathIndex = 0; // Index of the current target position in the path
+    vector<Vector> currentPath; // Current path the Ghost is following
+    float blinkElapsedTime = 0.0; // Time elapsed since last blink
+
 };
 
 #endif  /* Ghost_hpp */
-
-
