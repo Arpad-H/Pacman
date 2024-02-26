@@ -44,7 +44,7 @@ protected:
     size_t currentPathIndex = 0; // Index of the current target position in the path
     vector<Vector> currentPath; // Current path the Ghost is following
     float blinkElapsedTime = 0.0; // Time elapsed since last blink
-
+    Matrix rotation;
 };
 
 #endif  /* Ghost_hpp */

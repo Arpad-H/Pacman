@@ -98,7 +98,7 @@ void Application::update()
     lastFrameTime = currentTime;
     time += deltaTime;
  
-   if (!pacman->transitionState )//|| !pacman->hitState
+   if (!pacman->transitionState || !pacman->hitState)//|| !pacman->hitState
     {
         if (glfwGetKey(pWindow, GLFW_KEY_W)) {
             dir = 0;

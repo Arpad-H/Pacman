@@ -32,13 +32,13 @@ Ghost::~Ghost()
 
 void Ghost::positionGhost(Vector position)
 {
-    Matrix startPos, rotation;
+    Matrix startPos;
     //rotation.rotationYawPitchRoll(toRad(180), 0, 0);
     rotation = this->associatedFace->rotateToMatchFace(this->ghostModel->transform().up());
     initTransform = ghostModel->transform();
     startPos.translation(position);
-    //ghostModel->transform( startPos*  initTransform * rotation); Rotation is not working :( To test, you need to comment out the update function.
-    ghostModel->transform(startPos * initTransform);
+  ghostModel->transform( startPos*  initTransform * rotation);// Rotation is not working :( To test, you need to comment out the update function.
+    //ghostModel->transform(startPos * initTransform);
 }
 
 void Ghost::setFace(Face* face)
@@ -197,14 +197,14 @@ void Ghost::update(float dtime)
             Matrix rotationCorrection;
             rotationCorrection = this->associatedFace->rotateToMatchFace(this->ghostModel->transform().up());
             //ghostModel->transform(newTransform * initTransform * rotationCorrection);
-            ghostModel->transform(newTransform * initTransform);
+            ghostModel->transform(newTransform *rotation *initTransform);
 
             currentPathIndex++; // Prepare to move to the next point on the next blink
         }
 
         blinkElapsedTime = 0.0f; // Reset the blink timer
     }
-
+    
 }
 
 

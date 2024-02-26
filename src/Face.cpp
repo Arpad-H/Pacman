@@ -162,20 +162,20 @@ void Face::addWalls()
 				Vector pos= f.translation();
 				wallPositions.push_back(m_translation*m_rotation*pos);
 			}
-			/*else {
-				pWall = new Model(ASSET_DIRECTORY "orbdae.dae", true, Vector(0.2, 0.2, 0.2));
+			else {
+			/*	pWall = new Model(ASSET_DIRECTORY "orbdae.dae", true, Vector(0.2, 0.2, 0.2));
 				pWall->shader(pPhongshader, true);
 				f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
-				pWall->transform(buildM * f);
-				DotModels.push_back(pWall);
-			}*/
+				pWall->transform(m_translation * m_rotation * f);
+				DotModels.push_back(pWall);*/
+			}
 			
 		}
 	}
-	//InstanceShader* instanceShader = new InstanceShader(true);
-	PhongShader* phongShader = new PhongShader();
+	InstanceShader* instanceShader = new InstanceShader(true);
+	//PhongShader* phongShader = new PhongShader();
 	pBox-> numInstances = InstancePositionData.size();
-	pBox->shader(phongShader, true);
+	pBox->shader(instanceShader, true);
 	//pBox->pupulateBuffers();
 	
 }
@@ -192,8 +192,8 @@ void Face::initGhosts(int amount)
 
 	for(int i =0; i< amount; i++)
 	{
-		int random = rand() % 4;
-		Ghost* temp = new Ghost(ghosts[random], true, Vector(1, 1, 1), i, this);
+		
+		Ghost* temp = new Ghost(ghosts[i], true, Vector(1, 1, 1), i, this);
 		
 		GameObjects.push_back(temp);
 		GhostModels.push_back(temp->ghostModel);
@@ -206,7 +206,7 @@ Matrix Face::rotateToMatchFace(Vector objectUp) {
 	// Normalize both vectors to ensure proper calculations
 	//faceUp.normalize();
 	faceUp.toUnitVector();
-	objectUp.normalize();
+	objectUp.toUnitVector();
 	// Check if the vectors are parallel and pointing in the same direction or opposite directions
 	if (faceUp == objectUp) {
 		// No rotation needed
@@ -277,7 +277,7 @@ void Face::draw(const BaseCamera& Cam)
 	}
 	
 	for (ModelList::iterator it = DotModels.begin(); it != DotModels.end(); it++) {
-		//(*it)->draw(Cam);
+		(*it)->draw(Cam);
 	}
 	for (ModelList::iterator it = GhostModels.begin(); it != GhostModels.end(); it++) {
 		(*it)->draw(Cam);
