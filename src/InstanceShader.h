@@ -2,13 +2,20 @@
 #pragma once
 #include "BaseShader.h"
 #include <vector>
+struct Offset {
+    float x;
+    float y;
+    float z;
+    float w;
+};
 class InstanceShader : public BaseShader
 {
 public:
+    
     InstanceShader(bool LoadStaticShaderCode = true);
     InstanceShader() {}
     virtual ~InstanceShader();
-    void setInstanceData(const std::vector<Vector> data);
+    void setInstanceData(const std::vector<Offset> data);
     virtual void activate(const BaseCamera& Cam) const;
    
 protected:
@@ -16,7 +23,8 @@ protected:
     void assignLocations();
 
 private:
-    std::vector<Vector> InstancePosData;
+   
+    std::vector<Offset> InstancePosData;
     GLint ModelViewProjLoc;
     GLint ModelMatLoc;
     GLint CameraPosLoc;

@@ -17,15 +17,22 @@ InstanceShader::InstanceShader(bool LoadStaticShaderCode)
    // std::cout << "InstanceShader:" << p << std::endl;
    
 }
-void InstanceShader::setInstanceData( std::vector<Vector> data)
+void InstanceShader::setInstanceData( std::vector<Offset> data)
 {
-    this->InstancePosData = data;
+    InstancePosData = data;
+    /*for (const auto& offset : data) {
+        this->InstancePosData.push_back({ offset.X, offset.Y, offset.Z });
+    }*/
     int instances = data.size();
     Vector v = Vector(0, 0, 0);
     glGenBuffers(1, &ssbo);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, instances * sizeof(v) , nullptr, GL_DYNAMIC_DRAW); 
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, ssbo); // Replace 'binding_point' with your desired binding index 
+    glBufferData(GL_SHADER_STORAGE_BUFFER, InstancePosData.size() * sizeof(float) * 4, nullptr, GL_DYNAMIC_DRAW);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, ssbo); 
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, instances * sizeof(float) * 4, InstancePosData.data()); // Update buffer 
+    GLenum Error = glGetError();
+    std::cout << "Error: " << Error << std::endl;
 }
 InstanceShader::~InstanceShader()
 {
@@ -44,21 +51,12 @@ void InstanceShader::assignLocations()
 void InstanceShader::activate(const BaseCamera& Cam) const
 {
     BaseShader::activate(Cam);
-    //  glUseProgram(ShaderProgram);
-    Matrix cam = Cam.getViewMatrix();
-    cam.invert();
-    Vector camPos = cam.translation();
-    //glUniform3f(CameraPosLoc, camPos.X, camPos.Y, camPos.Z);
-    Matrix m = modelTransform();
     Matrix ModelViewProj = Cam.getProjectionMatrix() * Cam.getViewMatrix() * modelTransform();
 
- //   glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, modelTransform().m);
     glUniformMatrix4fv(ModelViewProjLoc, 1, GL_FALSE, ModelViewProj.m);
-
-    Vector v = Vector(0, 0, 0);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, modelTransform().m);
     
-    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, InstancePosData.size() * sizeof(v), InstancePosData.data()); // Update buffer 
+    
 }
 
 

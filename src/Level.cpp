@@ -102,6 +102,7 @@ void Level::draw(const BaseCamera& Cam)
 	for (FacesList::iterator it = Faces.begin(); it != Faces.end(); it++) {
 		(*it)->draw(Cam);
 	}
+	//forwardFacingFace->draw(Cam);
 	//activeFace->draw(Cam);
 }
 

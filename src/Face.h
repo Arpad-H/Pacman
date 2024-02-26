@@ -14,6 +14,8 @@
 #include "GameObject.h"
 #include "WallShader.h"
 #include "TriangleBoxModel.h"
+#include "InstanceShader.h"
+#include <vector>
 
 
 class Face : public BaseModel
@@ -59,7 +61,7 @@ protected:
 	GameObjectList GameObjects;
 	GLuint SkyboxTexID;
 	TriangleBoxModel* pBox;
-	std::vector<Vector> InstancePositionData;
+	std::vector<Offset> InstancePositionData;
 };
 
 

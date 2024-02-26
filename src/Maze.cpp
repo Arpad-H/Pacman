@@ -11,7 +11,7 @@ Maze::~Maze()
 }
 Maze::Maze(int size) {
 	this->size = size;
-	srand(time(0)); // Seed for random number generation
+	//srand(time(0)); // Seed for random number generation
 	initMaze();
 	generateMaze();
 	openMazeEdges(); // Open edges after generating the maze

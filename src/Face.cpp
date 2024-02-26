@@ -4,7 +4,7 @@
 #include "Ghost.h"
 #include "WallShader.h"
 #include "TriangleBoxModel.h"
-#include "InstanceShader.h"
+
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
@@ -144,20 +144,28 @@ void Face::addWalls()
 	//for instanced rendering
 	
 	pBox = new TriangleBoxModel(1, 1, 1);
+	pBox->pupulateBuffers();
+	int numWalls = 0;
 	for (int i = 0; i < dimmensions; i++) {
 		for (int j = 0; j < dimmensions; j++) {
 			if (layout->maze[i][j].isWall) {
-				//pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
-				//pWall->shader(pPhongshader, true);
-//				f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
-				//pWall->transform(m_translation * m_rotation * f);
-				//WallModels.push_back(pWall);
+				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
+				pWall->shader(pPhongshader, true);
+				f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
+				pWall->transform(m_translation * m_rotation * f);
+				WallModels.push_back(pWall);
 				
-				//INSTANCING
+				/*//INSTANCING
 				f = m_translation * m_rotation * m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5)* pBox->transform();
 				//pBox->InstanceData.push_back({ f.translation(), f });
-				InstancePositionData.push_back(f.translation());
-
+				Vector v = f.translation();
+				Offset o;
+				o.x = v.X;
+				o.y = v.Y;
+				o.z = v.Z;
+				o.w = 1.0f;
+				InstancePositionData.push_back(o);*/
+				numWalls++;
 				// extract the position of the wall
 				Vector pos= f.translation();
 				wallPositions.push_back(m_translation*m_rotation*pos);
@@ -172,11 +180,17 @@ void Face::addWalls()
 			
 		}
 	}
-	InstanceShader* instanceShader = new InstanceShader(true);
+	cout << "Number of walls: " << numWalls << endl;
+	/*InstanceShader* instanceShader = new InstanceShader(true);
+	//InstancePositionData.clear();
+	//Vector v = Vector(0, 0, 0);
+	
+	//InstancePositionData.push_back(o);
+	instanceShader->setInstanceData(InstancePositionData);
 	//PhongShader* phongShader = new PhongShader();
 	pBox-> numInstances = InstancePositionData.size();
 	pBox->shader(instanceShader, true);
-	//pBox->pupulateBuffers();
+	//pBox->pupulateBuffers();*/
 	
 }
 
@@ -271,9 +285,9 @@ bool Face::isWithinBounds(Vector position) {
 }
 void Face::draw(const BaseCamera& Cam)
 {
-	//pBox->draw(Cam);
+	//pBox->drawInstanced(Cam);
 	for (ModelList::iterator it = WallModels.begin(); it != WallModels.end(); it++) {
-		//(*it)->draw(Cam);
+		(*it)->draw(Cam);
 	}
 	
 	for (ModelList::iterator it = DotModels.begin(); it != DotModels.end(); it++) {

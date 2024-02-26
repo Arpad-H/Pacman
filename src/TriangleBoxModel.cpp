@@ -26,13 +26,26 @@ void TriangleBoxModel::draw(const BaseCamera& Cam)
     VB.activate();
     IB.activate();
 
+    glDrawElements(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0);
+   // glDrawElementsInstanced(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0, numInstances);
+
+    IB.deactivate();
+    VB.deactivate();
+}
+
+void TriangleBoxModel::drawInstanced(const BaseCamera& Cam)
+{
+    BaseModel::draw(Cam);
+
+    VB.activate();
+    IB.activate();
+
     //glDrawElements(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0);
     glDrawElementsInstanced(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0, numInstances);
 
     IB.deactivate();
     VB.deactivate();
 }
-
 VertexBuffer TriangleBoxModel::getVB()
 {
     return VB;
