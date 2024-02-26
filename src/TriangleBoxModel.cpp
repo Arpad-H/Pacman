@@ -43,10 +43,7 @@ IndexBuffer TriangleBoxModel::getIB()
     	return IB;
 }
 
-void TriangleBoxModel::setInstanceData(const std::vector<BoxInstanceData>& data)
-{
-    InstanceData = data;
-}
+
 
 void TriangleBoxModel::pupulateBuffers()
 {
@@ -65,12 +62,14 @@ void TriangleBoxModel::pupulateBuffers()
 
 
     VB.begin();
-    for (const auto& instance : InstanceData) {
+  //  std::cout << "InstanceData size: " << InstanceData.size() << std::endl;
+  /*  for (const auto& instance : InstanceData) {
 
         VB.addInstancePosition(instance.Position);
-        VB.addInstanceRotation(instance.Rotation);
+      //  VB.addInstanceRotation(instance.Rotation);
+        
+    }*/
 
-    }
     //Unterseite
     VB.addNormal(0, -1, 0);
     VB.addTexcoord0(0, 1);
@@ -134,7 +133,6 @@ void TriangleBoxModel::pupulateBuffers()
     VB.addVertex(H);
 
    
-
     VB.end();
 
     /*

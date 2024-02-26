@@ -28,9 +28,9 @@ public:
     virtual void draw(const BaseCamera& Cam);
     VertexBuffer getVB();
     IndexBuffer getIB();
-    void setInstanceData(const std::vector<BoxInstanceData>& data);
+   
     void pupulateBuffers();
-    std::vector<BoxInstanceData> InstanceData;
+    int numInstances;
 protected:
     VertexBuffer VB;
     IndexBuffer IB;

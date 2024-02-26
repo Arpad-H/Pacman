@@ -64,6 +64,8 @@ public:
     const std::vector<Vector>& texcoord1() { return Texcoord1; }
     const std::vector<Vector>& texcoord2() { return Texcoord2; }
     const std::vector<Vector>& texcoord3() { return Texcoord3; }
+    const std::vector<Vector>& instancePositions() { return InstancePositions; }
+  //  const std::vector<Matrix>& instanceRotations() { return InstanceRotations; }
 
 private:
 
@@ -78,7 +80,7 @@ private:
         TEXCOORD2 = 1<<5,
         TEXCOORD3 = 1<<6,
         INSTANCEPOS = 1<<7,
-        INSTANCEROT = 1<<8,
+      //  INSTANCEROT = 1<<8,
     };
     std::vector<Vector> Vertices;
     std::vector<Vector> Normals;
@@ -88,7 +90,7 @@ private:
     std::vector<Vector> Texcoord2;
     std::vector<Vector> Texcoord3;
     std::vector<Vector> InstancePositions;
-    std::vector<Matrix> InstanceRotations;
+ //   std::vector<Matrix> InstanceRotations;
     unsigned int ActiveAttributes;
     bool WithinBeginBlock;
     GLuint VBO;

@@ -53,7 +53,7 @@ void Pacman::update(float dtime)
 	
 	Matrix  mtrans,  mrot,startloc, pcmat;
 	
-	Vector up = pacmanModel->transform().up().toUnitVector() * 90;
+	/*Vector up = pacmanModel->transform().up().toUnitVector() * 90;
 	if (up.X)
 	{
 		mrot.rotationX(toRad(up.X));
@@ -65,9 +65,8 @@ void Pacman::update(float dtime)
 	else if (up.Z)
 	{
 		mrot.rotationZ(toRad(up.Z));
-	}
+	}*/
 	mrot.rotationYawPitchRoll(toRad(dir), 0,0);
-	//mrot.rotationY(toRad(dir));
 
 	//calculate an offset to move the model
 	Vector posOffset = pacmanModel->transform().forward().toUnitVector() * speed * dtime;

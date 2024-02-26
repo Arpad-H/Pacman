@@ -173,8 +173,9 @@ void Application::draw()
     switch (currentState)
     {
     case GameState::MainMenu:
-        uiManager->showMainMenu();
         skybox->draw(Cam);
+        uiManager->showMainMenu();
+        
         return;
     case GameState::Playing:
         break;

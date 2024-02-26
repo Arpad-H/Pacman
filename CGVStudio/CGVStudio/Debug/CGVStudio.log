@@ -2,8 +2,17 @@
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(78,80): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(78,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(112,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(134,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(152,102): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(152,69): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(136,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(151,77): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(151,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  InstanceShader.cpp
+  Level.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(17,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(110,34): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(110,39): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+  main.cpp
+  Generating Code...
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(116): warning C4715: 'Face::checkWall': not all control paths return a value
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(151): warning C4700: uninitialized local variable 'pWall' used
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\CGVStudio\Debug\CGVStudio.exe

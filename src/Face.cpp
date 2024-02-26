@@ -129,29 +129,33 @@ float Face::dominantAxis(const Vector& vec) const
 
 void Face::addWalls()
 {
-	InstanceShader* instanceShader = new InstanceShader();
-	//Maze* maze;
+	
+	PhongShader* pPhongshader = new PhongShader();
+	
+	
 	layout = new Maze(dimmensions);
 	layout->display();
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
-	//layout = maze;
-	//Model* pWall;
+	
+	Model* pWall;
 	Matrix m,f;
-	pBox = new TriangleBoxModel(1,1,1);
-	pBox->shader(instanceShader, true);
+
+	//for instanced rendering
+	
+
 	for (int i = 0; i < dimmensions; i++) {
 		for (int j = 0; j < dimmensions; j++) {
 			if (layout->maze[i][j].isWall) {
 				//pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
 				//pWall->shader(pPhongshader, true);
-				//f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
-				//pWall->transform(buildM * f);
+//				f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
+				//pWall->transform(m_translation * m_rotation * f);
 				//WallModels.push_back(pWall);
-
+				
 				//INSTANCING
-				f = m_translation * m_rotation * m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5);				
-				pBox->InstanceData.push_back({ f.translation(), f });
-	
+				f = m_translation * m_rotation * m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5)* pBox->transform();
+				//pBox->InstanceData.push_back({ f.translation(), f });
+				InstancePositionData.push_back(f.translation());
 
 				// extract the position of the wall
 				Vector pos= f.translation();
@@ -167,7 +171,11 @@ void Face::addWalls()
 			
 		}
 	}
-	pBox->pupulateBuffers();
+	InstanceShader* instanceShader = new InstanceShader(true);
+	pBox = new TriangleBoxModel(1, 1, 1);
+	pBox-> numInstances = InstancePositionData.size();
+	pBox->shader(instanceShader, true);
+	//pBox->pupulateBuffers();
 	
 }
 
@@ -187,7 +195,7 @@ void Face::initGhosts(int amount)
 		Ghost* temp = new Ghost(ghosts[random], true, Vector(1, 1, 1), i, this);
 		
 		GameObjects.push_back(temp);
-		GhostModels.push_back(temp);
+		GhostModels.push_back(temp->ghostModel);
 	}
 }
 
@@ -202,10 +210,11 @@ void Face::update(float dtime)
 
 void Face::draw(const BaseCamera& Cam)
 {
+	//pBox->draw(Cam);
 	for (ModelList::iterator it = WallModels.begin(); it != WallModels.end(); it++) {
-		//(*it)->draw(Cam);
+		(*it)->draw(Cam);
 	}
-	pBox->draw(Cam);
+	
 	for (ModelList::iterator it = DotModels.begin(); it != DotModels.end(); it++) {
 		//(*it)->draw(Cam);
 	}
@@ -214,7 +223,7 @@ void Face::draw(const BaseCamera& Cam)
 	}
 	//wallShader* ws = (WallShader*)faceModel->shader();
 	//ws->setEnvioromentCube(SkyboxTexID);
-	//faceModel->draw(Cam);
+	faceModel->draw(Cam);
 }
 
 

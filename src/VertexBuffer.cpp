@@ -44,7 +44,7 @@ void VertexBuffer::begin()
     Texcoord2.clear();
     Texcoord3.clear();
     InstancePositions.clear();
-    InstanceRotations.clear();
+   // InstanceRotations.clear();
     WithinBeginBlock = true;
 }
 
@@ -68,10 +68,10 @@ void VertexBuffer::addInstancePosition(const Vector& Position) {
     InstancePositions.push_back(Position);
 }
 
-void VertexBuffer::addInstanceRotation(const Matrix& Rotation) {
+/*void VertexBuffer::addInstanceRotation(const Matrix& Rotation) {
     ActiveAttributes |= INSTANCEROT;
     InstanceRotations.push_back(Rotation);
-}
+}*/
 void VertexBuffer::addColor( const Color& c)
 {
     if(!WithinBeginBlock) { std::cout << "call addColor only between begin and end method!\n"; return; }
@@ -138,9 +138,9 @@ void VertexBuffer::addVertex( const Vector& v)
     if( ActiveAttributes& INSTANCEPOS)
         while(InstancePositions.size() < Vertices.size() )
             InstancePositions.push_back(InstancePositions.back());
-    if( ActiveAttributes& INSTANCEROT)
+ /*   if( ActiveAttributes& INSTANCEROT)
         while(InstanceRotations.size() < Vertices.size() )
-            InstanceRotations.push_back(InstanceRotations.back());
+            InstanceRotations.push_back(InstanceRotations.back());*/
  
     VertexCount = (unsigned int) Vertices.size();
 }
@@ -165,15 +165,15 @@ void VertexBuffer::end()
     }
     
 
-    GLuint ElementSize = 4*sizeof(float) +
-                        ((ActiveAttributes&NORMAL) ? 4*sizeof(float) : 0) +
-                        ((ActiveAttributes&COLOR) ?  4*sizeof(float) : 0) +
-                        ((ActiveAttributes&TEXCOORD0) ? 3*sizeof(float) : 0) +
-                        ((ActiveAttributes&TEXCOORD1) ? 3*sizeof(float) : 0) +
-                        ((ActiveAttributes&TEXCOORD2) ? 3*sizeof(float) : 0) +
-                        ((ActiveAttributes&TEXCOORD3) ? 3*sizeof(float) : 0) +
-                        ((ActiveAttributes & INSTANCEPOS) ? 4 * sizeof(float) : 0) +
-                        ((ActiveAttributes & INSTANCEROT) ? 16 * sizeof(float) : 0);
+    GLuint ElementSize = 4 * sizeof(float) +
+        ((ActiveAttributes & NORMAL) ? 4 * sizeof(float) : 0) +
+        ((ActiveAttributes & COLOR) ? 4 * sizeof(float) : 0) +
+        ((ActiveAttributes & TEXCOORD0) ? 3 * sizeof(float) : 0) +
+        ((ActiveAttributes & TEXCOORD1) ? 3 * sizeof(float) : 0) +
+        ((ActiveAttributes & TEXCOORD2) ? 3 * sizeof(float) : 0) +
+        ((ActiveAttributes & TEXCOORD3) ? 3 * sizeof(float) : 0) +
+        ((ActiveAttributes & INSTANCEPOS) ? 4 * sizeof(float) : 0);
+                      //  ((ActiveAttributes & INSTANCEROT) ? 16 * sizeof(float) : 0);
     
     GLuint BufferSize = (GLuint)Vertices.size() * ElementSize;
     
@@ -234,12 +234,12 @@ void VertexBuffer::end()
             *(++Buffer) = 1.0f;
         }
 
-        if (ActiveAttributes & INSTANCEROT) {
+      /*  if (ActiveAttributes & INSTANCEROT) {
             // Interleave matrix data 
-            for (int col = 0; col < 4; ++col)
-                for (int row = 0; row < 4; ++row)
-                    *(++Buffer) = InstanceRotations[i].m[col * 4 + row];
-        }
+            for (int row = 0; row < 4; ++row)
+                for (int col = 0; col < 4; ++col)
+                    *(++Buffer) = InstanceRotations[i].m[row * 4 + col];
+        }*/
         
     }
     assert(  ((long)++Buffer-(long)ByteBuf)== BufferSize );
@@ -302,8 +302,8 @@ void VertexBuffer::end()
         Offset += 4 * sizeof(float);
     }
 
-    if (ActiveAttributes & INSTANCEROT) {
-        // Configure matrix components
+   /* if (ActiveAttributes & INSTANCEROT) {
+        // Configure matrix components as 4 vec 4s
         for (int col = 0; col < 4; ++col) {
             glEnableVertexAttribArray(Index);
             glVertexAttribPointer(Index, 4, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
@@ -311,7 +311,7 @@ void VertexBuffer::end()
             Offset += 4 * sizeof(float);
             Index++;
         }
-    }
+    }*/
     BuffersInitialized = true;
     
     glBindVertexArray(0);

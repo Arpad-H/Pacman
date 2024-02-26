@@ -57,6 +57,7 @@ protected:
 	GameObjectList GameObjects;
 	GLuint SkyboxTexID;
 	TriangleBoxModel* pBox;
+	std::vector<Vector> InstancePositionData;
 };
 
 
