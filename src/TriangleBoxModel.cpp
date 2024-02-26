@@ -11,7 +11,45 @@
 
 TriangleBoxModel::TriangleBoxModel(float Width, float Height, float Depth)
 {
+    this->Width = Width;
+    this->Height = Height;
+    this->Depth = Depth;
+
     
+   
+}
+
+void TriangleBoxModel::draw(const BaseCamera& Cam)
+{
+    BaseModel::draw(Cam);
+
+    VB.activate();
+    IB.activate();
+
+    //glDrawElements(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0);
+    glDrawElementsInstanced(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0, InstanceData.size());
+
+    IB.deactivate();
+    VB.deactivate();
+}
+
+VertexBuffer TriangleBoxModel::getVB()
+{
+    return VB;
+}
+
+IndexBuffer TriangleBoxModel::getIB()
+{
+    	return IB;
+}
+
+void TriangleBoxModel::setInstanceData(const std::vector<BoxInstanceData>& data)
+{
+    InstanceData = data;
+}
+
+void TriangleBoxModel::pupulateBuffers()
+{
     float x = Width / 2;
     float y = Height / 2;
     float z = Depth / 2;
@@ -89,6 +127,13 @@ TriangleBoxModel::TriangleBoxModel(float Width, float Height, float Depth)
     VB.addVertex(F);
     VB.addVertex(G);
     VB.addVertex(H);
+
+    for (const auto& instance : InstanceData) {
+       
+        VB.addInstancePosition(instance.Position);
+        VB.addInstanceRotation(instance.Rotation);
+       
+    }
 
     VB.end();
 
@@ -171,29 +216,6 @@ B--------A
 
 
     IB.end();
-}
-
-void TriangleBoxModel::draw(const BaseCamera& Cam)
-{
-    BaseModel::draw(Cam);
-
-    VB.activate();
-    IB.activate();
-
-    glDrawElements(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0);
-
-    IB.deactivate();
-    VB.deactivate();
-}
-
-VertexBuffer TriangleBoxModel::getVB()
-{
-    return VB;
-}
-
-IndexBuffer TriangleBoxModel::getIB()
-{
-    	return IB;
 }
 
 

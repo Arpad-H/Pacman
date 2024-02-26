@@ -6,6 +6,9 @@
 #define ASSET_DIRECTORY "../assets/"
 #endif
 
+//Unfortunatly the name is missleading, this is not a wall shader, but a shader for the faces of the cube
+// its a basic Environment mapping shader with some PBR features 
+//since we changed it last minute
 WallShader::WallShader(bool LoadStaticShaderCode)
 {
     if (!LoadStaticShaderCode)

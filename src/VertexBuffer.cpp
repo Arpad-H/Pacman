@@ -41,6 +41,10 @@ void VertexBuffer::begin()
     Colors.clear();
     Texcoord0.clear();
     Texcoord1.clear();
+    Texcoord2.clear();
+    Texcoord3.clear();
+    InstancePositions.clear();
+    InstanceRotations.clear();
     WithinBeginBlock = true;
 }
 
@@ -59,7 +63,15 @@ void VertexBuffer::addNormal( const Vector& v)
     ActiveAttributes |= NORMAL;
     Normals.push_back( v);
 }
+void VertexBuffer::addInstancePosition(const Vector& Position) {
+    ActiveAttributes |= INSTANCEPOS;
+    InstancePositions.push_back(Position);
+}
 
+void VertexBuffer::addInstanceRotation(const Matrix& Rotation) {
+    ActiveAttributes |= INSTANCEROT;
+    InstanceRotations.push_back(Rotation);
+}
 void VertexBuffer::addColor( const Color& c)
 {
     if(!WithinBeginBlock) { std::cout << "call addColor only between begin and end method!\n"; return; }
@@ -122,7 +134,13 @@ void VertexBuffer::addVertex( const Vector& v)
             Texcoord2.push_back(Texcoord2.back()); // copy last element
     if( ActiveAttributes&TEXCOORD3)
         while( Texcoord3.size() < Vertices.size() )
-            Texcoord3.push_back(Texcoord3.back()); // copy last element
+            Texcoord3.push_back(Texcoord3.back());
+    if( ActiveAttributes& INSTANCEPOS)
+        while(InstancePositions.size() < Vertices.size() )
+            InstancePositions.push_back(InstancePositions.back());
+    if( ActiveAttributes& INSTANCEROT)
+        while(InstanceRotations.size() < Vertices.size() )
+            InstanceRotations.push_back(InstanceRotations.back());
  
     VertexCount = (unsigned int) Vertices.size();
 }
@@ -153,7 +171,10 @@ void VertexBuffer::end()
                         ((ActiveAttributes&TEXCOORD0) ? 3*sizeof(float) : 0) +
                         ((ActiveAttributes&TEXCOORD1) ? 3*sizeof(float) : 0) +
                         ((ActiveAttributes&TEXCOORD2) ? 3*sizeof(float) : 0) +
-                        ((ActiveAttributes&TEXCOORD3) ? 3*sizeof(float) : 0);
+                        ((ActiveAttributes&TEXCOORD3) ? 3*sizeof(float) : 0) +
+                        ((ActiveAttributes & INSTANCEPOS) ? 4 * sizeof(float) : 0) +
+                        ((ActiveAttributes & INSTANCEROT) ? 16 * sizeof(float) : 0);
+    
     GLuint BufferSize = (GLuint)Vertices.size() * ElementSize;
     
     char* ByteBuf = new char[BufferSize];
@@ -205,6 +226,19 @@ void VertexBuffer::end()
             *(++Buffer) = Texcoord3[i].X;
             *(++Buffer) = Texcoord3[i].Y;
             *(++Buffer) = Texcoord3[i].Z;
+        }
+        if (ActiveAttributes & INSTANCEPOS) {
+            *(++Buffer) = InstancePositions[i].X;
+            *(++Buffer) = InstancePositions[i].Y;
+            *(++Buffer) = InstancePositions[i].Z;
+            *(++Buffer) = 1.0f;
+        }
+
+        if (ActiveAttributes & INSTANCEROT) {
+            // Interleave matrix data 
+            for (int col = 0; col < 4; ++col)
+                for (int row = 0; row < 4; ++row)
+                    *(++Buffer) = InstanceRotations[i].m[col * 4 + row];
         }
         
     }
@@ -260,7 +294,24 @@ void VertexBuffer::end()
         glVertexAttribPointer(Index++, 3, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
         Offset += 3*sizeof(float);
     }
-    
+    if (ActiveAttributes & INSTANCEPOS) {
+        glEnableVertexAttribArray(Index);
+        glVertexAttribPointer(Index, 4, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
+        glVertexAttribDivisor(Index, 1); 
+        Index++;
+        Offset += 4 * sizeof(float);
+    }
+
+    if (ActiveAttributes & INSTANCEROT) {
+        // Configure matrix components
+        for (int col = 0; col < 4; ++col) {
+            glEnableVertexAttribArray(Index);
+            glVertexAttribPointer(Index, 4, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
+            glVertexAttribDivisor(Index, 1); 
+            Offset += 4 * sizeof(float);
+            Index++;
+        }
+    }
     BuffersInitialized = true;
     
     glBindVertexArray(0);

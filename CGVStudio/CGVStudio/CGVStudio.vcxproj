@@ -96,6 +96,7 @@
     <ClCompile Include="..\..\src\GameState.cpp" />
     <ClCompile Include="..\..\src\Ghost.cpp" />
     <ClCompile Include="..\..\src\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\src\InstanceShader.cpp" />
     <ClCompile Include="..\..\src\Level.cpp" />
     <ClCompile Include="..\..\src\LineBoxModel.cpp" />
     <ClCompile Include="..\..\src\LinePlaneModel.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="..\..\src\GameState.h" />
     <ClInclude Include="..\..\src\Ghost.h" />
     <ClInclude Include="..\..\src\IndexBuffer.h" />
+    <ClInclude Include="..\..\src\InstanceShader.h" />
     <ClInclude Include="..\..\src\Level.h" />
     <ClInclude Include="..\..\src\LineBoxModel.h" />
     <ClInclude Include="..\..\src\LinePlaneModel.h" />

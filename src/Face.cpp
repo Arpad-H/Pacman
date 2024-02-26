@@ -3,15 +3,18 @@
 #include "TrianglePlaneModel.h"
 #include "Ghost.h"
 #include "WallShader.h"
+#include "TriangleBoxModel.h"
+#include "InstanceShader.h"
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
 #define ASSET_DIRECTORY "../assets/"
 #endif
 
-Face::Face(float dimmensions, Matrix m, GLuint SkyboxTexID)
+Face::Face(float dimmensions, Matrix t, Matrix r, GLuint SkyboxTexID)
 {
-	buildM = m;
+	m_translation = t;
+	m_rotation = r;
 	this->dimmensions = dimmensions;
 	
 	//faceModel = new BaseModel();
@@ -20,10 +23,11 @@ Face::Face(float dimmensions, Matrix m, GLuint SkyboxTexID)
 	pWallShader = new WallShader();
 	pWallShader->setEnvioromentCube(SkyboxTexID);
 	addWalls();
-	pConstShader->color(Color(0.5, 0.5, 0.5)+Color(m.up().X, m.up().Y, m.up().Z));
+
+	//pConstShader->color(Color(0.5, 0.5, 0.5)+Color(t.up().X, m.up().Y, m.up().Z));
 	faceModel = new TrianglePlaneModel(dimmensions, dimmensions, 1, 1);
 	faceModel->shader(pWallShader, true);
-	faceModel->transform(buildM);
+	faceModel->transform(t*r);
 	initGhosts(2);
 }
 
@@ -41,9 +45,10 @@ void Face::setNeighbouringFaces(Face* f1, Face* f2, Face* f3, Face* f4)
 
 pair<float, float> Face::determineActiveAxes() const
 {
-	Vector forwardVec = this->buildM.forward();
-	Vector upVec = this->buildM.up();
-	Vector rightVec = this->buildM.right();
+	Matrix buildM = m_translation * m_rotation;
+	Vector forwardVec = buildM.forward();
+	Vector upVec = buildM.up();
+	Vector rightVec = buildM.right();
 
 	// Determine the dominant global axis for each direction vector
 	float dominantAxisForward = dominantAxis(forwardVec);
@@ -73,7 +78,7 @@ Vector Face::getInitGhostPosition() const
 				Vector localPosition(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5);
 
 				// Transform the local position to the world position using the face's buildM matrix
-				Vector worldPosition = buildM * localPosition;
+				Vector worldPosition = m_translation * m_rotation* localPosition;
 
 				// Store the world position of the empty space
 				emptySpaces.push_back(worldPosition);
@@ -131,24 +136,33 @@ float Face::dominantAxis(const Vector& vec) const
 
 void Face::addWalls()
 {
-	PhongShader* pPhongshader = new PhongShader();
+	InstanceShader* instanceShader = new InstanceShader();
 	//Maze* maze;
 	layout = new Maze(dimmensions);
 	layout->display();
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 	//layout = maze;
-	Model* pWall;
+	//Model* pWall;
 	Matrix m,f;
-	
+	pBox = new TriangleBoxModel(1,1,1);
+	pBox->shader(instanceShader, true);
 	for (int i = 0; i < dimmensions; i++) {
 		for (int j = 0; j < dimmensions; j++) {
 			if (layout->maze[i][j].isWall) {
-				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
-				pWall->shader(pPhongshader, true);
-				f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
-				pWall->transform(buildM * f);
-				WallModels.push_back(pWall);
+				//pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
+				//pWall->shader(pPhongshader, true);
+				//f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
+				//pWall->transform(buildM * f);
+				//WallModels.push_back(pWall);
 
+				//INSTANCING
+				f = m_translation*m_rotation*m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) ;
+				
+				
+				pBox->InstanceData.push_back({ f.translation(), f });
+Matrix rot;
+			//since we already rotate in the translation part and rotation is not relevant for our box
+				rot.identity(); 
 				// extract the position of the wall
 				Vector pos= f.translation();
 				wallPositions.push_back(pos);
@@ -163,6 +177,7 @@ void Face::addWalls()
 			
 		}
 	}
+	pBox->pupulateBuffers();
 	
 }
 
@@ -198,8 +213,9 @@ void Face::update(float dtime)
 void Face::draw(const BaseCamera& Cam)
 {
 	for (ModelList::iterator it = WallModels.begin(); it != WallModels.end(); it++) {
-		(*it)->draw(Cam);
+		//(*it)->draw(Cam);
 	}
+	pBox->draw(Cam);
 	for (ModelList::iterator it = DotModels.begin(); it != DotModels.end(); it++) {
 		//(*it)->draw(Cam);
 	}
@@ -208,7 +224,7 @@ void Face::draw(const BaseCamera& Cam)
 	}
 	//wallShader* ws = (WallShader*)faceModel->shader();
 	//ws->setEnvioromentCube(SkyboxTexID);
-	faceModel->draw(Cam);
+	//faceModel->draw(Cam);
 }
 
 

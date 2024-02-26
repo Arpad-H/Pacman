@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include "vector.h"
 #include "color.h"
+#include "Matrix.h"
 
 class VertexBuffer
 {
@@ -40,6 +41,8 @@ public:
     void begin();
     void addNormal( float x, float y, float z);
     void addNormal( const Vector& v);
+    void addInstancePosition(const Vector& Position);
+    void addInstanceRotation(const Matrix& Rotation);
     void addColor( const Color& c);
     void addTexcoord0( float s, float t, float u=0.0f );
     void addTexcoord1( float s, float t, float u=0.0f );
@@ -74,6 +77,8 @@ private:
         TEXCOORD1 = 1<<4,
         TEXCOORD2 = 1<<5,
         TEXCOORD3 = 1<<6,
+        INSTANCEPOS = 1<<7,
+        INSTANCEROT = 1<<8,
     };
     std::vector<Vector> Vertices;
     std::vector<Vector> Normals;
@@ -82,6 +87,8 @@ private:
     std::vector<Vector> Texcoord1;
     std::vector<Vector> Texcoord2;
     std::vector<Vector> Texcoord3;
+    std::vector<Vector> InstancePositions;
+    std::vector<Matrix> InstanceRotations;
     unsigned int ActiveAttributes;
     bool WithinBeginBlock;
     GLuint VBO;

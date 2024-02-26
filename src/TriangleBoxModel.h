@@ -16,6 +16,10 @@
 #include "vertexbuffer.h"
 #include "indexbuffer.h"
 
+struct BoxInstanceData {
+    Vector Position;
+    Matrix Rotation;
+};
 class TriangleBoxModel : public BaseModel
 {
 public:
@@ -24,10 +28,16 @@ public:
     virtual void draw(const BaseCamera& Cam);
     VertexBuffer getVB();
     IndexBuffer getIB();
+    void setInstanceData(const std::vector<BoxInstanceData>& data);
+    void pupulateBuffers();
+    std::vector<BoxInstanceData> InstanceData;
 protected:
     VertexBuffer VB;
     IndexBuffer IB;
     
+    float Width;
+    float Height;
+        float Depth;
 };
 
 

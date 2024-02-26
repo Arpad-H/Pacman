@@ -13,13 +13,14 @@
 #include <cmath>
 #include "GameObject.h"
 #include "WallShader.h"
+#include "TriangleBoxModel.h"
 
 
 class Face : public BaseModel
 
 {
 	public:
-	Face(float dimmensions,Matrix m, GLuint SkyboxTexID);
+	Face(float dimmensions,Matrix t, Matrix r, GLuint SkyboxTexID);
 	virtual ~Face();
 	
 	BaseModel* faceModel;
@@ -43,7 +44,10 @@ class Face : public BaseModel
 	vector<Vector> wallPositions;
 	ModelList GhostModels;
 protected:
-	Matrix buildM;
+	
+	
+	Matrix m_translation;
+	Matrix m_rotation;
 	ModelList WallModels;
 	WallShader* pWallShader;
 	void addWalls();
@@ -52,6 +56,7 @@ protected:
 	float dominantAxis(const Vector& vec) const;
 	GameObjectList GameObjects;
 	GLuint SkyboxTexID;
+	TriangleBoxModel* pBox;
 };
 
 

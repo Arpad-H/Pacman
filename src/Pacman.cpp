@@ -32,7 +32,7 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 	faceAdaptation.identity();
 	rotation.rotationYawPitchRoll(toRad(  180), 0, 0);
 	initTransform = rotation*pacmanModel->transform();
-	startPos.translation(Vector(-15, 16, -15));
+	startPos.translation(Vector(0, 0, 3));
 	pacmanModel->transform(startPos* initTransform);
 	camRefrencePoint.translation(Vector(0, 0, 16));
 	std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
