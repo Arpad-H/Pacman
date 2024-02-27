@@ -11,6 +11,9 @@
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
+//we added some modifications to the original code to support instancing
+//however there are some issues with the instancing part of the code thats why we chose a different solution with SSBO's
+//it almost worked however the instance data did not arrive correctly to the shader, loosing data always starting at instance 24 according to render doc
 VertexBuffer::VertexBuffer() : ActiveAttributes(0), WithinBeginBlock(false), VAO(0), VBO(0), VertexCount(0), BuffersInitialized(false)
 {
     

@@ -16,10 +16,12 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 {
 	//GlowShader* pGlowShader;
 	//EXPERIMENTAL GLOW
+	//Glow did not end up working. We just use a flat color since the phong shader just didnt look good in the artstyle
 	pGlowShader = new GlowShader();
 
 	pacmanModel = new Model();
 	loadModels(ModelFilePath, FitSize, initScale, *pacmanModel);
+	
 	//pGlowShader->setDiffuseTexture(pacmanModel->getDiffuseTex());
 	//EXPERIMENTAL GLOW
 	pacmanModel->shader(pGlowShader, true);
@@ -34,9 +36,9 @@ Pacman::Pacman(const char* ModelFilePath, bool FitSize, Vector initScale)
 	initTransform = rotation*pacmanModel->transform();
 	startPos.translation(Vector(0, 16, 0));
 	pacmanModel->transform(startPos* initTransform);
-	camRefrencePoint.translation(Vector(0, 0, 16));
-	std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
-	std::cout << "right: " << pacmanModel->transform().right().toUnitVector().X << " " << pacmanModel->transform().right().toUnitVector().Y << " " << pacmanModel->transform().right().toUnitVector().Z << std::endl;
+	camRefrencePoint.translation(Vector(0, 0, 16)); 
+//	std::cout << "forward: " << pacmanModel->transform().forward().toUnitVector().X << " " << pacmanModel->transform().forward().toUnitVector().Y << " " << pacmanModel->transform().forward().toUnitVector().Z << std::endl;
+//	std::cout << "right: " << pacmanModel->transform().right().toUnitVector().X << " " << pacmanModel->transform().right().toUnitVector().Y << " " << pacmanModel->transform().right().toUnitVector().Z << std::endl;
 }
 Pacman::~Pacman()
 {
@@ -50,6 +52,7 @@ void Pacman::update(float dtime)
 {
 	
 	if (dir == -1)return;
+	if (hitState) return;
 	
 	Matrix  mtrans,  mrot,startloc, pcmat;
 	
@@ -75,6 +78,7 @@ void Pacman::update(float dtime)
 	pos = pacmanModel->transform().translation() + posOffset;
 	Vector activeFaceCenter = level->activeFace->faceModel->transform().translation();
 	Vector levelboundsVec =  pos- activeFaceCenter;
+	//check if we are out of bounds if so we need to transition
 	if (abs(levelboundsVec.X) > 16 || abs(levelboundsVec.Y) > 16|| abs(levelboundsVec.Z) > 16)
 	{
 		pos = pos - posOffset;
@@ -89,6 +93,9 @@ void Pacman::update(float dtime)
 		
 		return;
 	}else{
+		//check if we are hitting a wall
+		//calculate the location in the 2d plane of the active face
+
 		float levelSize = level->size;
 		
 		Vector planeOfMovement = activeFaceCenter.notVector();
@@ -108,7 +115,7 @@ void Pacman::update(float dtime)
 		int col=99;
 		if (zeroIndex == 0) //left or right
 		{
-			//has issues with row 0
+			
 			row = locationToCheck.Z;
 			col =  abs(locationToCheck.Y - (levelSize - 1));
 			if (activeFaceCenter.at(0) < 0)
@@ -131,7 +138,7 @@ void Pacman::update(float dtime)
 		}
 		else if (zeroIndex == 2)//front or back
 		{
-			//has issues with col 0
+			
 			row = locationToCheck.Y;
 			col = locationToCheck.X;
 			if (activeFaceCenter.at(2) > 0)
@@ -156,7 +163,7 @@ void Pacman::update(float dtime)
 	
 	level->consumeDot(pos, score);
 	
-	if(level->checkGhostCollision(pos)){
+	if(level->checkGhostCollision(pos) && !hitState){
 				pos = pacmanModel->transform().translation();
 				hitState = true;
 				lives--;
@@ -186,7 +193,7 @@ void Pacman::registerCamera(Camera* camera)
 {
 	this->camera = camera;
 }
-
+//Pacman moves on a grid so we need to adjust floating point errors that might couse him to steer into a wall
 void Pacman::snapToGrid(Vector &pos, Vector posOffset)
 {
 	
@@ -207,6 +214,7 @@ void Pacman::snapToGrid(Vector &pos, Vector posOffset)
 	}
 }
 
+//sets new refrences for the faces based on the new position of pacman
 void Pacman::reajust()
 {
 	Vector pacmanLoc = pacmanModel->transform().translation();
@@ -238,7 +246,7 @@ void Pacman::reajust()
 	}
 	level->forwardFacingFace = closest;
 }
-
+//executes a transition between faces
 void Pacman::transition()
 {
 	

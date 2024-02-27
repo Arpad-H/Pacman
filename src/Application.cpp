@@ -47,12 +47,12 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 {
     int width, height;
     glfwGetWindowSize(pWindow, &width, &height);
-    BaseModel* pModel;
-    ConstantShader* pConstShader;
-    PhongShader* pPhongShader;
+   // BaseModel* pModel;
+   // ConstantShader* pConstShader;
+   // PhongShader* pPhongShader;
     
-    skybox = new Skybox();
-    
+    // Create a new scene
+    skybox = new Skybox();    
     level = Level(skybox->getCubemapTexture());
     level.loadLevel(levelDimX,levelDimY,levelSegments);
 
@@ -64,7 +64,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
     pacman->registerCamera(&Cam);
 
     
-
+    //Handles the UI
     uiManager = new UIManager();
     uiManager->setWindowSize(width, height);
     uiManager->registerPacman(pacman);
@@ -78,7 +78,8 @@ void Application::start()
     glCullFace(GL_BACK);
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_MULTISAMPLE); //keeps throwing errors?
+    glEnable(GL_STENCIL_TEST);
     lastFrameTime= std::chrono::high_resolution_clock::now();
     time = 0;
    
@@ -98,7 +99,8 @@ void Application::update()
     lastFrameTime = currentTime;
     time += deltaTime;
  
-   if (!pacman->transitionState || !pacman->hitState)//|| !pacman->hitState
+    //in the transition state we want to play the cam animation and freeze the game
+   if (!pacman->transitionState )
     {
         if (glfwGetKey(pWindow, GLFW_KEY_W)) {
             dir = 0;
@@ -125,6 +127,7 @@ void Application::update()
         currentView = Cam.getViewMatrix();
     }
    
+   //Calculate Camera Matrixes
    Matrix view;
    Matrix pc = pacman->pacmanModel->transform();
   Vector pos = pc.translation() + level.forwardFacingFace->faceModel->transform().translation()*0.4 + pc.up().toUnitVector() * 16;
@@ -136,8 +139,8 @@ void Application::update()
     {
         transitionTime += deltaTime;
         float  t = std::min(1.0f, std::max(0.0f, transitionTime));
-        Matrix lerpedView = Matrix::lerp(currentView, view, t);
-        //lerpedView.print();
+        Matrix lerpedView = Matrix::lerp(currentView, view, t); //added lerp to smooth out the transition for a animation like movement
+        lerpedView.print();
         Cam.setViewMatrix(lerpedView);
         if (transitionTime >= 1.0f)
         {
@@ -149,8 +152,15 @@ void Application::update()
     {
         Cam.setViewMatrix(view);
     }
+   //Handle Gameover logic and conditions
    if (pacman->hitState)
    {
+       if (pacman->getLives() <=0)
+       {
+    
+           currentState = GameState::GameOver;
+           cout << "Game Over" << endl;
+       }
        staggeredTime += deltaTime;
        if (staggeredTime >= 1.0f)
        {
@@ -169,13 +179,13 @@ void Application::updateGameObjects(float deltaTime) {
 }
 void Application::draw()
 {
-   
+     // 1. clear screen
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     switch (currentState)
     {
     case GameState::MainMenu:
         skybox->draw(Cam);
-        uiManager->showMainMenu();
-        
+        uiManager->showMainMenu();    
         return;
     case GameState::Playing:
         break;
@@ -184,12 +194,11 @@ void Application::draw()
         break;
     case GameState::GameOver:
         uiManager->showGameOverMenu();
-        return;
+       break;
     default:
         break;
     }
-    // 1. clear screen
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  
 
     // 2. setup shaders and draw models
     for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it )
@@ -202,6 +211,13 @@ void Application::draw()
     // 3. check once per frame for opengl errors
     GLenum Error = glGetError();
     assert(Error==0);
+}
+//Draws the outlines of the models. EXPERIMENTAL currently not used
+void Application::drawOutlines(int pass)
+{
+    level.drawOutlines(Cam, pass);
+    GLenum Error = glGetError();
+    assert(Error == 0);
 }
 void Application::end()
 {

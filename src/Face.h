@@ -12,8 +12,9 @@
 #include <algorithm>
 #include <cmath>
 #include "GameObject.h"
-#include "WallShader.h"
+#include "PBRShader.h"
 #include "TriangleBoxModel.h"
+#include "TriangleSphereModel.h"
 #include "InstanceShader.h"
 #include <vector>
 
@@ -32,7 +33,7 @@ class Face : public BaseModel
 	//typedef std::list<Face*> FacesList;
 	void update(float dtime);
 	virtual void draw(const BaseCamera& Cam);
-	
+	virtual void drawOutlines(const BaseCamera& Cam,int  pass);
 	float dimmensions;
 	Face* neighbouringFaces[4];
 	Maze* layout;
@@ -46,14 +47,18 @@ class Face : public BaseModel
 	vector<Vector> wallPositions;
 	ModelList GhostModels;
 	bool isWithinBounds(Vector position);
-
+	std::vector<Offset> getOrbPositions(){return InstancePositionDataOrbs;}
+	TriangleSphereModel* getSphere(){return pSphere;}
+	void collisionEvent();
 protected:
 	
 	
 	Matrix m_translation;
 	Matrix m_rotation;
-	ModelList WallModels;
-	WallShader* pWallShader;
+	//ModelList WallModels;
+	InstanceShader* instanceShaderWall;
+	InstanceShader* instanceShaderOrbs;
+	PBRShader* pWallShader;
 	void addWalls();
 	void initGhosts(int amount);
 	// Helper method to find the dominant axis of a vector
@@ -61,7 +66,11 @@ protected:
 	GameObjectList GameObjects;
 	GLuint SkyboxTexID;
 	TriangleBoxModel* pBox;
+	TriangleSphereModel* pSphere;
 	std::vector<Offset> InstancePositionData;
+	std::vector<Offset> InstancePositionDataOrbs;
+	 
+
 };
 
 

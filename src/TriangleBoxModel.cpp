@@ -58,7 +58,7 @@ IndexBuffer TriangleBoxModel::getIB()
 
 
 
-void TriangleBoxModel::pupulateBuffers()
+void TriangleBoxModel::populateBuffers()
 {
     float x = Width / 2;
     float y = Height / 2;
@@ -75,6 +75,8 @@ void TriangleBoxModel::pupulateBuffers()
 
 
     VB.begin();
+
+    //used for instancing with the VertexBuffer class
   //  std::cout << "InstanceData size: " << InstanceData.size() << std::endl;
   /*  for (const auto& instance : InstanceData) {
 

@@ -23,6 +23,8 @@ public:
     void setFace(Face* face); // Set the face the ghost is associated with)
     Model* ghostModel;
     vector<Vector> findPath();
+    void setElapsedTime(float time);
+    
 protected:
     Face* associatedFace; // Pointer to the face the ghost is associated with
     float speed;
@@ -37,7 +39,7 @@ protected:
     pair<float, float> vectorToGrid(Vector position);
     Vector gridToVector(pair<float, float> gridPos);
     bool isWall(pair<float, float> gridPos);
-
+    PhongShader* phongShader;
     bool isWithinBounds(pair<float, float> gridPos);
     // Member variables added to Ghost class
     float elapsedTime = 0.0; // Time elapsed since last path update

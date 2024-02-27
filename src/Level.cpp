@@ -36,7 +36,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	///////////////////////////////////////////////////////
 	r.rotationZ(toRad(0));
 	t.translation(0, dimX / 2, 0);
-	Face* pFace_top = new Face(dimX, t , r,SkyboxTexID);
+	Face* pFace_top = new Face(dimX, t, r, SkyboxTexID);
 	Faces.push_back(pFace_top);
 	///////////////////////////////////////////////////////
 	//bottom
@@ -75,6 +75,7 @@ bool Level::loadLevel(float dimX, float dimY, float segments)
 	t.translation(0, 0, dimX / 2);
 	Face* pFace_front = new Face(dimX, t , r, SkyboxTexID);
 	Faces.push_back(pFace_front);
+	
 	/*                                0            90           180          270
 	pFace_top->setNeighbouringFaces(pFace_back, pFace_left, pFace_front, pFace_right);
 	pFace_bottom->setNeighbouringFaces(pFace_front, pFace_right, pFace_back, pFace_left);
@@ -97,14 +98,25 @@ void Level::update(float dtime)
 {
 	activeFace->update(dtime);
 }
+
 void Level::draw(const BaseCamera& Cam)
 {
+	
 	for (FacesList::iterator it = Faces.begin(); it != Faces.end(); it++) {
 		(*it)->draw(Cam);
 	}
-	//forwardFacingFace->draw(Cam);
-	//activeFace->draw(Cam);
+	
 }
+
+void Level::drawOutlines(const BaseCamera& Cam, int pass)
+{
+	//EXPERIMENTAL currently not used
+		for (FacesList::iterator it = Faces.begin(); it != Faces.end(); it++) {
+		(*it)->drawOutlines(Cam, pass);
+	}
+
+}
+
 
 int Level::isWall(float row, float col)
 {
@@ -112,22 +124,37 @@ int Level::isWall(float row, float col)
 }
 void Level::consumeDot(Vector pos, int &score)
 {
-
-	for (ModelList::iterator it = activeFace->DotModels.begin(); it != activeFace->DotModels.end(); it++) {
-		if (((*it)->transform().translation() - pos).length() < 0.8f) {
-			activeFace->DotModels.erase(it);
-			score += 10;
-			return;
-		}
+	
+	InstanceShader* is = (InstanceShader*)activeFace->getSphere()->shader();
+	std::vector<Offset> orbPositions = is->getInstanceData();
+	std::vector<Offset>::iterator it;
+	for (it = orbPositions.begin(); it != orbPositions.end(); ++it) {
+			
+			const Offset& offset = *it;
+			Vector dotPos = Vector(offset.x, offset.y, offset.z);
+			if ((dotPos - pos).length() < 0.8f) {
+				orbPositions.erase(it);
+				score += 10;
+				
+				is->updateInstanceData(orbPositions);
+				return; //we can only consume one dot at a time so we can safely return
+			}
 	}
+	
 }
 bool Level::checkGhostCollision(Vector pos)
 {
 	for (ModelList::iterator it = activeFace->GhostModels.begin(); it != activeFace->GhostModels.end(); it++) {
 		if (((*it)->transform().translation() - pos).length() < 0.8f) {
+			pos = activeFace->getInitGhostPosition();
+			activeFace->setTarget(pos);
+			activeFace->collisionEvent();
 			return true;
+			
 		}
 	}
+
+	activeFace->setTarget(pos);
 	return false;
 }
 

@@ -29,5 +29,8 @@ protected:
 	ImTextureID pacmanSpriteID;
 	ImTextureID pacmanLogoID;
 	void scaleImage(float maxWidth, float maxHeight, int& scaledWidth, int& scaledHeight);
+	float time=0;
+	int ticks=0;
+	float avgFPS;
 };
 

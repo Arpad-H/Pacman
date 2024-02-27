@@ -30,7 +30,7 @@ public:
     VertexBuffer getVB();
     IndexBuffer getIB();
    
-    void pupulateBuffers();
+    void populateBuffers();
     int numInstances;
 protected:
     VertexBuffer VB;

@@ -53,3 +53,13 @@ void TriangleSphereModel::draw(const BaseCamera& Cam)
     IB.deactivate();
     VB.deactivate();
 }
+void TriangleSphereModel::drawInstanced(const BaseCamera& Cam)
+{
+	BaseModel::draw(Cam);
+	
+	VB.activate();
+	IB.activate();
+	glDrawElementsInstanced(GL_TRIANGLES, IB.indexCount(), IB.indexFormat(), 0, numInstances);
+	IB.deactivate();
+	VB.deactivate();
+}

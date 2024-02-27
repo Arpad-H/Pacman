@@ -432,6 +432,7 @@ float Matrix::determinat()
     m01 * (m10 * m22 - m12 * m20) +
     m02 * (m10 * m21 - m11 * m20);
 }
+//Added lerping function
 Matrix& Matrix::lerp(const Matrix& start, const Matrix& end, float t)
 {
     Matrix result;

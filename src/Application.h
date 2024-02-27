@@ -38,6 +38,7 @@ public:
     void update();
     
     void draw();
+    void drawOutlines(int pass);
     void end();
   
 protected:

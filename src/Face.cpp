@@ -2,7 +2,7 @@
 #include "Maze.h"
 #include "TrianglePlaneModel.h"
 #include "Ghost.h"
-#include "WallShader.h"
+#include "PBRShader.h"
 #include "TriangleBoxModel.h"
 
 #ifdef WIN32
@@ -17,11 +17,14 @@ Face::Face(float dimmensions, Matrix t, Matrix r, GLuint SkyboxTexID)
 	m_rotation = r;
 	this->dimmensions = dimmensions;
 	
+	instanceShaderWall = new InstanceShader(true);
+	instanceShaderWall->setEnvioromentCube(SkyboxTexID);
+	instanceShaderOrbs = new InstanceShader(true);
 	//faceModel = new BaseModel();
-	ConstantShader* pConstShader;
-	pConstShader = new ConstantShader();
-	pWallShader = new WallShader();
-	pWallShader->setEnvioromentCube(SkyboxTexID);
+	//ConstantShader* pConstShader;
+	//pConstShader = new ConstantShader();
+	pWallShader = new PBRShader(true,t.translation()*2000);
+	//pWallShader->setEnvioromentCube(SkyboxTexID);
 	addWalls();
 
 	//pConstShader->color(Color(0.5, 0.5, 0.5)+Color(t.up().X, m.up().Y, m.up().Z));
@@ -69,7 +72,7 @@ pair<float, float> Face::determineActiveAxes() const
 Vector Face::getInitGhostPosition() const
 {
 	vector<Vector> emptySpaces;
-
+	
 	// Iterate through the maze layout to find empty spaces
 	for (int i = 0; i < dimmensions; i++) {
 		for (int j = 0; j < dimmensions; j++) {
@@ -138,59 +141,60 @@ void Face::addWalls()
 	layout->display();
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 	
-	Model* pWall;
-	Matrix m,f;
 
+	Matrix m,f;
 	//for instanced rendering
-	
-	pBox = new TriangleBoxModel(1, 1, 1);
-	pBox->pupulateBuffers();
+	Offset o;
+	pBox = new TriangleBoxModel();
+	pBox->populateBuffers();
+	pSphere = new TriangleSphereModel(0.2);
 	int numWalls = 0;
 	for (int i = 0; i < dimmensions; i++) {
 		for (int j = 0; j < dimmensions; j++) {
 			if (layout->maze[i][j].isWall) {
-				pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
+				/*pWall = new Model(ASSET_DIRECTORY "cube.dae", true, Vector(1, 1, 1));
 				pWall->shader(pPhongshader, true);
 				f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
 				pWall->transform(m_translation * m_rotation * f);
-				WallModels.push_back(pWall);
+				WallModels.push_back(pWall);*/
 				
-				/*//INSTANCING
-				f = m_translation * m_rotation * m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5)* pBox->transform();
-				//pBox->InstanceData.push_back({ f.translation(), f });
+				//INSTANCING
+				f = m_translation * m_rotation * m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5);
 				Vector v = f.translation();
-				Offset o;
 				o.x = v.X;
 				o.y = v.Y;
 				o.z = v.Z;
 				o.w = 1.0f;
-				InstancePositionData.push_back(o);*/
-				numWalls++;
+				InstancePositionData.push_back(o);
+				
 				// extract the position of the wall
-				Vector pos= f.translation();
-				wallPositions.push_back(m_translation*m_rotation*pos);
+				//Vector pos= f.translation();
+				wallPositions.push_back(f.translation());
 			}
 			else {
-			/*	pWall = new Model(ASSET_DIRECTORY "orbdae.dae", true, Vector(0.2, 0.2, 0.2));
-				pWall->shader(pPhongshader, true);
-				f = m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5) * pWall->transform();
-				pWall->transform(m_translation * m_rotation * f);
-				DotModels.push_back(pWall);*/
+				f = m_translation * m_rotation*m.translation(-dimmensions / 2 + j + 0.5, 0.5, -dimmensions / 2 + i + 0.5);
+				Vector v = f.translation();
+				o.x = v.X;
+				o.y = v.Y;
+				o.z = v.Z;
+				o.w = 1.0f;
+				InstancePositionDataOrbs.push_back(o);
 			}
 			
 		}
+		
 	}
-	cout << "Number of walls: " << numWalls << endl;
-	/*InstanceShader* instanceShader = new InstanceShader(true);
-	//InstancePositionData.clear();
-	//Vector v = Vector(0, 0, 0);
 	
-	//InstancePositionData.push_back(o);
-	instanceShader->setInstanceData(InstancePositionData);
-	//PhongShader* phongShader = new PhongShader();
+	instanceShaderWall->setInstanceData(InstancePositionData);
 	pBox-> numInstances = InstancePositionData.size();
-	pBox->shader(instanceShader, true);
-	//pBox->pupulateBuffers();*/
+	pBox->shader(instanceShaderWall, true);
+
+	
+	instanceShaderOrbs->setInstanceData(InstancePositionDataOrbs);
+	pSphere->numInstances = InstancePositionDataOrbs.size();
+	pSphere->shader(instanceShaderOrbs, true);
+
+
 	
 }
 
@@ -283,21 +287,43 @@ bool Face::isWithinBounds(Vector position) {
 
 	return withinBounds;
 }
+void Face::collisionEvent()
+{
+	for (GameObjectList::iterator it = GameObjects.begin(); it != GameObjects.end(); it++) {
+		((Ghost*)(*it))->setElapsedTime(0);
+	}
+}
 void Face::draw(const BaseCamera& Cam)
 {
-	//pBox->drawInstanced(Cam);
-	for (ModelList::iterator it = WallModels.begin(); it != WallModels.end(); it++) {
-		(*it)->draw(Cam);
-	}
+	pBox->drawInstanced(Cam);
 	
-	for (ModelList::iterator it = DotModels.begin(); it != DotModels.end(); it++) {
-		(*it)->draw(Cam);
-	}
+	InstanceShader* is = (InstanceShader*)pSphere->shader();
+	is->setColOverride(1); 
+	
+	pSphere->drawInstanced(Cam);
+	
 	for (ModelList::iterator it = GhostModels.begin(); it != GhostModels.end(); it++) {
 		(*it)->draw(Cam);
+
 	}
 
 	faceModel->draw(Cam);
+}
+//EXPERIMENTAL currently not used
+void Face::drawOutlines(const BaseCamera& Cam, int pass)
+{
+	faceModel->draw(Cam);
+	InstanceShader* is = (InstanceShader*) pBox->shader();
+	if (pass == 1) {
+		pBox->drawInstanced(Cam);
+	}
+	else {
+		is->setScale(Vector(1.5f, 1.5f, 1.5));
+		is->setColOverride(1);
+	}
+	pBox->drawInstanced(Cam);
+	is->setColOverride(0);
+	
 }
 
 

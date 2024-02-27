@@ -10,7 +10,7 @@
 #define ASSET_DIRECTORY "../assets/"
 #endif
 static float toRad(float deg) { return deg * M_PI / 180.0f; }
-//Basierend auf den rescourcen von https://learnopengl.com/Advanced-OpenGL/Cubemaps
+//angeleht an die  rescourcen von https://learnopengl.com/Advanced-OpenGL/Cubemaps
 float skyboxVertices[] =
 {
     //   Coordinates
@@ -86,7 +86,6 @@ void Skybox::setupSkybox() {
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    // These are very important to prevent seams
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);

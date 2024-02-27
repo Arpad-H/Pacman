@@ -20,6 +20,8 @@ public:
     TriangleSphereModel( float Radius, int Stacks=18, int Slices=36 );
     virtual ~TriangleSphereModel() {}
     virtual void draw(const BaseCamera& Cam);
+    virtual void drawInstanced(const BaseCamera& Cam);
+    int numInstances;
 protected:
     VertexBuffer VB;
     IndexBuffer IB;

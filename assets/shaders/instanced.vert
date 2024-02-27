@@ -13,18 +13,16 @@ layout(std430, binding = 1) buffer ssbo
 out vec3 Normal;
 out vec3 Position;
 out vec2 Texcoord;
-out vec2 id;
-uniform mat4 ModelViewProjMat;
+
+uniform mat4 ViewProjMat;
 uniform mat4 ModelMat;
 void main()
 {
-	int instanceID = gl_InstanceID; 
-	id.x = instanceID;
-    vec4 worldPos =(VertexPos + vec4(offsets[instanceID].xyz,1));
-	//vec3 worldPos = (ModelMat * VertexPos).xyz;
-     Position =  offsets[instanceID].xyz;
-	 Normal = worldPos.xyz;
+	 
+    vec4 worldPos =(ModelMat*vec4(VertexPos.xyz,1) + vec4(offsets[gl_InstanceID].xyz,1));
+    Position =  worldPos.xyz;
+	Normal = VertexNormal.xyz;
     Texcoord = VertexTexcoord;
-    gl_Position = ModelViewProjMat * worldPos;
+    gl_Position = ViewProjMat * vec4(worldPos.xyz,1);
 }  
 

@@ -10,9 +10,11 @@ static float toRad(float deg) { return deg * M_PI / 180.0f; }
 Ghost::Ghost(const char* ModelFilePath, bool FitSize, Vector initScale, int ghostId, Face* face)
     : id(ghostId)
 {
+    phongShader = new PhongShader();
+    phongShader->lightPos(face->transform().up()* 32);
     ghostModel = new Model();
     loadModels(ModelFilePath, FitSize, initScale, *ghostModel);
-    ghostModel->shader(new PhongShader(), true);
+    ghostModel->shader(phongShader, true);
     scale = ghostModel->transform();
     speed = 3; // Ghosts move at a different speed than Pacman
     this->setFace(face);
@@ -37,7 +39,8 @@ void Ghost::positionGhost(Vector position)
     rotation = this->associatedFace->rotateToMatchFace(this->ghostModel->transform().up());
     initTransform = ghostModel->transform();
     startPos.translation(position);
-  ghostModel->transform( startPos*  initTransform * rotation);// Rotation is not working :( To test, you need to comment out the update function.
+  ghostModel->transform( startPos*  initTransform * rotation);
+  
     //ghostModel->transform(startPos * initTransform);
 }
 
@@ -48,6 +51,8 @@ void Ghost::setFace(Face* face)
     Vector ghostPos = associatedFace->getInitGhostPosition();
     this->positionGhost(ghostPos);
     this->maze = associatedFace->wallPositions;
+    Vector faceTranslation = face->faceModel->transform().translation();
+    phongShader->lightPos(faceTranslation * 2);
 }
 
 vector<Vector> Ghost::findPath()
@@ -110,6 +115,11 @@ vector<Vector> Ghost::findPath()
     }
     // path not found, aber eigentlich sollte das nicht passieren????
     return {};
+}
+
+void Ghost::setElapsedTime(float time)
+{
+    	elapsedTime = time;
 }
 
 

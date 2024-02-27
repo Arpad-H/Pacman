@@ -142,10 +142,13 @@
     <ClCompile Include="..\..\src\GameState.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\WallShader.cpp">
+    <ClCompile Include="..\..\src\PBRShader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\InstanceShader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\EnviromentReflectionShader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -270,10 +273,13 @@
     <ClInclude Include="..\..\src\GameState.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\WallShader.h">
+    <ClInclude Include="..\..\src\PBRShader.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\InstanceShader.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\EnviromentReflectionShader.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
