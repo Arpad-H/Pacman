@@ -24,5 +24,5 @@ Starten Sie das Spiel mit der `.exe` Datei . Steuern Sie Pac-Man durch die Labyr
 4. **Galaxy Skybox:** Anstatt eines einfachen Würfels als Himmel, verfügt das Spiel über eine custom  Skybox Klasse (`Skybox.cpp`) mit opengls cubemap textures. Diese Skybox können wir auf die Objekte im level mapen (wie bei den Wänden, welche spiegle darstellen sollen) um Reflektionen der Umgebung zu simulieren. wir haben die Klasse unter zuhilfenahme von learn opengl https://learnopengl.com/Advanced-OpenGL/Cubemaps erarbeitet. 
 5. **Retro Effekte:** Für die visuelle Gestaltung werden Post-Processing-Effekte im Retro-Stil verwendet, die dem Spiel ein einzigartiges Aussehen und Gefühl verleihen. Wir haben die Render Pipeline um postprocessing erweitert. Im ersten Pass wird die Szene Gerendert, beim zwieten wird Imgui in einen custom Framebuffer gerendert. Diese werden mit einem CRT effekt versehen. Shaderfunktion basierend auf dem Video https://www.youtube.com/watch?v=aWdySZ0BtJs
 
-## Wietere referenzen
+## Weitere Referenzen
 Den fragmentshader code haben wir von https://learnopengl.com/PBR/Lighting übernommen.  Credit to Joey DeVries von learnopengl.com
