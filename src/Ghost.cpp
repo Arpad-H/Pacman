@@ -14,40 +14,35 @@ Ghost::Ghost(const char* ModelFilePath, bool FitSize, Vector initScale, int ghos
     loadModels(ModelFilePath, FitSize, initScale, *ghostModel);
     ghostModel->shader(new PhongShader(), true);
     scale = ghostModel->transform();
-    speed = 3; // Ghosts move at a different speed than Pacman
     this->setFace(face);
     // print out
     std::cout << "Ghost " << id << " created" << std::endl;
     // print out the position of the ghost
     std::cout << ghostModel->transform().translation().X << " " << ghostModel->transform().translation().Y << " " << ghostModel->transform().translation().Z << std::endl;
-
-    // test target
-    // this->setTarget(Vector(12.5f, 16.5f, 4.5f));
 }
 
 Ghost::~Ghost()
 {
-    // Clean up as necessary
+    // Clean up
 }
 
 void Ghost::positionGhost(Vector position)
 {
     Matrix startPos;
-    //rotation.rotationYawPitchRoll(toRad(180), 0, 0);
+    // match rotation with face
     rotation = this->associatedFace->rotateToMatchFace(this->ghostModel->transform().up());
     initTransform = ghostModel->transform();
     startPos.translation(position);
-  ghostModel->transform( startPos*  initTransform * rotation);// Rotation is not working :( To test, you need to comment out the update function.
+    ghostModel->transform(startPos * initTransform * rotation);// Rotation working
     //ghostModel->transform(startPos * initTransform);
 }
 
 void Ghost::setFace(Face* face)
 {
     this->associatedFace = face;
-    this->activeAxes = associatedFace->determineActiveAxes();
-    Vector ghostPos = associatedFace->getInitGhostPosition();
+    this->activeAxes = associatedFace->determineActiveAxes(); // based on the face's normal
+    Vector ghostPos = associatedFace->getInitGhostPosition(); // based on the maze
     this->positionGhost(ghostPos);
-    this->maze = associatedFace->wallPositions;
 }
 
 vector<Vector> Ghost::findPath()
@@ -87,7 +82,7 @@ vector<Vector> Ghost::findPath()
             for (auto& p : path) {
                 positions.push_back(gridToVector(p));
             }
-            return positions;
+            return positions; // valid path found
         }
 
         // we didn't reach the goalm explore the neighbours, for loop for directions
@@ -108,7 +103,7 @@ vector<Vector> Ghost::findPath()
             }
         }
     }
-    // path not found, aber eigentlich sollte das nicht passieren????
+    // path not found, aber eigentlich sollte das nicht passieren oder????
     return {};
 }
 
@@ -171,13 +166,15 @@ void Ghost::update(float dtime)
     elapsedTime += dtime;
     blinkElapsedTime += dtime;
 
+    // get actual target
     target = this->associatedFace->getTarget();
-    // Check if target is null
+    // Check if target still init value
     if (target == Vector(0, 0, 0)) {
         return;
     }
 
-    if (elapsedTime >= 5.0f) {
+    // Update the path every 3 seconds, weil Rechenintensiv
+    if (elapsedTime >= 3.0f) {
         cout << "Ghost update" << endl;
         currentPath = this->findPath();
         currentPathIndex = 0;
@@ -185,7 +182,7 @@ void Ghost::update(float dtime)
         cout << "Path size: " << currentPath.size() << endl;
     }
 
-    // Blink to the next position every 1 second
+    // Blink to the next position every .3 second
     if (blinkElapsedTime >= 0.3f) {
         if (!currentPath.empty() && currentPathIndex < currentPath.size()) {
             // Update the Ghost's position to the next path point
@@ -194,17 +191,17 @@ void Ghost::update(float dtime)
             // Apply the new position
             Matrix newTransform;
             newTransform.translation(currentPosition);
-            Matrix rotationCorrection;
-            rotationCorrection = this->associatedFace->rotateToMatchFace(this->ghostModel->transform().up());
+            //Matrix rotationCorrection;
+            //rotationCorrection = this->associatedFace->rotateToMatchFace(this->ghostModel->transform().up());
             //ghostModel->transform(newTransform * initTransform * rotationCorrection);
-            ghostModel->transform(newTransform *rotation *initTransform);
+            ghostModel->transform(newTransform * rotation * initTransform);
 
             currentPathIndex++; // Prepare to move to the next point on the next blink
         }
 
         blinkElapsedTime = 0.0f; // Reset the blink timer
     }
-    
+
 }
 
 
