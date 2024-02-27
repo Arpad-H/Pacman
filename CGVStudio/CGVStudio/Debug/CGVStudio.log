@@ -1,4 +1,134 @@
-﻿  UIManager.cpp
+﻿  Aabb.cpp
+  Application.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Application.cpp(44,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Application.cpp(133,97): warning C4305: 'argument': truncation from 'double' to 'float'
+  BaseModel.cpp
+  BaseShader.cpp
+  Camera.cpp
+  color.cpp
+  ConstantShader.cpp
+  EnviromentReflectionShader.cpp
+  Face.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(13,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(81,80): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(81,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(115,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(140,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(150,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(162,106): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(162,73): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(175,104): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Face.cpp(175,71): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  GameState.cpp
+  Ghost.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Ghost.cpp(8,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Ghost.cpp(159,20): warning C4244: 'initializing': conversion from '_Ty1' to 'int', possible loss of data
+          with
+          [
+              _Ty1=float
+          ]
+E:\Program Files (x86)\Visual Studio\VC\Tools\MSVC\14.36.32532\include\utility(247,16): warning C4244: 'initializing': conversion from '_Ty' to '_Ty1', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty1=float
+          ]
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Ghost.cpp(69,42): message : see reference to function template instantiation 'std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Ghost.cpp(69,42): message : see the first reference to 'std::pair<float,float>::pair' in 'Ghost::findPath'
+E:\Program Files (x86)\Visual Studio\VC\Tools\MSVC\14.36.32532\include\utility(247,54): warning C4244: 'initializing': conversion from '_Ty' to '_Ty2', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty2=float
+          ]
+  IndexBuffer.cpp
+  InstanceShader.cpp
+  Level.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(17,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(123,34): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Level.cpp(123,39): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+  LineBoxModel.cpp
+  LinePlaneModel.cpp
+  main.cpp
+  Matrix.cpp
+  Maze.cpp
+  PBRShader.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\PBRShader.cpp(42,38): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+  Generating Code...
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Matrix.cpp(442): warning C4172: returning address of local variable or temporary: result
+  Compiling...
+  Model.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Model.cpp(83,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Model.cpp(128,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Model.cpp(137,34): warning C4018: '<': signed/unsigned mismatch
+  Pacman.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(13,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(85,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(86,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(87,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(108,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(109,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(110,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(119,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(120,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(123,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(124,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(130,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(131,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(135,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(136,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(142,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(143,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(146,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(147,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(154,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(154,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(202,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(203,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(207,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(208,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(212,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Pacman.cpp(213,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  PhongShader.cpp
+  rgbimage.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(103,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(104,17): warning C4244: 'return': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(176,22): warning C4566: character represented by universal-character-name '\uFFFD' cannot be represented in the current code page (1252)
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(184,13): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(184,32): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(184,47): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(192,13): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(192,24): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(192,40): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(192,57): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(191,13): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(191,30): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(191,44): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(192,13): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(192,34): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\rgbimage.cpp(192,50): warning C4838: conversion from 'unsigned int' to 'unsigned char' requires a narrowing conversion
+  Scene.cpp
+  GameObject.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\GameObject.cpp(9,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  GlowShader.cpp
+  Skybox.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\Skybox.cpp(12,51): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Texture.cpp
+  TriangleBoxModel.cpp
+  TrianglePlaneModel.cpp
+  TriangleSphereModel.cpp
+  UIManager.cpp
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\UIManager.cpp(23,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\UIManager.cpp(23,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\UIManager.cpp(29,55): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
@@ -19,4 +149,22 @@ C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\UIManager
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\UIManager.cpp(92,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\UIManager.cpp(93,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\UIManager.cpp(96,56): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  vector.cpp
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(169,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(175,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(181,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  VertexBuffer.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_glfw.cpp
+  imgui_impl_opengl3.cpp
+  Generating Code...
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(39): warning C4715: 'Vector::at': not all control paths return a value
+C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\src\vector.cpp(188): warning C4172: returning address of local variable or temporary
+  Compiling...
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CGVStudio.vcxproj -> C:\Users\quint\Documents\Studium\HSOS\Computergrafik\Pacman\Pacman\CGVStudio\Debug\CGVStudio.exe
