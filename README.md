@@ -15,7 +15,7 @@ Die Bewegung von Pac-Man wird mit den Tasten W, A, S, D gesteuert.
 - **3D-Grafik und Effekte:** Neben der 3D-Darstellung des Labyrinths beinhaltet das Spiel eine custom Galaxy Skybox und Retro Post-Processing-Effekte.
 
 ## Verwendung
-Starte das Spiel mit dee `.exe` Datei . Steuere Pac-Man durch die Labyrinthe auf den verschiedenen Seiten des Würfels, sammle Pellets und meide die Geister. Ziel ist es, so viele Punkte wie möglich zu sammeln, bevor eines der Geister dich erwischt.
+Starten Sie das Spiel mit der `.exe` Datei . Steuern Sie Pac-Man durch die Labyrinthe auf den verschiedenen Seiten des Würfels, sammeln Sie Pellets und meiden Sie die Geister. Ziel ist es, so viele Punkte wie möglich zu sammeln, bevor eines der Geister Sie erwischt.
 
 ## Code-Highlights - Geht über die Vorlesung hinaus
 1. **Labyrinth-Generierung (`Maze.cpp`):** Das Labyrinth basiert auf einem Depth-First Search (DFS) Algorithmus, angelehnt an die in diesem Research Paper dargestellten Regeln: [DFS Labyrinth Generation](https://people.eecs.berkeley.edu/~sequin/CS285/PROJ_06/Adarsh--Athulan/AA_report/report.html). Es ist wichtig zu beachten, dass der Code eigenständig entwickelt wurde und keine direkte Übernahme stattgefunden hat.
