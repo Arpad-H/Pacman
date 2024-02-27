@@ -6,16 +6,18 @@ Das Projekt ist eine 3D-Implementierung des klassischen Spiels Pac-Man, entwicke
 Spieler steuern Pac-Man mit den W, A, S, D Tasten durch die Labyrinthe, sammeln Pellets und erhöhen so ihr Score. 
 Doch Vorsicht ist geboten: Wird Pac-Man von einem der Geister erwischt, ist das Spiel vorbei. Die Geister nutzen einen Pathfinding-Algorithmus und bewegen sich mit einem charakteristischen "Retro" Blink-Effekt.
 
+## Steuerung
+Die Bewegung von Pac-Man wird mit den Tasten W, A, S, D gesteuert.
+
 ## Features
 - **Dynamische Labyrinth-Generierung:** Jedes Spiel bietet ein neues Labyrinth, basierend auf dem DFS-Algorithmus.
 - **Intelligente Geister:** Geister verfolgen Pac-Man mit einem BFS-basierten Pathfinding-Algorithmus.
 - **3D-Grafik und Effekte:** Neben der 3D-Darstellung des Labyrinths beinhaltet das Spiel eine custom Galaxy Skybox und Retro Post-Processing-Effekte.
-- **Steuerung:** Die Bewegung von Pac-Man wird mit den Tasten W, A, S, D gesteuert.
 
 ## Verwendung
 Starte das Spiel mit dee `.exe` Datei . Steuere Pac-Man durch die Labyrinthe auf den verschiedenen Seiten des Würfels, sammle Pellets und meide die Geister. Ziel ist es, so viele Punkte wie möglich zu sammeln, bevor eines der Geister dich erwischt.
 
-## Code-Highlights - 
+## Code-Highlights - Geht über die Vorlesung hinaus
 1. **Labyrinth-Generierung (`Maze.cpp`):** Das Labyrinth basiert auf einem Depth-First Search (DFS) Algorithmus, angelehnt an die in diesem Research Paper dargestellten Regeln: [DFS Labyrinth Generation](https://people.eecs.berkeley.edu/~sequin/CS285/PROJ_06/Adarsh--Athulan/AA_report/report.html). Es ist wichtig zu beachten, dass der Code eigenständig entwickelt wurde und keine direkte Übernahme stattgefunden hat.
 2. **Pathfinding der Geister (`Ghost.cpp/findPath`):** Die Geister nutzen einen Breadth-First Search (BFS) Algorithmus, um den kürzesten Weg zu Pac-Man zu finden.
 3. **Sampling für Wände:** Die Applikation verwendet Sampling-Techniken, um die Wände des Labyrinths zu erstellen, was für eine effiziente Darstellung und Interaktion sorgt.
